@@ -54,9 +54,8 @@
       100% { transform: scale(1); }
     }
     
-    /* CORRECCIÓN: Botón de cita en ROJO */
     .boton-cita-animado {
-      background-color: #f5565fd9; /* El rojo original */
+      background-color: #f5565fd9; 
       color: white;
       padding: 30px;
       border-radius: 20px;
@@ -67,7 +66,7 @@
     }
     
     .boton-cita-animado:hover {
-      background-color: #d43f48; /* Rojo más intenso al pasar el mouse */
+      background-color: #d43f48; 
       transform: scale(1.04);
       box-shadow: 0 15px 30px rgba(245, 86, 95, 0.4);
     }
@@ -96,32 +95,12 @@
       overflow: hidden;
     }
 
-    .btn-dr {
-      background: #ffffff;
-      color: #3d86c6;
-      border: 2px solid #3d86c6;
-    }
-
-    .btn-ig {
-      background: #fff;
-      color: #e1306c;
-      border: 2px solid #e1306c;
-    }
-
+    .btn-dr { background: #ffffff; color: #3d86c6; border: 2px solid #3d86c6; }
+    .btn-ig { background: #fff; color: #e1306c; border: 2px solid #e1306c; }
     .social-btn-premium i { font-size: 24px; }
-
-    .social-btn-premium:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    }
-
+    .social-btn-premium:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
     .btn-dr:hover { background: #3d86c6; color: white; }
-
-    .btn-ig:hover {
-      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-      color: white;
-      border-color: transparent;
-    }
+    .btn-ig:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; border-color: transparent; }
 
     .cedula-badge {
       display: inline-block;
@@ -133,6 +112,18 @@
       font-weight: bold;
       margin-top: 10px;
       border: 1px solid #27ae60;
+    }
+
+    /* Estilo para los contenedores de ubicación */
+    .contenedor-ubicacion {
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 0; 
+      background: #00495b; 
+      border-radius: 20px; 
+      overflow: hidden; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      margin-bottom: 30px;
     }
 
     #colorContainer {
@@ -200,9 +191,9 @@
     </a>
 
     <div>
-      <div style="display: flex; flex-wrap: wrap; gap: 0; background: #00495b; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+      <div class="contenedor-ubicacion">
         <div style="flex: 1; min-width: 280px; padding: 30px; display: flex; flex-direction: column; justify-content: center;">
-          <h4 style="color: #4b9ea2; margin: 0 0 10px 0; font-size: 22px;">📍 Ubicación Presencial</h4>
+          <h4 style="color: #4b9ea2; margin: 0 0 10px 0; font-size: 22px;">📍 Sucursal San Luis Potosí</h4>
           <p style="color: #ffffff; font-size: 15px; margin: 5px 0; line-height: 1.5;">
             <strong>Dirección:</strong><br>
             Barrio de Tequisquiapan,<br>
@@ -221,6 +212,32 @@
             style="border:0;" 
             allowfullscreen="" 
             loading="lazy">
+          </iframe>
+        </div>
+      </div>
+
+      <div class="contenedor-ubicacion">
+        <div style="flex: 1; min-width: 280px; padding: 30px; display: flex; flex-direction: column; justify-content: center;">
+          <h4 style="color: #4b9ea2; margin: 0 0 10px 0; font-size: 22px;">📍 Sucursal Zacatecas</h4>
+          <p style="color: #ffffff; font-size: 15px; margin: 5px 0; line-height: 1.5;">
+            <strong>Dirección:</strong><br>
+            Centro Histórico,<br>
+            98000 Zacatecas, Zac.
+          </p>
+          <p style="color: #ffffff; font-size: 15px; margin: 15px 0 5px 0;"><strong>Horario:</strong> Sábados 10:00 - 14:00</p>
+          
+          <a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3539.9500324398273!2d-102.5732380246937!3d22.770367179351318!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86824e89364eead9%3A0xa0f88fa61c4b8d51!2sHospital%20San%20Jos%C3%A9%20By%20RB!5e1!3m2!1ses!2smx!4v1771950999727!5m2!1ses!2smx" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
+        </div>
+        
+        <div style="flex: 1.5; min-width: 280px; height: 350px;">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3539.9500324398273!2d-102.5732380246937!3d22.770367179351318!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86824e89364eead9%3A0xa0f88fa61c4b8d51!2sHospital%20San%20Jos%C3%A9%20By%20RB!5e1!3m2!1ses!2smx!4v1771950999727!5m2!1ses!2smx" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
           </iframe>
         </div>
       </div>
