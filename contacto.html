@@ -35,12 +35,12 @@
       transition: color 0.3s;
     }
     nav a:hover {
-      color: #00495b; /* Color Azul Petróleo al pasar el mouse */
+      color: #00495b; 
     }
 
     h1 { 
       font-size: 24px; 
-      color: #29bdb1; /* Cambio a Azul Petróleo */
+      color: #29bdb1; 
       text-align: center; 
       margin: 20px 0; 
     }
@@ -70,7 +70,7 @@
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      border-top: 5px solid #00495b; /* Cambio a Azul Petróleo */
+      border-top: 5px solid #00495b; 
     }
 
     form h2 { font-size: 18px; margin-top: 0; color: #00495b; display: flex; align-items: center; gap: 8px; }
@@ -97,22 +97,31 @@
       border: 1px solid #27ae60;
     }
 
+    /* ACTUALIZACIÓN: Botón Agendar Cita en ROJO CORAL */
     input[type="submit"] {
       grid-column: span 2;
-      background-color: #01bdaa; /* Cambio a Azul Petróleo */
+      background-color: #f5565fd9; /* El mismo rojo coral */
       color: white;
       font-weight: bold;
       border: none;
       cursor: pointer;
-      padding: 12px;
-      border-radius: 6px;
+      padding: 15px;
+      border-radius: 8px;
       margin-top: 10px;
       font-size: 16px;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(245, 86, 95, 0.2);
     }
 
     input[type="submit"]:hover {
-        background-color: #27ae60; /* Cambio a Verde al pasar el mouse */
+        background-color: #d43f48; /* Rojo más intenso al pasar el mouse */
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(245, 86, 95, 0.3);
+    }
+
+    input[type="submit"]:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
     }
 
     #mensaje-enviado {
