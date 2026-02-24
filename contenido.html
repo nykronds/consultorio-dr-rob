@@ -18,7 +18,7 @@
     body {
       font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       margin: 0;
-      padding: 0; /* Quitamos el padding general para que el nav ocupe todo el ancho */
+      padding: 0;
       background-color: var(--bg);
       color: var(--primary);
       transition: all 0.3s ease;
@@ -26,7 +26,6 @@
       padding-bottom: 80px;
     }
 
-    /* --- NUEVO ENCABEZADO --- */
     nav { 
       padding: 20px; 
       background: white; 
@@ -69,7 +68,7 @@
       display: flex;
       flex-direction: column;
       gap: 40px;
-      padding: 0 20px; /* Agregamos padding aquí para el contenido */
+      padding: 0 20px;
     }
 
     .seccion {
@@ -79,7 +78,6 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     }
 
-    /* NIVEL 1: SLIDER */
     .slider-wrapper {
       position: relative;
       width: 100%;
@@ -107,7 +105,6 @@
       flex-shrink: 0;
     }
 
-    /* NIVEL 2: RECUADROS EN CUADRÍCULA */
     .scroll-info {
       max-height: 700px;
       overflow-y: auto;
@@ -150,7 +147,6 @@
       min-height: 60px;
     }
 
-    /* --- BOTONES FLOTANTES IZQUIERDA --- */
     .contenedor-flotante {
       position: fixed;
       bottom: 25px;
@@ -182,7 +178,6 @@
     .btn-ig-float { background: var(--insta-gradient); }
     .btn-dr-float { background: var(--doctoralia-blue); }
 
-    /* PANEL DE ADMINISTRACIÓN */
     .admin-panel {
       position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
       background: white; border-radius: 20px; padding: 30px;
@@ -293,12 +288,31 @@
       const file = document.getElementById('inputImg').files[0];
       const desc = document.getElementById('inputDesc').value;
       if(!file) return alert("Seleccione una imagen");
+
       const reader = new FileReader();
       reader.onload = (e) => {
-        db.push({ url: e.target.result, desc: desc });
-        localStorage.setItem('fotosMedicas', JSON.stringify(db));
-        document.getElementById('inputDesc').value = '';
-        actualizarVista();
+        const img = new Image();
+        img.onload = () => {
+          // COMPRESIÓN DE IMAGEN
+          const canvas = document.createElement('canvas');
+          const maxW = 800; // Ancho máximo para optimizar espacio
+          const scale = maxW / img.width;
+          canvas.width = maxW;
+          canvas.height = img.height * scale;
+          
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          
+          // Convertimos a JPEG con calidad 0.7 para que quepan muchas fotos
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+
+          db.push({ url: compressedBase64, desc: desc });
+          localStorage.setItem('fotosMedicas', JSON.stringify(db));
+          document.getElementById('inputDesc').value = '';
+          document.getElementById('inputImg').value = '';
+          actualizarVista();
+        };
+        img.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
@@ -314,7 +328,8 @@
     setInterval(() => {
       if(db.length <= 1) return;
       curIdx = (curIdx + 1) % db.length;
-      document.getElementById('carrusel').style.transform = `translateX(${-curIdx * 100}%)`;
+      const slider = document.getElementById('carrusel');
+      if(slider) slider.style.transform = `translateX(${-curIdx * 100}%)`;
     }, 4000);
 
     document.addEventListener('keydown', (e) => {
