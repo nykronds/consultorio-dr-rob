@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Página Web - Inicio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,39 +17,15 @@
       overflow-x: hidden;
     }
     
-    nav {
-      padding: 20px;
-      background: white;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-    ul li a {
-      text-decoration: none;
-      color: #27ae60;
-      font-weight: bold;
-    }
+    nav { padding: 20px; background: white; }
+    ul { list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; gap: 20px; }
+    ul li a { text-decoration: none; color: #27ae60; font-weight: bold; }
     ul li a:hover { text-decoration: underline; }
-    
     hr { border: 0; border-top: 1px solid #27ae60; margin: 0; }
 
-    .img-cabecera {
-      width: 100%;
-      height: 400px;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-    }
+    .img-cabecera { width: 100%; height: 400px; object-fit: cover; object-position: center; display: block; }
 
-    /* --- NUEVAS ANIMACIONES VISUALES (NO COLORES) --- */
-
-    /* 1. Efecto de entrada y destello para el título */
+    /* --- ANIMACIONES --- */
     @keyframes entradaTitulo {
       from { opacity: 0; transform: translateX(-30px); }
       to { opacity: 1; transform: translateX(0); }
@@ -63,9 +41,6 @@
       margin-top: 0;
       color: #00495b;
       display: inline-block;
-      animation: entradaTitulo 1.2s ease-out forwards;
-      
-      /* Efecto de destello metálico */
       background: linear-gradient(110deg, #00495b 45%, #4b9ea2 50%, #00495b 55%);
       background-size: 200% auto;
       -webkit-background-clip: text;
@@ -73,31 +48,81 @@
       animation: brilloReflejo 5s linear infinite, entradaTitulo 1.2s ease-out forwards;
     }
 
-    /* 2. Efecto de Cita (Latido suave) */
     @keyframes latidoElegante {
       0% { transform: scale(1); }
       50% { transform: scale(1.01); }
       100% { transform: scale(1); }
     }
     
+    /* CORRECCIÓN: Botón de cita en ROJO */
     .boton-cita-animado {
-      background-color: #f5565fd9;
+      background-color: #f5565fd9; /* El rojo original */
       color: white;
       padding: 30px;
       border-radius: 20px;
       text-align: center;
-      box-shadow: 0 10px 20px rgba(39, 174, 96, 0.2);
+      box-shadow: 0 10px 20px rgba(245, 86, 95, 0.2);
       animation: latidoElegante 3s infinite ease-in-out;
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     
     .boton-cita-animado:hover {
-      background-color: #219150;
+      background-color: #d43f48; /* Rojo más intenso al pasar el mouse */
       transform: scale(1.04);
-      box-shadow: 0 15px 30px rgba(39, 174, 96, 0.4);
+      box-shadow: 0 15px 30px rgba(245, 86, 95, 0.4);
     }
 
-    /* Otros estilos */
+    /* --- ESTILOS REDES SOCIALES PREMIUM --- */
+    .social-footer {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn-premium {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px 30px;
+      border-radius: 15px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-dr {
+      background: #ffffff;
+      color: #3d86c6;
+      border: 2px solid #3d86c6;
+    }
+
+    .btn-ig {
+      background: #fff;
+      color: #e1306c;
+      border: 2px solid #e1306c;
+    }
+
+    .social-btn-premium i { font-size: 24px; }
+
+    .social-btn-premium:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .btn-dr:hover { background: #3d86c6; color: white; }
+
+    .btn-ig:hover {
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      color: white;
+      border-color: transparent;
+    }
+
     .cedula-badge {
       display: inline-block;
       background: #e8f5e9;
@@ -127,6 +152,8 @@
     @media (max-width: 768px) {
       .img-cabecera { height: 250px; }
       .titulo-especialista { font-size: 26px; }
+      .social-footer { gap: 15px; }
+      .social-btn-premium { width: 80%; justify-content: center; }
     }
   </style>
 </head>
@@ -172,28 +199,39 @@
       </div>
     </a>
 
-    <div style="display: flex; flex-wrap: wrap; gap: 0; background: #00495b; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-      <div style="flex: 1; min-width: 280px; padding: 30px; display: flex; flex-direction: column; justify-content: center;">
-        <h4 style="color: #4b9ea2; margin: 0 0 10px 0; font-size: 22px;">📍 Ubicación Presencial</h4>
-        <p style="color: #ffffff; font-size: 15px; margin: 5px 0; line-height: 1.5;">
-          <strong>Dirección:</strong><br>
-          Barrio de Tequisquiapan,<br>
-          78250 San Luis Potosí, S.L.P.
-        </p>
-        <p style="color: #ffffff; font-size: 15px; margin: 15px 0 5px 0;"><strong>Horario:</strong> Lun-Vie 9:00 - 18:00</p>
+    <div>
+      <div style="display: flex; flex-wrap: wrap; gap: 0; background: #00495b; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+        <div style="flex: 1; min-width: 280px; padding: 30px; display: flex; flex-direction: column; justify-content: center;">
+          <h4 style="color: #4b9ea2; margin: 0 0 10px 0; font-size: 22px;">📍 Ubicación Presencial</h4>
+          <p style="color: #ffffff; font-size: 15px; margin: 5px 0; line-height: 1.5;">
+            <strong>Dirección:</strong><br>
+            Barrio de Tequisquiapan,<br>
+            78250 San Luis Potosí, S.L.P.
+          </p>
+          <p style="color: #ffffff; font-size: 15px; margin: 15px 0 5px 0;"><strong>Horario:</strong> Lun-Vie 9:00 - 18:00</p>
+          
+          <a href="https://maps.app.goo.gl/uP6pP2" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
+        </div>
         
-        <a href="https://www.google.com/maps" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
+        <div style="flex: 1.5; min-width: 280px; height: 350px;">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3696.1234567890!2d-100.987654321!3d22.123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDA3JzM0LjQiTiAxMDDCsDU5JzE1LjYiVw!5e0!3m2!1ses!2smx!4v1234567890" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy">
+          </iframe>
+        </div>
       </div>
-      
-      <div style="flex: 1.5; min-width: 280px; height: 350px;">
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3696.123!2d-100.9!3d22.15!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDA5JzAwLjAiTiAxMDDCsDU0JzAwLjAiVw!5e0!3m2!1ses!2smx!4v1600000000000!5m2!1ses!2smx" 
-          width="100%" 
-          height="100%" 
-          style="border:0;" 
-          allowfullscreen="" 
-          loading="lazy">
-        </iframe>
+
+      <div class="social-footer">
+        <a href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi?utm_source=app&utm_medium=copy_link&utm_campaign=doctor_share_profile" target="_blank" class="social-btn-premium btn-dr">
+          <i class="fa-solid fa-stethoscope"></i> Doctoralia
+        </a>
+        <a href="https://www.instagram.com/drrobertojaramillo?igsh=MTZpazJ0Y3k0djlhbA%3D%3D" target="_blank" class="social-btn-premium btn-ig">
+          <i class="fa-brands fa-instagram"></i> Instagram
+        </a>
       </div>
     </div>
   </div>
