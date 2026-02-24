@@ -73,7 +73,7 @@
       border-top: 5px solid #00495b; 
     }
 
-    form h2 { font-size: 18px; margin-top: 0; color: #00495b; display: flex; align-items: center; gap: 8px; }
+    form h2 { font-size: 18px; margin-top: 0; color: #00495b; display: center; align-items: center; gap: 8px; }
     
     .grid-form {
       display: grid;
@@ -97,10 +97,9 @@
       border: 1px solid #27ae60;
     }
 
-    /* ACTUALIZACIÓN: Botón Agendar Cita en ROJO CORAL */
     input[type="submit"] {
       grid-column: span 2;
-      background-color: #f5565fd9; /* El mismo rojo coral */
+      background-color: #f5565fd9; 
       color: white;
       font-weight: bold;
       border: none;
@@ -114,7 +113,7 @@
     }
 
     input[type="submit"]:hover {
-        background-color: #d43f48; /* Rojo más intenso al pasar el mouse */
+        background-color: #d43f48; 
         transform: translateY(-2px);
         box-shadow: 0 6px 15px rgba(245, 86, 95, 0.3);
     }
@@ -134,7 +133,6 @@
       margin-top: 10px;
     }
 
-    /* Ajustes para móviles */
     @media (max-width: 600px) {
       .grid-form { grid-template-columns: 1fr; }
       input[type="submit"] { grid-column: span 1; }
@@ -145,7 +143,8 @@
 <body>
 
   <nav>
-    <a href="index.html">Inicio</a> <a href="contacto.html">Contacto</a>
+    <a href="./">Inicio</a> 
+    <a href="contacto.html">Contacto</a>
   </nav>
 
   <h1>Agendar Cita Médica</h1>
