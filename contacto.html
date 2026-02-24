@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contacto y Citas - Profesional</title>
+  <title>Contacto y Citas - Dr. Roberto Jaramillo</title>
   <style>
-    /* Estilos Generales y Movilidad */
+    /* Estilos Generales */
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
@@ -26,40 +26,52 @@
       top: 0;
       z-index: 1000;
     }
+    
     nav a {
       text-decoration: none;
       color: #067a9fc9;
       font-weight: bold;
       text-transform: uppercase;
       font-size: 14px;
-      transition: color 0.3s;
+      transition: all 0.3s ease;
+      padding: 5px 10px;
+      border-radius: 4px;
     }
+
     nav a:hover {
-      color: #00495b; 
+      color: #00495b;
+      background-color: #e0f2f1;
+    }
+
+    /* Clase para resaltar la página actual */
+    .active {
+      color: #00495b;
+      border-bottom: 2px solid #29bdb1;
     }
 
     h1 { 
-      font-size: 24px; 
+      font-size: 28px; 
       color: #29bdb1; 
       text-align: center; 
-      margin: 20px 0; 
+      margin: 30px 0; 
     }
     
     .main-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 25px;
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px 40px 20px;
     }
 
+    /* Secciones Principales */
     .calendario-seccion {
       flex: 1.5;
       min-width: 320px;
       background: white;
       border-radius: 12px;
-      padding: 20px;
+      padding: 25px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
 
@@ -67,34 +79,41 @@
       flex: 1;
       min-width: 320px;
       background-color: #ffffff;
-      padding: 25px;
+      padding: 30px;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
       border-top: 5px solid #00495b; 
     }
 
-    form h2 { font-size: 18px; margin-top: 0; color: #00495b; display: center; align-items: center; gap: 8px; }
+    form h2 { font-size: 20px; margin-top: 0; color: #00495b; text-align: center; }
     
     .grid-form {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 15px;
     }
 
-    label { font-size: 12px; font-weight: bold; margin-bottom: 4px; display: block; }
+    label { font-size: 12px; font-weight: bold; margin-bottom: 5px; display: block; color: #34495e; }
+    
     input, select, textarea {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border-radius: 6px;
-      border: 1px solid #ddd;
+      border: 1px solid #dcdde1;
       font-size: 14px;
       box-sizing: border-box;
+      transition: border 0.3s;
     }
-    input:focus { border-color: #27ae60; outline: none; }
+
+    input:focus, textarea:focus { 
+      border-color: #29bdb1; 
+      outline: none; 
+      box-shadow: 0 0 5px rgba(41, 189, 177, 0.2);
+    }
 
     .highlight-field {
-      background-color: #e8f5e9;
-      border: 1px solid #27ae60;
+      background-color: #f0fdfa;
+      border: 1px solid #29bdb1;
     }
 
     input[type="submit"] {
@@ -104,9 +123,9 @@
       font-weight: bold;
       border: none;
       cursor: pointer;
-      padding: 15px;
+      padding: 18px;
       border-radius: 8px;
-      margin-top: 10px;
+      margin-top: 15px;
       font-size: 16px;
       transition: all 0.3s ease;
       box-shadow: 0 4px 10px rgba(245, 86, 95, 0.2);
@@ -115,36 +134,37 @@
     input[type="submit"]:hover {
         background-color: #d43f48; 
         transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(245, 86, 95, 0.3);
+        box-shadow: 0 6px 15px rgba(245, 86, 95, 0.4);
     }
 
     input[type="submit"]:disabled {
-      background-color: #ccc;
+      background-color: #bdc3c7;
       cursor: not-allowed;
     }
 
     #mensaje-enviado {
       grid-column: span 2;
-      font-size: 13px;
+      font-size: 14px;
       display: none;
-      padding: 10px;
+      padding: 12px;
       text-align: center;
       border-radius: 6px;
-      margin-top: 10px;
+      margin-top: 15px;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .grid-form { grid-template-columns: 1fr; }
       input[type="submit"] { grid-column: span 1; }
-      nav { gap: 15px; }
+      nav { gap: 15px; font-size: 12px; }
     }
   </style>
 </head>
 <body>
 
   <nav>
-    <a href="./">Inicio</a> 
-    <a href="contacto.html">Contacto</a>
+    <a href="index.html">Inicio</a> 
+    <a href="contenido.html">Contenido</a>
+    <a href="contacto.html" class="active">Contacto</a>
   </nav>
 
   <h1>Agendar Cita Médica</h1>
@@ -153,11 +173,11 @@
     
     <div class="calendario-seccion">
       <h3 style="color: #00495b; margin-top: 0;">1. Revisa disponibilidad</h3>
-      <p style="font-size: 13px; color: #666;">Selecciona una hora libre y confírmala a la derecha.</p>
+      <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Busca un espacio libre en el calendario y confírmalo en el formulario.</p>
       
       <iframe id="googleCalendar" 
               src="https://calendar.google.com/calendar/embed?src=lainfoharley@gmail.com&ctz=America%2FMexico_City&mode=WEEK&hl=es&showNav=1&showPrint=0&showTabs=0&showCalendars=0" 
-              style="border: 0" width="100%" height="450" frameborder="0" scrolling="no"></iframe>
+              style="border: 0; border-radius: 8px;" width="100%" height="500" frameborder="0" scrolling="no"></iframe>
     </div>
 
     <form id="miFormulario">
@@ -166,7 +186,7 @@
       <div class="grid-form">
         <p style="grid-column: span 2; margin: 0;">
           <label>Nombre del Paciente:</label>
-          <input type="text" name="nombre" placeholder="Ej. Juan Pérez" required>
+          <input type="text" name="nombre" placeholder="Nombre completo" required>
         </p>
 
         <p style="margin: 0;">
@@ -181,22 +201,22 @@
 
         <p style="margin: 0;">
           <label>Teléfono:</label>
-          <input type="tel" name="telefono" placeholder="10 dígitos">
+          <input type="tel" name="telefono" placeholder="10 dígitos" required pattern="[0-9]{10}">
         </p>
 
         <p style="margin: 0;">
           <label>Edad:</label>
-          <input type="number" name="edad" min="1" max="100" required>
+          <input type="number" name="edad" min="1" max="110" required>
         </p>
 
         <p style="grid-column: span 2; margin: 0;">
           <label>Correo Electrónico:</label>
-          <input type="email" name="email" placeholder="paciente@correo.com" required>
+          <input type="email" name="email" placeholder="ejemplo@correo.com" required>
         </p>
 
         <p style="grid-column: span 2; margin: 0;">
           <label>Motivo de consulta:</label>
-          <textarea name="comentario" rows="3" placeholder="¿Cuál es el motivo de su consulta?" required></textarea>
+          <textarea name="comentario" rows="4" placeholder="Breve descripción del malestar" required></textarea>
         </p>
         
         <input type="submit" id="btnEnviar" value="Agendar Cita Ahora">
@@ -212,6 +232,7 @@
     const inputFecha = document.getElementById('fechaCita');
     const mensajeStatus = document.getElementById('mensaje-enviado');
 
+    // Evitar que seleccionen fechas pasadas
     const hoy = new Date().toISOString().split('T')[0];
     inputFecha.setAttribute('min', hoy);
     inputFecha.value = hoy;
@@ -220,7 +241,7 @@
       e.preventDefault();
       
       mensajeStatus.style.display = 'block';
-      mensajeStatus.innerText = "⌛ Enviando datos y agendando...";
+      mensajeStatus.innerText = "⌛ Agendando su cita, por favor espere...";
       mensajeStatus.style.backgroundColor = "#fff3cd";
       mensajeStatus.style.color = "#856404";
       document.getElementById('btnEnviar').disabled = true;
@@ -238,10 +259,11 @@
       .then(() => {
         mensajeStatus.style.backgroundColor = "#d4edda";
         mensajeStatus.style.color = "#155724";
-        mensajeStatus.innerText = "✅ ¡Cita procesada! Revisa tu calendario y correo.";
+        mensajeStatus.innerText = "✅ ¡Cita procesada con éxito! Revise su correo.";
         form.reset();
         document.getElementById('btnEnviar').disabled = false;
         
+        // Refrescar el calendario para mostrar el nuevo evento
         setTimeout(() => {
           document.getElementById('googleCalendar').src += '';
         }, 3000);
@@ -250,7 +272,7 @@
         console.error("Error:", error);
         mensajeStatus.style.backgroundColor = "#f8d7da";
         mensajeStatus.style.color = "#721c24";
-        mensajeStatus.innerText = "❌ Error de conexión. Inténtalo de nuevo.";
+        mensajeStatus.innerText = "❌ Error al enviar. Revise su conexión.";
         document.getElementById('btnEnviar').disabled = false;
       });
     });
