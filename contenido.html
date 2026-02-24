@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Página Web - Contenido</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f8f9fa;
+      color: #2c3e50;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    h1, h2 { color: inherit; }
+    ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 20px;
+    }
+    ul li a {
+      text-decoration: none;
+      color: rgb(62, 74, 168); 
+      font-weight: bold;
+    }
+    ul li a:hover { text-decoration: underline; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td { border: 1px solid #27ae60; }
+    th {
+      background-color: #27ae60;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+    td { text-align: center; padding: 10px; }
+    img { border-radius: 8px; }
+
+    /* Inputs de color ocultos */
+    #colorContainer {
+      display: none; /* ocultos */
+    }
+    #colorContainer input[type="color"] {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mi Página Web</h1>
+
+  <ul>
+    <li><a href="inicio.html" title="Inicio">Inicio</a></li>
+    <li><a href="contenido.html" title="Contenido">Contenido</a></li>
+    <li><a href="contacto.html" title="Contacto">Contacto</a></li>
+  </ul>
+
+  <hr/>
+
+  <h2>Tabla de Contenidos</h2>
+  <p>Bienvenido a nuestro consultorio médico</p>
+
+  <table>
+    <tr>
+      <th>Ovni 1</th>
+      <th>Ovni 2</th>
+      <th>Ovni 3</th>
+      <th>Ovni 4</th>
+    </tr>
+    <tr>
+      <td><img src="ovin 1.png" alt="Ovin 1" width="330" height="350"></td>
+      <td><img src="ovin 2.png" alt="Ovin 2" width="330" height="350"></td>
+      <td><img src="ovin 3.png" alt="Ovin 3" width="330" height="350"></td>
+      <td><img src="ovin4.png" alt="Ovin4" width="330" height="350"></td>
+    </tr>
+  </table>
+
+  <!-- Inputs ocultos para sincronización de color -->
+  <div id="colorContainer">
+    <input type="color" id="colorFondo" value="#f8f9fa">
+    <input type="color" id="colorTexto" value="#2c3e50">
+  </div>
+
+  <script>
+    const colorFondo = document.getElementById('colorFondo');
+    const colorTexto = document.getElementById('colorTexto');
+    const colorContainer = document.getElementById('colorContainer');
+
+    // Atajo Ctrl + Shift + C (aunque estén ocultos, por si quieres activar el panel)
+    document.addEventListener('keydown', function(e){
+      if(e.ctrlKey && e.shiftKey && e.code === 'KeyC'){
+        colorContainer.style.display = colorContainer.style.display === 'flex' ? 'none' : 'flex';
+      }
+    });
+
+    // Aplicar colores guardados desde inicio.html
+    const fondoGuardado = localStorage.getItem('fondoColor');
+    const textoGuardado = localStorage.getItem('textoColor');
+    if(fondoGuardado){
+      document.body.style.backgroundColor = fondoGuardado;
+      colorFondo.value = fondoGuardado;
+    }
+    if(textoGuardado){
+      document.body.style.color = textoGuardado;
+      colorTexto.value = textoGuardado;
+    }
+
+    // Cambiar colores y guardar en localStorage (aunque los inputs estén ocultos)
+    colorFondo.addEventListener('input', function(){
+      document.body.style.backgroundColor = colorFondo.value;
+      localStorage.setItem('fondoColor', colorFondo.value);
+    });
+    colorTexto.addEventListener('input', function(){
+      document.body.style.color = colorTexto.value;
+      localStorage.setItem('textoColor', colorTexto.value);
+    });
+  </script>
+
+</body>
+</html>

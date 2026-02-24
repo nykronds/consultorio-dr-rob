@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Página Web - Inicio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #2c3e50;
+      transition: background-color 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+    
+    nav {
+      padding: 20px;
+      background: white;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    ul li a {
+      text-decoration: none;
+      color: #27ae60;
+      font-weight: bold;
+    }
+    ul li a:hover { text-decoration: underline; }
+    
+    hr { border: 0; border-top: 1px solid #27ae60; margin: 0; }
+
+    .img-cabecera {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* Animaciones */
+    @keyframes maquina-escribir {
+      0% { width: 0; }
+      40% { width: 100%; }
+      60% { width: 100%; }
+      100% { width: 0; }
+    }
+
+    @keyframes parpadeo-cursor {
+      from, to { border-color: transparent; }
+      50% { border-color: #27ae60; }
+    }
+
+    @keyframes aparecerDesaparecer {
+      0%, 100% { opacity: 0; transform: translateY(5px); }
+      20%, 80% { opacity: 1; transform: translateY(0); }
+    }
+
+    .texto-animado {
+      animation: aparecerDesaparecer 4s infinite ease-in-out;
+      display: inline-block;
+    }
+
+    .titulo-trauma {
+      color: #005f65;
+      margin-top: 0;
+      font-size: 28px;
+      border-bottom: 2px solid #e8f5e9;
+      padding-bottom: 10px;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 3px solid #4b989d;
+      width: 0;
+      animation: 
+        maquina-escribir 10s steps(25) infinite,
+        parpadeo-cursor 0.7s step-end infinite;
+    }
+
+    /* Estilo para las cédulas */
+    .cedula-badge {
+      display: inline-block;
+      background: #e8f5e9;
+      color: #27ae60;
+      padding: 5px 12px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 10px;
+      border: 1px solid #27ae60;
+    }
+
+    #colorContainer {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      flex-direction: column;
+      gap: 10px;
+      background: #ffffffdd;
+      border: 1px solid #27ae60;
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 9999;
+    }
+
+    @media (max-width: 768px) {
+      .img-cabecera { height: 250px; }
+      .titulo-trauma { font-size: 20px; }
+      .texto-animado { font-size: 24px !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="inicio.html">Inicio</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <hr/>
+  <img src="diseño3.jpg" alt="Banner Principal" class="img-cabecera">
+
+  <div style="max-width: 1200px; margin: 40px auto; font-family: 'Segoe UI', Arial, sans-serif; display: flex; flex-direction: column; gap: 40px; padding: 0 20px;">
+
+    <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center; background: #ffffff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+      <div style="flex: 1; min-width: 300px; text-align: center;">
+        <img src="drrob.png" alt="Dr. Rob" style="width: 100%; max-width: 350px; height: auto; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 5px solid #fff;">
+      </div>
+      
+      <div style="flex: 1.5; min-width: 300px;">
+        <h2 style="color: #00495b; margin-top: 0; font-size: 32px;">Especialista en Traumatología</h2>
+        <p style="line-height: 1.8; color: #555; font-size: 18px;">
+          Hola, soy médico traumatólogo y ortopedista egresado de la <strong>Universidad Autónoma de Zacatecas</strong>, especializado en cirugía articular de tobillos, rodillas y caderas, así como en el tratamiento de traumatología en general.
+        </p>
+        <p style="line-height: 1.8; color: #555; font-size: 18px; font-style: italic; border-left: 4px solid #27ae60; padding-left: 20px; margin: 25px 0;">
+          "Tener una vida sin dolor es posible, y yo puedo ayudarte a lograrlo. Mi objetivo es brindarte un cuidado personalizado, basado en la confianza y el respeto, para mejorar tu calidad de vida."
+        </p>
+        
+        <div style="margin-top: 20px;">
+          <span class="cedula-badge">No. de cédula: 11491350</span>
+          <span class="cedula-badge">15249434</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 0; background: #00495b; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+      <div style="flex: 1; min-width: 280px; padding: 30px; display: flex; flex-direction: column; justify-content: center;">
+        <h4 style="color: #4b9ea2; margin: 0 0 10px 0; font-size: 22px;">📍 Ubicación Presencial</h4>
+        <p style="color: #ffffff; font-size: 15px; margin: 5px 0; line-height: 1.5;">
+          <strong>Dirección:</strong><br>
+          Barrio de Tequisquiapan,<br>
+          78250 San Luis Potosí, S.L.P.
+        </p>
+        <p style="color: #ffffff; font-size: 15px; margin: 15px 0 5px 0;"><strong>Horario:</strong> Lun-Vie 9:00 - 18:00</p>
+        
+        <a href="https://www.google.com/maps/search/?api=1&query=Barrio+de+Tequisquiapan+San+Luis+Potosi+78250" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
+      </div>
+      
+      <div style="flex: 1.5; min-width: 280px; height: 350px;">
+        <iframe 
+          src="https://maps.google.com/maps?q=Barrio%20de%20Tequisquiapan%20San%20Luis%20Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+          width="100%" 
+          height="100%" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+  <div id="colorContainer">
+    <label>Fondo</label><input type="color" id="colorFondo" value="#f8f9fa">
+    <label>Texto</label><input type="color" id="colorTexto" value="#2c3e50">
+  </div>
+
+  <script>
+    const colorFondo = document.getElementById('colorFondo');
+    const colorTexto = document.getElementById('colorTexto');
+    const colorContainer = document.getElementById('colorContainer');
+
+    document.addEventListener('keydown', function(e){
+      if(e.ctrlKey && e.shiftKey && e.code === 'KeyC'){
+        colorContainer.style.display = colorContainer.style.display === 'flex' ? 'none' : 'flex';
+      }
+    });
+
+    colorFondo.addEventListener('input', () => {
+      document.body.style.backgroundColor = colorFondo.value;
+      localStorage.setItem('fondoColor', colorFondo.value);
+    });
+
+    colorTexto.addEventListener('input', () => {
+      document.body.style.color = colorTexto.value;
+      localStorage.setItem('textoColor', colorTexto.value);
+    });
+
+    if(localStorage.getItem('fondoColor')) document.body.style.backgroundColor = localStorage.getItem('fondoColor');
+    if(localStorage.getItem('textoColor')) document.body.style.color = localStorage.getItem('textoColor');
+  </script>
+</body>
+</html>
