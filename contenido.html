@@ -34,21 +34,40 @@
     .ficha { background: white; border-radius: 12px; padding: 10px; border: 1px solid #eee; text-align: center; position: relative; }
     .ficha img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; }
 
+    /* PANEL DE CONTROL MEJORADO */
     .admin-panel {
       position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
       background: white; padding: 25px; border-radius: 20px; z-index: 1001;
-      width: 90%; max-width: 500px; box-shadow: 0 0 50px rgba(0,0,0,0.3);
+      width: 90%; max-width: 450px; box-shadow: 0 0 50px rgba(0,0,0,0.4);
     }
     .hidden { display: none !important; }
-    input, textarea { width: 100%; margin: 10px 0; padding: 12px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 8px; }
-    .btn-pub { width: 100%; background: var(--accent); color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    
+    .btn-ml {
+      width: 100%; background: #34495e; color: white; border: none; padding: 15px;
+      border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 15px;
+      display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px;
+    }
+
+    #previewImg { 
+      width: 100%; height: 120px; object-fit: cover; border-radius: 8px; 
+      margin-bottom: 10px; display: none; border: 2px solid var(--accent);
+    }
+
+    input, textarea { 
+      width: 100%; margin: 8px 0; padding: 12px; 
+      box-sizing: border-box; border: 1px solid #ddd; border-radius: 8px; 
+    }
+    
+    .btn-pub { 
+      width: 100%; background: var(--accent); color: white; border: none; 
+      padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer;
+    }
     
     .btn-del { 
       display: none; position: absolute; top: 5px; right: 5px; background: var(--danger); 
       color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; 
     }
     .admin-mode .btn-del { display: block; }
-    .drive-explorer { width: 100%; height: 250px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 10px; }
     
     .btn-admin-float {
       position: fixed; bottom: 20px; right: 20px; width: 40px; height: 40px;
@@ -67,14 +86,12 @@
 
   <div class="container">
     <h1>Visualización Médica</h1>
-    
     <section class="seccion">
       <h2>GALERÍA DE EXPLORACIÓN</h2>
       <div class="slider-wrapper">
         <div class="slider" id="carrusel"></div>
       </div>
     </section>
-
     <section class="seccion">
       <h2>REGISTROS MÉDICOS</h2>
       <div class="scroll-info" id="listaDetalles"></div>
@@ -84,28 +101,62 @@
   <button class="btn-admin-float" onclick="abrirPanel()"></button>
 
   <div id="panel" class="admin-panel hidden">
-    <h3>Panel de Control</h3>
-    <iframe class="drive-explorer" src="https://drive.google.com/embeddedfolderview?id=1R-juMFlKunUJj1WWmE4xYlww4v8U8xZU#grid"></iframe>
-    <input type="text" id="urlInput" placeholder="Pega el enlace de Drive aquí">
-    <textarea id="descInput" placeholder="Descripción del caso..."></textarea>
-    <button class="btn-pub" id="btnGuardar" onclick="guardar()">Publicar y Sincronizar</button>
-    <button onclick="cerrar()" style="width:100%; background:none; border:none; color:gray; margin-top:10px; cursor:pointer;">Cerrar</button>
+    <h3 style="margin-top: 0;">Panel de Control</h3>
+    
+    <button id="open-btn" class="btn-ml">
+      <i class="fas fa-images"></i> 1. Seleccionar de Cloudinary
+    </button>
+    
+    <img id="previewImg" src="">
+    
+    <input type="text" id="urlInput" placeholder="Pega aquí el URL de la imagen si no aparece">
+    <textarea id="descInput" placeholder="2. Escribe la descripción médica..."></textarea>
+    
+    <button class="btn-pub" id="btnGuardar" onclick="guardar()">3. Publicar y Sincronizar</button>
+    <button onclick="cerrar()" style="width:100%; background:none; border:none; color:gray; margin-top:10px; cursor:pointer;">Cancelar</button>
   </div>
 
+  <script src="https://media-library.cloudinary.com/global/all.js" type="text/javascript"></script>
+
   <script>
+    const MI_CLOUD_NAME = 'ddzd7wj2t'; 
+    const MI_API_KEY = '153355426484315'; 
     const BIN_ID = "65db8d901f567741c6495b42"; 
-    const API_KEY = "$2a$10$7R4N5e0Gv/K6p6z.R/X/e.Pq1.Gz6z6z6z6z6z6z6z6z6z6z6"; 
+    const API_KEY_BIN = "$2a$10$7R4N5e0Gv/K6p6z.R/X/e.Pq1.Gz6z6z6z6z6z6z6z6z6z6z6"; 
+    
     let db = [];
+
+    // Configuramos el widget para que sea más reactivo
+    const windowML = cloudinary.createMediaLibrary({
+        cloud_name: MI_CLOUD_NAME,
+        api_key: MI_API_KEY, 
+        button_class: 'myBtn',
+        insert_caption: 'Insertar'
+    }, {
+        insertHandler: function (data) {
+            console.log("Imagen recibida:", data);
+            data.assets.forEach(asset => {
+                const url = asset.secure_url;
+                // Rellenar campo
+                document.getElementById('urlInput').value = url;
+                // Mostrar vista previa
+                const preview = document.getElementById('previewImg');
+                preview.src = url;
+                preview.style.display = 'block';
+            });
+        }
+    }, document.getElementById("open-btn"));
 
     async function cargarDesdeNube() {
       try {
         const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-          headers: { "X-Master-Key": API_KEY, "X-Bin-Meta": "false" }
+          headers: { "X-Master-Key": API_KEY_BIN, "X-Bin-Meta": "false" }
         });
         const data = await res.json();
         db = data.fotos || [];
         render();
       } catch (e) {
+        console.error("Error cargando datos:", e);
         db = JSON.parse(localStorage.getItem('backup_fotos')) || [];
         render();
       }
@@ -115,80 +166,69 @@
       const btn = document.getElementById('btnGuardar');
       btn.innerText = "Sincronizando...";
       btn.disabled = true;
-
       try {
-        await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
           method: 'PUT',
-          headers: {
-            "Content-Type": "application/json",
-            "X-Master-Key": API_KEY
-          },
+          headers: { "Content-Type": "application/json", "X-Master-Key": API_KEY_BIN },
           body: JSON.stringify({ fotos: db })
         });
-        localStorage.setItem('backup_fotos', JSON.stringify(db));
-        alert("¡Sincronizado con éxito!");
-      } catch (e) {
-        alert("Error al sincronizar");
+        if(res.ok) {
+           localStorage.setItem('backup_fotos', JSON.stringify(db));
+           console.log("Sincronización exitosa");
+        }
+      } catch (e) { 
+          alert("Error de conexión al guardar"); 
       }
-      btn.innerText = "Publicar y Sincronizar";
+      btn.innerText = "3. Publicar y Sincronizar";
       btn.disabled = false;
     }
 
-function transformarUrl(url) {
-  const idMatch = url.match(/[-\w]{25,}/);
-  if (idMatch) {
-    // Este formato es el estándar de oro para que cargue en cualquier celular
-    return `https://drive.google.com/uc?export=view&id=${idMatch[0]}`;
-  }
-  return url;
-}
-
     async function guardar() {
-      const urlRaw = document.getElementById('urlInput').value.trim();
-      const desc = document.getElementById('descInput').value;
-      if(!urlRaw) return alert("Pega un enlace");
+      const url = document.getElementById('urlInput').value.trim();
+      const desc = document.getElementById('descInput').value.trim();
+      
+      if(!url) {
+          alert("Error: Debes poner una URL de imagen.");
+          return;
+      }
 
-      const nuevaFoto = {
-        id: Date.now(),
-        url: transformarUrl(urlRaw),
-        desc: desc
-      };
-
-      db.push(nuevaFoto);
+      // Agregamos al arreglo
+      db.push({ id: Date.now(), url: url, desc: desc });
+      
+      // Dibujamos en pantalla e intentamos guardar en la nube
       render();
       await guardarEnNube();
       
+      // Limpiar y cerrar
       document.getElementById('urlInput').value = "";
       document.getElementById('descInput').value = "";
+      document.getElementById('previewImg').style.display = 'none';
       cerrar();
     }
 
-function render() {
-  const carrusel = document.getElementById('carrusel');
-  const lista = document.getElementById('listaDetalles');
-  
-  if(db.length === 0) {
-    carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:180px;">No hay imágenes cargadas.</div>';
-    lista.innerHTML = '<div style="text-align:center; width:100%; color:gray;">Suba fotos en el panel.</div>';
-    return;
-  }
+    function render() {
+      const carrusel = document.getElementById('carrusel');
+      const lista = document.getElementById('listaDetalles');
+      
+      if(db.length === 0) {
+        carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:180px;">Sin imágenes en el carrusel</div>';
+        lista.innerHTML = '<p style="text-align:center; color:gray; grid-column: 1/-1;">No hay registros médicos guardados.</p>';
+        return;
+      }
 
-  // Añadimos loading="lazy" para que el celular no se sature
-  carrusel.innerHTML = db.map(i => `
-    <img src="${i.url}" loading="lazy" onerror="this.src='https://via.placeholder.com/800?text=Error+de+Permisos+en+Drive'">
-  `).join('');
-
-  lista.innerHTML = db.map(i => `
-    <div class="ficha">
-      <button class="btn-del" onclick="eliminar(${i.id})">×</button>
-      <img src="${i.url}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x200?text=Error+Imagen'">
-      <p>${i.desc || 'Sin descripción'}</p>
-    </div>
-  `).join('');
-}
+      carrusel.innerHTML = db.map(i => `<img src="${i.url}" alt="Galería">`).join('');
+      
+      lista.innerHTML = db.map(i => `
+        <div class="ficha">
+          <button class="btn-del" onclick="eliminar(${i.id})">×</button>
+          <img src="${i.url}" alt="Vista previa">
+          <p>${i.desc || 'Sin descripción'}</p>
+        </div>
+      `).join('');
+    }
 
     async function eliminar(id) {
-      if(confirm("¿Eliminar registro?")) {
+      if(confirm("¿Estás seguro de eliminar este registro?")) {
         db = db.filter(i => i.id !== id);
         render();
         await guardarEnNube();
@@ -209,6 +249,7 @@ function render() {
       if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'u') abrirPanel();
     });
 
+    // Animación del carrusel
     let pos = 0;
     setInterval(() => {
       if(db.length < 2) return;
@@ -217,6 +258,7 @@ function render() {
       if(s) s.style.transform = `translateX(-${pos * 100}%)`;
     }, 4000);
 
+    // Carga inicial
     cargarDesdeNube();
   </script>
 </body>
