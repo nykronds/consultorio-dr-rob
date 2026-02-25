@@ -86,14 +86,13 @@
   <div id="panel" class="admin-panel hidden">
     <h3>Panel de Control</h3>
     <iframe class="drive-explorer" src="https://drive.google.com/embeddedfolderview?id=1R-juMFlKunUJj1WWmE4xYlww4v8U8xZU#grid"></iframe>
-    <input type="text" id="urlInput" placeholder="Pega el enlace de la foto de Drive aquí">
+    <input type="text" id="urlInput" placeholder="Pega el enlace de Drive aquí">
     <textarea id="descInput" placeholder="Descripción del caso..."></textarea>
     <button class="btn-pub" id="btnGuardar" onclick="guardar()">Publicar y Sincronizar</button>
     <button onclick="cerrar()" style="width:100%; background:none; border:none; color:gray; margin-top:10px; cursor:pointer;">Cerrar</button>
   </div>
 
   <script>
-    // BASE DE DATOS EXTERNA (Sincronización Real)
     const BIN_ID = "65db8d901f567741c6495b42"; 
     const API_KEY = "$2a$10$7R4N5e0Gv/K6p6z.R/X/e.Pq1.Gz6z6z6z6z6z6z6z6z6z6z6"; 
     let db = [];
@@ -107,7 +106,6 @@
         db = data.fotos || [];
         render();
       } catch (e) {
-        console.error("Error cargando datos:", e);
         db = JSON.parse(localStorage.getItem('backup_fotos')) || [];
         render();
       }
@@ -130,21 +128,17 @@
         localStorage.setItem('backup_fotos', JSON.stringify(db));
         alert("¡Sincronizado con éxito!");
       } catch (e) {
-        alert("Error al sincronizar con la nube");
+        alert("Error al sincronizar");
       }
-      
       btn.innerText = "Publicar y Sincronizar";
       btn.disabled = false;
     }
 
-    // FUNCIÓN CORREGIDA - Sin errores de llaves
     function transformarUrl(url) {
-      if (url.includes('drive.google.com')) {
-        const idMatch = url.match(/[-\w]{25,}/);
-        if (idMatch) {
-          // Usamos el formato directo lh3 que es el más estable en celulares
-          return `https://lh3.googleusercontent.com/d/${idMatch[0]}`;
-        }
+      const idMatch = url.match(/[-\w]{25,}/);
+      if (idMatch) {
+        // Formato HTTPS de alta compatibilidad
+        return `https://lh3.googleusercontent.com/d/${idMatch[0]}`;
       }
       return url;
     }
@@ -152,7 +146,7 @@
     async function guardar() {
       const urlRaw = document.getElementById('urlInput').value.trim();
       const desc = document.getElementById('descInput').value;
-      if(!urlRaw) return alert("Pega un enlace de Drive");
+      if(!urlRaw) return alert("Pega un enlace");
 
       const nuevaFoto = {
         id: Date.now(),
@@ -174,23 +168,23 @@
       const lista = document.getElementById('listaDetalles');
       
       if(db.length === 0) {
-        carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:180px;">No hay imágenes cargadas aún.</div>';
-        lista.innerHTML = '<div style="text-align:center; width:100%; color:gray;">Usa el panel para subir fotos.</div>';
+        carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:180px;">No hay imágenes cargadas.</div>';
+        lista.innerHTML = '<div style="text-align:center; width:100%; color:gray;">Suba fotos en el panel.</div>';
         return;
       }
 
-      carrusel.innerHTML = db.map(i => `<img src="${i.url}" onerror="this.src='https://via.placeholder.com/800?text=Error+en+Drive+Verificar+Permisos'">`).join('');
+      carrusel.innerHTML = db.map(i => `<img src="${i.url}" onerror="this.src='https://via.placeholder.com/800?text=Error+en+Drive'">`).join('');
       lista.innerHTML = db.map(i => `
         <div class="ficha">
           <button class="btn-del" onclick="eliminar(${i.id})">×</button>
-          <img src="${i.url}" onerror="this.src='https://via.placeholder.com/300x200?text=No+se+pudo+cargar'">
+          <img src="${i.url}">
           <p>${i.desc || 'Sin descripción'}</p>
         </div>
       `).join('');
     }
 
     async function eliminar(id) {
-      if(confirm("¿Eliminar este registro de todos los dispositivos?")) {
+      if(confirm("¿Eliminar registro?")) {
         db = db.filter(i => i.id !== id);
         render();
         await guardarEnNube();
