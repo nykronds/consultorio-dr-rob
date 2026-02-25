@@ -134,14 +134,14 @@
       btn.disabled = false;
     }
 
-    function transformarUrl(url) {
-      const idMatch = url.match(/[-\w]{25,}/);
-      if (idMatch) {
-        // Formato HTTPS de alta compatibilidad
-        return `https://lh3.googleusercontent.com/d/${idMatch[0]}`;
-      }
-      return url;
-    }
+function transformarUrl(url) {
+  const idMatch = url.match(/[-\w]{25,}/);
+  if (idMatch) {
+    // Este formato es el estándar de oro para que cargue en cualquier celular
+    return `https://drive.google.com/uc?export=view&id=${idMatch[0]}`;
+  }
+  return url;
+}
 
     async function guardar() {
       const urlRaw = document.getElementById('urlInput').value.trim();
@@ -163,25 +163,29 @@
       cerrar();
     }
 
-    function render() {
-      const carrusel = document.getElementById('carrusel');
-      const lista = document.getElementById('listaDetalles');
-      
-      if(db.length === 0) {
-        carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:180px;">No hay imágenes cargadas.</div>';
-        lista.innerHTML = '<div style="text-align:center; width:100%; color:gray;">Suba fotos en el panel.</div>';
-        return;
-      }
+function render() {
+  const carrusel = document.getElementById('carrusel');
+  const lista = document.getElementById('listaDetalles');
+  
+  if(db.length === 0) {
+    carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:180px;">No hay imágenes cargadas.</div>';
+    lista.innerHTML = '<div style="text-align:center; width:100%; color:gray;">Suba fotos en el panel.</div>';
+    return;
+  }
 
-      carrusel.innerHTML = db.map(i => `<img src="${i.url}" onerror="this.src='https://via.placeholder.com/800?text=Error+en+Drive'">`).join('');
-      lista.innerHTML = db.map(i => `
-        <div class="ficha">
-          <button class="btn-del" onclick="eliminar(${i.id})">×</button>
-          <img src="${i.url}">
-          <p>${i.desc || 'Sin descripción'}</p>
-        </div>
-      `).join('');
-    }
+  // Añadimos loading="lazy" para que el celular no se sature
+  carrusel.innerHTML = db.map(i => `
+    <img src="${i.url}" loading="lazy" onerror="this.src='https://via.placeholder.com/800?text=Error+de+Permisos+en+Drive'">
+  `).join('');
+
+  lista.innerHTML = db.map(i => `
+    <div class="ficha">
+      <button class="btn-del" onclick="eliminar(${i.id})">×</button>
+      <img src="${i.url}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x200?text=Error+Imagen'">
+      <p>${i.desc || 'Sin descripción'}</p>
+    </div>
+  `).join('');
+}
 
     async function eliminar(id) {
       if(confirm("¿Eliminar registro?")) {
