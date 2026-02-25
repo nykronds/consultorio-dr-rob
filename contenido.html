@@ -114,9 +114,9 @@
 <body id="mainBody">
 
   <nav>
-    <a href="index.html">Inicio</a> 
-    <a href="contenido.html">Contenido</a>
-    <a href="contacto.html" class="active">Contacto</a>
+    <a href="index.html">Inicio</a>
+    <a href="contenido.html" class="active">Contenido</a>
+    <a href="contacto.html">Contacto</a>
   </nav>
 
   <h1>Centro de Visualización Médica</h1>
@@ -144,73 +144,88 @@
     <input type="text" id="inputUrl" placeholder="Enlace de la imagen (Google Drive)...">
     <textarea id="inputDesc" placeholder="Descripción médica..."></textarea>
     
-    <button class="btn-main" onclick="publicar()">Publicar en la Web</button>
+    <button class="btn-main" id="btnPublicar" onclick="publicar()">Publicar en la Web</button>
     <button onclick="cerrarAdmin()" style="border:none; background:none; color:gray; cursor:pointer; width:100%; margin-top: 5px;">Cerrar Panel</button>
   </div>
 
   <script>
-    var db = JSON.parse(localStorage.getItem('fotosMedicas')) || [];
+    // CONFIGURACIÓN DE LA NUBE
+    const SHEET_ID = '1pYWoSZzz2cJuTE2Yad73Y1mK9uAS3zrmkwvyd0AH9jE';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwYxIpXZEfBq4hYQtoTs-30w9_5664zFE9Wse3UL04kIwofnYZqZQipY3B4bFfgqL5_dQ/exec';
+    const READ_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Hoja1`;
+
+    var db = [];
+
+    // Carga global desde Google Sheets
+    async function cargarDesdeNube() {
+      try {
+        const response = await fetch(READ_URL);
+        const data = await response.text();
+        const filas = data.split('\n').slice(1);
+        db = filas.map(f => {
+          const col = f.split('","').map(c => c.replace(/"/g, ''));
+          return { id: col[0], url: col[1], desc: col[2] };
+        }).filter(item => item.url && item.url.includes('http'));
+        render();
+      } catch (e) { console.error("Error cargando datos de la nube."); }
+    }
     
-    function publicar() {
+    async function publicar() {
       var rawUrl = document.getElementById('inputUrl').value.trim();
       var desc = document.getElementById('inputDesc').value;
 
-      if(!rawUrl) {
-        alert("Por favor, pegue un enlace válido.");
-        return;
-      }
+      if(!rawUrl) return alert("Por favor, pegue un enlace válido.");
 
       var finalUrl = rawUrl;
-
       if (rawUrl.includes('drive.google.com')) {
           var id = "";
-          if (rawUrl.includes('id=')) {
-              id = rawUrl.split('id=')[1].split('&')[0];
-          } else if (rawUrl.includes('/file/d/')) {
-              id = rawUrl.split('/file/d/')[1].split('/')[0];
-          }
+          if (rawUrl.includes('id=')) id = rawUrl.split('id=')[1].split('&')[0];
+          else if (rawUrl.includes('/file/d/')) id = rawUrl.split('/file/d/')[1].split('/')[0];
           
-          if (id) {
-              // CORRECCIÓN: Formato universal optimizado para móviles
-              finalUrl = 'https://lh3.googleusercontent.com/d/' + id;
-          }
+          if (id) finalUrl = 'https://lh3.googleusercontent.com/d/' + id;
       }
 
-      db.push({ id: Date.now(), url: finalUrl, desc: desc });
-      localStorage.setItem('fotosMedicas', JSON.stringify(db));
-      
-      document.getElementById('inputUrl').value = "";
-      document.getElementById('inputDesc').value = "";
-      cerrarAdmin();
-      render();
-    }
+      const btn = document.getElementById('btnPublicar');
+      btn.disabled = true;
+      btn.innerText = "Sincronizando...";
 
-    function eliminarFoto(id) {
-      if(confirm("¿Desea eliminar este registro?")) {
-        db = db.filter(function(item) { return item.id !== id; });
-        localStorage.setItem('fotosMedicas', JSON.stringify(db));
-        render();
+      try {
+        // Guardar en la nube (Google Sheets)
+        await fetch(WEB_APP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify({ id: Date.now(), url: finalUrl, desc: desc })
+        });
+        
+        document.getElementById('inputUrl').value = "";
+        document.getElementById('inputDesc').value = "";
+        cerrarAdmin();
+        // Recargar para ver los cambios globales
+        location.reload();
+      } catch (e) { 
+        alert("Error al sincronizar."); 
+        btn.disabled = false;
+        btn.innerText = "Publicar en la Web";
       }
     }
 
     function render() {
       var carrusel = document.getElementById('carrusel');
       var lista = document.getElementById('listaDetalles');
-      
       if(!carrusel || !lista) return;
 
       carrusel.innerHTML = "";
       lista.innerHTML = "";
 
       if (db.length === 0) {
-        carrusel.innerHTML = '<div style="color:white; padding:100px; text-align:center; width:100%;">No hay imágenes cargadas.</div>';
+        carrusel.innerHTML = '<div style="color:white; padding:100px; text-align:center; width:100%;">Cargando galería global...</div>';
         return;
       }
 
       db.forEach(function(item) {
         var img = document.createElement('img');
         img.src = item.url;
-        img.onerror = function() { this.src='https://via.placeholder.com/800x450?text=Verificar+Permisos+Drive'; };
+        img.onerror = function() { this.src='https://via.placeholder.com/800x450?text=Imagen+Privada+en+Drive'; };
         carrusel.appendChild(img);
 
         var div = document.createElement('div');
@@ -227,6 +242,7 @@
       document.getElementById('mainBody').classList.remove('admin-mode');
     }
 
+    // Shortcut CTRL + SHIFT + U
     document.addEventListener('keydown', function(e) {
       if (e.ctrlKey && e.shiftKey && (e.key === 'U' || e.key === 'u')) {
         var panel = document.getElementById('adminPanel');
@@ -235,7 +251,8 @@
       }
     });
 
-    render();
+    // Iniciar carga desde la nube
+    cargarDesdeNube();
 
     var idx = 0;
     setInterval(function() {
