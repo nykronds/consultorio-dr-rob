@@ -7,196 +7,174 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root {
-      --primary: #2c3e50;
-      --accent: #27ae60;
-      --bg: #f4f7f6;
-      --card: #ffffff;
-      --danger: #e74c3c;
+      --primary: #2c3e50; --accent: #27ae60; --bg: #f4f7f6;
+      --card: #ffffff; --danger: #e74c3c;
     }
-
     body {
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      margin: 0; padding: 0;
-      background-color: var(--bg); color: var(--primary);
-      line-height: 1.6; padding-bottom: 80px;
+      font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg);
+      color: var(--primary); padding-bottom: 80px;
     }
-
     nav { 
-      background: white; padding: 15px 20px; display: flex; 
-      justify-content: center; gap: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
-      position: sticky; top: 0; z-index: 100; 
+      background: white; padding: 15px; display: flex; justify-content: center; 
+      gap: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; 
     }
-    nav a { text-decoration: none; color: #067a9fc9; font-weight: bold; text-transform: uppercase; font-size: 14px; }
-    .active { border-bottom: 2px solid var(--accent) !important; color: var(--accent) !important; }
-
-    h1 { text-align: center; font-weight: 300; margin: 30px 0; color: var(--primary); }
-    h2 { font-size: 1.2rem; color: var(--accent); text-transform: uppercase; margin-bottom: 15px; border-left: 4px solid var(--accent); padding-left: 10px; }
-
-    .container-vertical { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; padding: 0 20px; }
+    nav a { text-decoration: none; color: #067a9fc9; font-weight: bold; font-size: 14px; text-transform: uppercase; }
+    .active { color: var(--accent); border-bottom: 2px solid var(--accent); }
     
-    .seccion { 
-      background: var(--card); border-radius: 15px; padding: 25px; 
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03);
-    }
+    h1 { text-align: center; font-weight: 300; margin: 20px 0; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .seccion { background: white; border-radius: 15px; padding: 20px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+    h2 { color: var(--accent); font-size: 1.1rem; border-left: 4px solid var(--accent); padding-left: 10px; }
 
-    .slider-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 12px; background: #000; }
-    .slider { display: flex; height: 100%; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); }
+    .slider-wrapper { width: 100%; height: 400px; overflow: hidden; border-radius: 12px; background: #000; position: relative; }
+    .slider { display: flex; height: 100%; transition: 0.8s ease-in-out; }
     .slider img { width: 100%; height: 100%; object-fit: contain; flex-shrink: 0; }
 
-    .scroll-info { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-    .ficha-medica { 
-      background: #fff; border-radius: 12px; padding: 15px; border: 1px solid #eee; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03); text-align: center; position: relative;
-    }
-    .ficha-medica img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
-
-    .btn-del {
-      display: none; position: absolute; top: 10px; right: 10px;
-      background: var(--danger); color: white; border: none;
-      width: 35px; height: 35px; border-radius: 50%; cursor: pointer;
-      z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-    .admin-mode .btn-del { display: block; }
+    .scroll-info { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+    .ficha { background: white; border-radius: 12px; padding: 10px; border: 1px solid #eee; text-align: center; position: relative; }
+    .ficha img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; }
 
     .admin-panel {
       position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      background: white; border-radius: 20px; padding: 20px;
-      z-index: 1000; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      width: 95%; max-width: 600px; border-top: 5px solid var(--accent);
-      max-height: 90vh; overflow-y: auto;
+      background: white; padding: 25px; border-radius: 20px; z-index: 1001;
+      width: 90%; max-width: 500px; box-shadow: 0 0 50px rgba(0,0,0,0.3);
     }
     .hidden { display: none !important; }
-    .btn-main { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
-    input[type="text"], textarea { width: 100%; margin: 5px 0; padding: 10px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
-    .drive-explorer { width: 100%; height: 250px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 15px; }
+    input, textarea { width: 100%; margin: 10px 0; padding: 12px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 8px; }
+    .btn-pub { width: 100%; background: var(--accent); color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    
+    .btn-del { 
+      display: none; position: absolute; top: 5px; right: 5px; background: var(--danger); 
+      color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; 
+    }
+    .admin-mode .btn-del { display: block; }
+
+    /* Estilo para el visor de Drive integrado que pediste mantener */
+    .drive-explorer { width: 100%; height: 250px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 10px; }
   </style>
 </head>
 <body id="mainBody">
 
   <nav>
     <a href="index.html">Inicio</a>
-    <a href="contenido.html" class="active">Contenido</a>
+    <a href="#" class="active">Contenido</a>
     <a href="contacto.html">Contacto</a>
   </nav>
 
-  <h1>Centro de Visualización Médica</h1>
-
-  <div class="container-vertical">
+  <div class="container">
+    <h1>Visualización Médica</h1>
+    
     <section class="seccion">
-      <h2>Galería de Exploración</h2>
+      <h2>GALERÍA DE EXPLORACIÓN</h2>
       <div class="slider-wrapper">
         <div class="slider" id="carrusel"></div>
       </div>
     </section>
 
     <section class="seccion">
-      <h2>Registros e Información</h2>
+      <h2>REGISTROS MÉDICOS</h2>
       <div class="scroll-info" id="listaDetalles"></div>
     </section>
   </div>
 
-  <div id="adminPanel" class="admin-panel hidden">
-    <h3>Panel Administrativo</h3>
-    <p style="font-size: 12px; color: #666;">Copia el ID o el enlace y publícalo:</p>
+  <div id="panel" class="admin-panel hidden">
+    <h3>Panel de Control</h3>
     <iframe class="drive-explorer" src="https://drive.google.com/embeddedfolderview?id=1R-juMFlKunUJj1WWmE4xYlww4v8U8xZU#grid"></iframe>
-    <input type="text" id="inputUrl" placeholder="Enlace de la imagen (Google Drive)...">
-    <textarea id="inputDesc" placeholder="Descripción médica..."></textarea>
-    <button class="btn-main" onclick="publicar()">Publicar</button>
-    <button onclick="cerrarAdmin()" style="border:none; background:none; color:gray; cursor:pointer; width:100%;">Cerrar</button>
+    
+    <input type="text" id="url" placeholder="Pega el enlace de la foto aquí">
+    <textarea id="desc" placeholder="Descripción del caso..."></textarea>
+    <button class="btn-pub" onclick="guardar()">Publicar Registro</button>
+    <button onclick="cerrar()" style="width:100%; background:none; border:none; color:gray; margin-top:10px; cursor:pointer;">Cerrar</button>
   </div>
 
   <script>
-    var db = JSON.parse(localStorage.getItem('fotosMedicas')) || [];
+    const CLINICA_ID = "dr_jaramillo_galeria_v1"; 
+    let db = [];
 
-    function publicar() {
-      var rawUrl = document.getElementById('inputUrl').value.trim();
-      var desc = document.getElementById('inputDesc').value;
-      if(!rawUrl) return alert("Por favor, pegue un enlace válido.");
-
-      var id = "";
-      // Extraemos el ID de cualquier formato de enlace de Drive
-      if (rawUrl.includes('id=')) {
-          id = rawUrl.split('id=')[1].split('&')[0];
-      } else if (rawUrl.includes('/file/d/')) {
-          id = rawUrl.split('/file/d/')[1].split('/')[0];
-      } else {
-          id = rawUrl; // Si solo pegas el ID
+    // Función de transformación corregida para que funcione en celulares
+    function transformarUrl(url) {
+      if (url.includes('drive.google.com')) {
+        const id = (url.match(/[-\w]{25,}/) || [])[0];
+        // Formato directo de servidor de imágenes de Google que no se bloquea
+        return id ? `https://lh3.googleusercontent.com/d/${id}` : url;
       }
+      return url;
+    }
 
-      if (id.length < 10) return alert("ID de Drive no válido");
+    function guardar() {
+      const urlInput = document.getElementById('url').value.trim();
+      const descInput = document.getElementById('desc').value;
+      if(!urlInput) return alert("Pega un enlace de Google Drive");
 
-      // EL GRAN CAMBIO: Usamos el visor de Google que los celulares NO bloquean
-      var finalUrl = 'https://lh3.googleusercontent.com/u/0/d/' + id;
+      const nuevaFoto = {
+        id: Date.now(),
+        url: transformarUrl(urlInput),
+        desc: descInput
+      };
 
-      db.push({ id: Date.now(), driveId: id, url: finalUrl, desc: desc });
-      localStorage.setItem('fotosMedicas', JSON.stringify(db));
+      db.push(nuevaFoto);
+      localStorage.setItem(CLINICA_ID, JSON.stringify(db));
       
-      document.getElementById('inputUrl').value = "";
-      document.getElementById('inputDesc').value = "";
-      cerrarAdmin();
+      alert("¡Publicado con éxito!");
+      document.getElementById('url').value = "";
+      document.getElementById('desc').value = "";
+      cerrar();
       render();
     }
 
     function render() {
-      var carrusel = document.getElementById('carrusel');
-      var lista = document.getElementById('listaDetalles');
-      carrusel.innerHTML = ""; lista.innerHTML = "";
-
-      if (db.length === 0) {
-        carrusel.innerHTML = '<div style="color:white; padding:100px; text-align:center; width:100%;">No hay imágenes.</div>';
+      db = JSON.parse(localStorage.getItem(CLINICA_ID)) || [];
+      const carrusel = document.getElementById('carrusel');
+      const lista = document.getElementById('listaDetalles');
+      
+      if(db.length === 0) {
+        carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:180px;">No hay imágenes cargadas.</div>';
+        lista.innerHTML = '<div style="text-align:center; width:100%; color:gray;">No hay registros médicos disponibles.</div>';
         return;
       }
 
-      db.forEach(function(item) {
-        // Generamos la URL fresca en cada render para asegurar compatibilidad
-        var imgUrl = 'https://lh3.googleusercontent.com/d/' + (item.driveId || item.url.split('d/')[1]);
-
-        var img = document.createElement('img');
-        img.src = imgUrl;
-        img.onerror = function() { 
-            // Segundo intento con formato alternativo si falla el primero
-            this.src = 'https://drive.google.com/uc?export=view&id=' + (item.driveId || item.url.split('d/')[1]);
-        };
-        carrusel.appendChild(img);
-
-        var div = document.createElement('div');
-        div.className = 'ficha-medica';
-        div.innerHTML = '<button class="btn-del" onclick="eliminarFoto(' + item.id + ')"><i class="fa-solid fa-trash"></i></button>' +
-                        '<img src="' + imgUrl + '" onerror="this.src=\'https://via.placeholder.com/300x200?text=Cargando...\'">' +
-                        '<p>' + (item.desc || 'Sin descripción') + '</p>';
-        lista.appendChild(div);
-      });
+      // Render Carrusel
+      carrusel.innerHTML = db.map(i => `<img src="${i.url}" onerror="this.src='https://via.placeholder.com/800?text=Error+en+Drive+o+Permisos'">`).join('');
+      
+      // Render Fichas
+      lista.innerHTML = db.map(i => `
+        <div class="ficha">
+          <button class="btn-del" onclick="eliminar(${i.id})">×</button>
+          <img src="${i.url}" onerror="this.src='https://via.placeholder.com/300x200?text=Error+de+Imagen'">
+          <p>${i.desc || 'Sin descripción'}</p>
+        </div>
+      `).join('');
     }
 
-    function eliminarFoto(id) {
-      if(confirm("¿Eliminar registro?")) {
-        db = db.filter(function(item) { return item.id !== id; });
-        localStorage.setItem('fotosMedicas', JSON.stringify(db));
+    function eliminar(id) {
+      if(confirm("¿Deseas eliminar este registro?")) {
+        db = db.filter(i => i.id !== id);
+        localStorage.setItem(CLINICA_ID, JSON.stringify(db));
         render();
       }
     }
 
-    function cerrarAdmin() {
-      document.getElementById('adminPanel').classList.add('hidden');
-      document.getElementById('mainBody').classList.remove('admin-mode');
-    }
-
-    document.addEventListener('keydown', function(e) {
-      if (e.ctrlKey && e.shiftKey && (e.key === 'U' || e.key === 'u')) {
-        document.getElementById('adminPanel').classList.toggle('hidden');
+    document.addEventListener('keydown', (e) => {
+      if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'u') {
+        document.getElementById('panel').classList.toggle('hidden');
         document.getElementById('mainBody').classList.toggle('admin-mode');
       }
     });
 
-    render();
+    function cerrar() { 
+      document.getElementById('panel').classList.add('hidden'); 
+      document.getElementById('mainBody').classList.remove('admin-mode');
+    }
 
-    var idx = 0;
-    setInterval(function() {
+    let pos = 0;
+    setInterval(() => {
       if(db.length < 2) return;
-      idx = (idx + 1) % db.length;
-      var slider = document.getElementById('carrusel');
-      if(slider) slider.style.transform = 'translateX(-' + (idx * 100) + '%)';
+      pos = (pos + 1) % db.length;
+      document.getElementById('carrusel').style.transform = `translateX(-${pos * 100}%)`;
     }, 4000);
+
+    // Carga inicial
+    render();
   </script>
 </body>
 </html>
