@@ -97,7 +97,7 @@
 
   <div id="adminPanel" class="admin-panel hidden">
     <h3>Panel Administrativo</h3>
-    <p style="font-size: 12px; color: #666;">Pega el enlace de Drive para cargar la imagen:</p>
+    <p style="font-size: 12px; color: #666;">Copia el ID o el enlace y publícalo:</p>
     <iframe class="drive-explorer" src="https://drive.google.com/embeddedfolderview?id=1R-juMFlKunUJj1WWmE4xYlww4v8U8xZU#grid"></iframe>
     <input type="text" id="inputUrl" placeholder="Enlace de la imagen (Google Drive)...">
     <textarea id="inputDesc" placeholder="Descripción médica..."></textarea>
@@ -113,17 +113,22 @@
       var desc = document.getElementById('inputDesc').value;
       if(!rawUrl) return alert("Por favor, pegue un enlace válido.");
 
-      var finalUrl = rawUrl;
-      if (rawUrl.includes('drive.google.com')) {
-          var id = (rawUrl.match(/[-\w]{25,}/) || [])[0];
-          if (id) {
-              // CORRECCIÓN CLAVE: Usamos el servidor directo de imágenes de Google (lh3)
-              // Esto evita que el celular bloquee la imagen por temas de cookies.
-              finalUrl = 'https://lh3.googleusercontent.com/d/' + id;
-          }
+      var id = "";
+      // Extraemos el ID de cualquier formato de enlace de Drive
+      if (rawUrl.includes('id=')) {
+          id = rawUrl.split('id=')[1].split('&')[0];
+      } else if (rawUrl.includes('/file/d/')) {
+          id = rawUrl.split('/file/d/')[1].split('/')[0];
+      } else {
+          id = rawUrl; // Si solo pegas el ID
       }
 
-      db.push({ id: Date.now(), url: finalUrl, desc: desc });
+      if (id.length < 10) return alert("ID de Drive no válido");
+
+      // EL GRAN CAMBIO: Usamos el visor de Google que los celulares NO bloquean
+      var finalUrl = 'https://lh3.googleusercontent.com/u/0/d/' + id;
+
+      db.push({ id: Date.now(), driveId: id, url: finalUrl, desc: desc });
       localStorage.setItem('fotosMedicas', JSON.stringify(db));
       
       document.getElementById('inputUrl').value = "";
@@ -138,21 +143,26 @@
       carrusel.innerHTML = ""; lista.innerHTML = "";
 
       if (db.length === 0) {
-        carrusel.innerHTML = '<div style="color:white; padding:100px; text-align:center; width:100%;">No hay imágenes cargadas.</div>';
+        carrusel.innerHTML = '<div style="color:white; padding:100px; text-align:center; width:100%;">No hay imágenes.</div>';
         return;
       }
 
       db.forEach(function(item) {
+        // Generamos la URL fresca en cada render para asegurar compatibilidad
+        var imgUrl = 'https://lh3.googleusercontent.com/d/' + (item.driveId || item.url.split('d/')[1]);
+
         var img = document.createElement('img');
-        // Agregamos un pequeño parámetro al final para evitar el caché del celular
-        img.src = item.url;
-        img.onerror = function() { this.src='https://via.placeholder.com/800x450?text=Error+Permisos+Drive'; };
+        img.src = imgUrl;
+        img.onerror = function() { 
+            // Segundo intento con formato alternativo si falla el primero
+            this.src = 'https://drive.google.com/uc?export=view&id=' + (item.driveId || item.url.split('d/')[1]);
+        };
         carrusel.appendChild(img);
 
         var div = document.createElement('div');
         div.className = 'ficha-medica';
         div.innerHTML = '<button class="btn-del" onclick="eliminarFoto(' + item.id + ')"><i class="fa-solid fa-trash"></i></button>' +
-                        '<img src="' + item.url + '" onerror="this.src=\'https://via.placeholder.com/300x200?text=Error\'">' +
+                        '<img src="' + imgUrl + '" onerror="this.src=\'https://via.placeholder.com/300x200?text=Cargando...\'">' +
                         '<p>' + (item.desc || 'Sin descripción') + '</p>';
         lista.appendChild(div);
       });
