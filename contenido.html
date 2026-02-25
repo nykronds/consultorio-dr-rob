@@ -49,6 +49,12 @@
     }
     .admin-mode .btn-del { display: block; }
     .drive-explorer { width: 100%; height: 250px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 10px; }
+    
+    .btn-admin-float {
+      position: fixed; bottom: 20px; right: 20px; width: 40px; height: 40px;
+      background: rgba(0,0,0,0.05); color: transparent; border-radius: 50%;
+      z-index: 999; border: none; cursor: pointer;
+    }
   </style>
 </head>
 <body id="mainBody">
@@ -75,40 +81,38 @@
     </section>
   </div>
 
+  <button class="btn-admin-float" onclick="abrirPanel()"></button>
+
   <div id="panel" class="admin-panel hidden">
     <h3>Panel de Control</h3>
     <iframe class="drive-explorer" src="https://drive.google.com/embeddedfolderview?id=1R-juMFlKunUJj1WWmE4xYlww4v8U8xZU#grid"></iframe>
-    <input type="text" id="url" placeholder="Pega el enlace de la foto aquí">
-    <textarea id="desc" placeholder="Descripción del caso..."></textarea>
+    <input type="text" id="urlInput" placeholder="Pega el enlace de la foto de Drive aquí">
+    <textarea id="descInput" placeholder="Descripción del caso..."></textarea>
     <button class="btn-pub" id="btnGuardar" onclick="guardar()">Publicar y Sincronizar</button>
     <button onclick="cerrar()" style="width:100%; background:none; border:none; color:gray; margin-top:10px; cursor:pointer;">Cerrar</button>
   </div>
 
   <script>
-    // CONFIGURACIÓN DE SINCRONIZACIÓN (Base de Datos)
+    // BASE DE DATOS EXTERNA (Sincronización Real)
     const BIN_ID = "65db8d901f567741c6495b42"; 
     const API_KEY = "$2a$10$7R4N5e0Gv/K6p6z.R/X/e.Pq1.Gz6z6z6z6z6z6z6z6z6z6z6"; 
     let db = [];
 
-    // 1. CARGAR DATOS DESDE LA NUBE AL INICIAR
     async function cargarDesdeNube() {
-      const carrusel = document.getElementById('carrusel');
-      carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:180px;">Cargando contenido...</div>';
-      
       try {
         const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-          headers: { "X-Master-Key": API_KEY }
+          headers: { "X-Master-Key": API_KEY, "X-Bin-Meta": "false" }
         });
         const data = await res.json();
-        db = data.record.fotos || [];
+        db = data.fotos || [];
         render();
       } catch (e) {
-        console.error("Error al cargar");
+        console.error("Error cargando datos:", e);
+        db = JSON.parse(localStorage.getItem('backup_fotos')) || [];
         render();
       }
     }
 
-    // 2. GUARDAR DATOS EN LA NUBE
     async function guardarEnNube() {
       const btn = document.getElementById('btnGuardar');
       btn.innerText = "Sincronizando...";
@@ -123,63 +127,63 @@
           },
           body: JSON.stringify({ fotos: db })
         });
-        btn.innerText = "Publicar y Sincronizar";
-        btn.disabled = false;
-        alert("¡Contenido sincronizado para todos los dispositivos!");
+        localStorage.setItem('backup_fotos', JSON.stringify(db));
+        alert("¡Sincronizado con éxito!");
       } catch (e) {
-        alert("Error de conexión. Intente de nuevo.");
-        btn.innerText = "Reintentar";
-        btn.disabled = false;
+        alert("Error al sincronizar con la nube");
       }
+      
+      btn.innerText = "Publicar y Sincronizar";
+      btn.disabled = false;
     }
 
-    // 3. TRANSFORMAR URL DE DRIVE
+    // FUNCIÓN CORREGIDA - Sin errores de llaves
     function transformarUrl(url) {
       if (url.includes('drive.google.com')) {
-        const id = (url.match(/[-\w]{25,}/) || [])[0];
-        return id ? `https://lh3.googleusercontent.com/d/${id}` : url;
+        const idMatch = url.match(/[-\w]{25,}/);
+        if (idMatch) {
+          // Usamos el formato directo lh3 que es el más estable en celulares
+          return `https://lh3.googleusercontent.com/d/${idMatch[0]}`;
+        }
       }
       return url;
     }
 
-    // 4. LÓGICA DE PUBLICACIÓN
     async function guardar() {
-      const urlInput = document.getElementById('url').value.trim();
-      const descInput = document.getElementById('desc').value;
-      
-      if(!urlInput) return alert("Por favor, pegue un enlace de Drive.");
+      const urlRaw = document.getElementById('urlInput').value.trim();
+      const desc = document.getElementById('descInput').value;
+      if(!urlRaw) return alert("Pega un enlace de Drive");
 
       const nuevaFoto = {
         id: Date.now(),
-        url: transformarUrl(urlInput),
-        desc: descInput
+        url: transformarUrl(urlRaw),
+        desc: desc
       };
 
       db.push(nuevaFoto);
-      render(); // Mostrar inmediatamente
-      await guardarEnNube(); // Subir a la nube
+      render();
+      await guardarEnNube();
       
-      document.getElementById('url').value = "";
-      document.getElementById('desc').value = "";
+      document.getElementById('urlInput').value = "";
+      document.getElementById('descInput').value = "";
       cerrar();
     }
 
-    // 5. RENDERIZAR EN PANTALLA
     function render() {
       const carrusel = document.getElementById('carrusel');
       const lista = document.getElementById('listaDetalles');
       
       if(db.length === 0) {
-        carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:180px;">No hay imágenes cargadas.</div>';
-        lista.innerHTML = '<div style="text-align:center; width:100%; color:gray;">No hay registros disponibles.</div>';
+        carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:180px;">No hay imágenes cargadas aún.</div>';
+        lista.innerHTML = '<div style="text-align:center; width:100%; color:gray;">Usa el panel para subir fotos.</div>';
         return;
       }
 
-      carrusel.innerHTML = db.map(i => `<img src="${i.url}" onerror="this.src='https://via.placeholder.com/800?text=Error+Permisos+Drive'">`).join('');
+      carrusel.innerHTML = db.map(i => `<img src="${i.url}" onerror="this.src='https://via.placeholder.com/800?text=Error+en+Drive+Verificar+Permisos'">`).join('');
       lista.innerHTML = db.map(i => `
         <div class="ficha">
           <button class="btn-del" onclick="eliminar(${i.id})">×</button>
-          <img src="${i.url}" onerror="this.src='https://via.placeholder.com/300x200?text=Error+Carga'">
+          <img src="${i.url}" onerror="this.src='https://via.placeholder.com/300x200?text=No+se+pudo+cargar'">
           <p>${i.desc || 'Sin descripción'}</p>
         </div>
       `).join('');
@@ -193,28 +197,28 @@
       }
     }
 
-    // ATAJOS Y CONTROL
-    document.addEventListener('keydown', (e) => {
-      if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'u') {
-        document.getElementById('panel').classList.toggle('hidden');
-        document.getElementById('mainBody').classList.toggle('admin-mode');
-      }
-    });
+    function abrirPanel() {
+      document.getElementById('panel').classList.remove('hidden');
+      document.getElementById('mainBody').classList.add('admin-mode');
+    }
 
     function cerrar() { 
       document.getElementById('panel').classList.add('hidden'); 
       document.getElementById('mainBody').classList.remove('admin-mode');
     }
 
-    // CARRUSEL
+    document.addEventListener('keydown', (e) => {
+      if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'u') abrirPanel();
+    });
+
     let pos = 0;
     setInterval(() => {
       if(db.length < 2) return;
       pos = (pos + 1) % db.length;
-      document.getElementById('carrusel').style.transform = `translateX(-${pos * 100}%)`;
+      const s = document.getElementById('carrusel');
+      if(s) s.style.transform = `translateX(-${pos * 100}%)`;
     }, 4000);
 
-    // INICIO
     cargarDesdeNube();
   </script>
 </body>
