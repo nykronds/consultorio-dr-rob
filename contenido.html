@@ -39,12 +39,10 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03);
     }
 
-    /* Carrusel */
     .slider-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 12px; background: #000; }
     .slider { display: flex; height: 100%; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); }
     .slider img { width: 100%; height: 100%; object-fit: contain; flex-shrink: 0; }
 
-    /* Fichas */
     .scroll-info { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
     .ficha-medica { 
       background: #fff; border-radius: 12px; padding: 15px; border: 1px solid #eee; 
@@ -52,7 +50,14 @@
     }
     .ficha-medica img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
 
-    /* Admin Panel */
+    .btn-del {
+      display: none; position: absolute; top: 10px; right: 10px;
+      background: var(--danger); color: white; border: none;
+      width: 35px; height: 35px; border-radius: 50%; cursor: pointer;
+      z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .admin-mode .btn-del { display: block; }
+
     .admin-panel {
       position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
       background: white; border-radius: 20px; padding: 20px;
@@ -62,7 +67,7 @@
     }
     .hidden { display: none !important; }
     .btn-main { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
-    input[type="text"], textarea { width: 100%; margin: 5px 0; padding: 10px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 8px; }
+    input[type="text"], textarea { width: 100%; margin: 5px 0; padding: 10px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
     .drive-explorer { width: 100%; height: 250px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 15px; }
   </style>
 </head>
@@ -92,57 +97,39 @@
 
   <div id="adminPanel" class="admin-panel hidden">
     <h3>Panel Administrativo</h3>
+    <p style="font-size: 12px; color: #666;">Pega el enlace de Drive para cargar la imagen:</p>
     <iframe class="drive-explorer" src="https://drive.google.com/embeddedfolderview?id=1R-juMFlKunUJj1WWmE4xYlww4v8U8xZU#grid"></iframe>
     <input type="text" id="inputUrl" placeholder="Enlace de la imagen (Google Drive)...">
     <textarea id="inputDesc" placeholder="Descripción médica..."></textarea>
-    <button class="btn-main" onclick="publicar()">Sincronizar Globalmente</button>
+    <button class="btn-main" onclick="publicar()">Publicar</button>
     <button onclick="cerrarAdmin()" style="border:none; background:none; color:gray; cursor:pointer; width:100%;">Cerrar</button>
   </div>
 
   <script>
-    // ESTA ES LA CLAVE: Conexión real a la nube
-    const SHEET_ID = '1pYWoSZzz2cJuTE2Yad73Y1mK9uAS3zrmkwvyd0AH9jE';
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwYxIpXZEfBq4hYQtoTs-30w9_5664zFE9Wse3UL04kIwofnYZqZQipY3B4bFfgqL5_dQ/exec';
-    const READ_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Hoja1`;
-
-    var db = [];
-
-    async function cargarDesdeNube() {
-      try {
-        const response = await fetch(READ_URL);
-        const csv = await response.text();
-        const filas = csv.split('\n').slice(1);
-        db = filas.map(f => {
-          const col = f.split('","').map(c => c.replace(/"/g, ''));
-          return { id: col[0], url: col[1], desc: col[2] };
-        }).filter(item => item.url && item.url.startsWith('http'));
-        render();
-      } catch (e) { console.error("Error de carga"); }
-    }
+    // Volvemos a la base local para que no falle la carga
+    var db = JSON.parse(localStorage.getItem('fotosMedicas')) || [];
 
     function publicar() {
       var rawUrl = document.getElementById('inputUrl').value.trim();
       var desc = document.getElementById('inputDesc').value;
-      if(!rawUrl) return alert("Pega un enlace");
+      if(!rawUrl) return alert("Por favor, pegue un enlace válido.");
 
       var finalUrl = rawUrl;
-      // CONVERSOR UNIVERSAL PARA MÓVILES
       if (rawUrl.includes('drive.google.com')) {
           var id = (rawUrl.match(/[-\w]{25,}/) || [])[0];
           if (id) {
-              // Este enlace funciona en el 99% de los celulares porque no usa redirecciones
-              finalUrl = `https://lh3.googleusercontent.com/d/${id}=w1000`;
+              // Este formato es el ÚNICO que celulares aceptan sin bloquearlo
+              finalUrl = 'https://lh3.googleusercontent.com/d/' + id;
           }
       }
 
-      fetch(WEB_APP_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify({ id: Date.now(), url: finalUrl, desc: desc })
-      }).then(() => {
-        alert("Sincronizado. Recarga la página en tu celular.");
-        location.reload();
-      });
+      db.push({ id: Date.now(), url: finalUrl, desc: desc });
+      localStorage.setItem('fotosMedicas', JSON.stringify(db));
+      
+      document.getElementById('inputUrl').value = "";
+      document.getElementById('inputDesc').value = "";
+      cerrarAdmin();
+      render();
     }
 
     function render() {
@@ -151,32 +138,46 @@
       carrusel.innerHTML = ""; lista.innerHTML = "";
 
       if (db.length === 0) {
-        carrusel.innerHTML = '<div style="color:white; padding:100px; text-align:center; width:100%;">Cargando...</div>';
+        carrusel.innerHTML = '<div style="color:white; padding:100px; text-align:center; width:100%;">No hay imágenes.</div>';
         return;
       }
 
       db.forEach(function(item) {
         var img = document.createElement('img');
         img.src = item.url;
-        img.onerror = function() { this.src='https://via.placeholder.com/800x450?text=Error+Permisos+Drive'; };
+        img.onerror = function() { this.src='https://via.placeholder.com/800x450?text=Error+en+Drive'; };
         carrusel.appendChild(img);
 
         var div = document.createElement('div');
         div.className = 'ficha-medica';
-        div.innerHTML = `<img src="${item.url}" onerror="this.src='https://via.placeholder.com/300x200?text=Error'"><p>${item.desc || 'Sin descripción'}</p>`;
+        div.innerHTML = '<button class="btn-del" onclick="eliminarFoto(' + item.id + ')"><i class="fa-solid fa-trash"></i></button>' +
+                        '<img src="' + item.url + '" onerror="this.src=\'https://via.placeholder.com/300x200?text=Error\'">' +
+                        '<p>' + (item.desc || 'Sin descripción') + '</p>';
         lista.appendChild(div);
       });
     }
 
-    function cerrarAdmin() { document.getElementById('adminPanel').classList.add('hidden'); }
+    function eliminarFoto(id) {
+      if(confirm("¿Eliminar registro?")) {
+        db = db.filter(function(item) { return item.id !== id; });
+        localStorage.setItem('fotosMedicas', JSON.stringify(db));
+        render();
+      }
+    }
+
+    function cerrarAdmin() {
+      document.getElementById('adminPanel').classList.add('hidden');
+      document.getElementById('mainBody').classList.remove('admin-mode');
+    }
 
     document.addEventListener('keydown', function(e) {
       if (e.ctrlKey && e.shiftKey && (e.key === 'U' || e.key === 'u')) {
         document.getElementById('adminPanel').classList.toggle('hidden');
+        document.getElementById('mainBody').classList.toggle('admin-mode');
       }
     });
 
-    cargarDesdeNube();
+    render();
 
     var idx = 0;
     setInterval(function() {
