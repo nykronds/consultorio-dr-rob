@@ -10,10 +10,12 @@
     :root {
       --insta-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
       --doctoralia-blue: #3d86c6;
+      --menu-color: #067a9fc9; /* El color azul que solicitaste */
+      --accent: #27ae60;
     }
 
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
       padding: 0;
       background-color: #f8f9fa;
@@ -22,13 +24,43 @@
       overflow-x: hidden;
     }
     
-    nav { padding: 20px; background: white; }
-    ul { list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; gap: 20px; }
-    ul li a { text-decoration: none; color: #27ae60; font-weight: bold; }
-    ul li a:hover { text-decoration: underline; }
-    hr { border: 0; border-top: 1px solid #27ae60; margin: 0; }
+    /* --- ENCABEZADO UNIFICADO --- */
+    nav { 
+      background: white; 
+      padding: 15px 20px; 
+      display: flex; 
+      justify-content: center; 
+      gap: 30px; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+      position: sticky; 
+      top: 0; 
+      z-index: 100;
+    }
 
-    /* Mejora de la imagen para que se adapte perfectamente */
+    nav a { 
+      text-decoration: none; 
+      color: var(--menu-color); 
+      font-weight: bold; 
+      text-transform: uppercase; 
+      font-size: 14px; 
+      transition: 0.3s;
+      padding: 5px 0;
+      border-bottom: 2px solid transparent;
+    }
+
+    nav a:hover { 
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .active { 
+      border-bottom: 2px solid var(--accent) !important; 
+      color: var(--accent) !important; 
+    }
+
+    hr { border: 0; border-top: 1px solid #eee; margin: 0; }
+
+    /* --- RESTO DE ESTILOS --- */
     .img-cabecera { 
       width: 100%; 
       height: 400px; 
@@ -37,7 +69,6 @@
       display: block; 
     }
 
-    /* --- ANIMACIONES --- */
     @keyframes entradaTitulo {
       from { opacity: 0; transform: translateX(-30px); }
       to { opacity: 1; transform: translateX(0); }
@@ -83,7 +114,6 @@
       box-shadow: 0 15px 30px rgba(245, 86, 95, 0.4);
     }
 
-    /* --- BOTONES FLOTANTES IZQUIERDA --- */
     .contenedor-flotante {
       position: fixed;
       bottom: 25px;
@@ -141,7 +171,6 @@
     .contenedor-ubicacion {
       display: flex; 
       flex-wrap: wrap; 
-      gap: 0; 
       background: #00495b; 
       border-radius: 20px; 
       overflow: hidden; 
@@ -164,37 +193,34 @@
     }
 
     @media (max-width: 768px) {
-      /* Aquí hacemos que la imagen se vea perfecta en el cel */
       .img-cabecera { height: auto; max-height: 200px; } 
       .titulo-especialista { font-size: 26px; }
       .float-btn { width: 48px; height: 48px; font-size: 20px; }
-      .contenedor-flotante { bottom: 15px; left: 15px; }
+      nav { gap: 15px; }
     }
   </style>
 </head>
 <body>
 
   <div class="contenedor-flotante">
-    <a href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi" target="_blank" class="float-btn btn-dr-float" title="Ver perfil en Doctoralia">
+    <a href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi" target="_blank" class="float-btn btn-dr-float">
       <i class="fa-solid fa-stethoscope"></i>
     </a>
-    <a href="https://www.instagram.com/drrobertojaramillo" target="_blank" class="float-btn btn-ig-float" title="Sígueme en Instagram">
+    <a href="https://www.instagram.com/drrobertojaramillo" target="_blank" class="float-btn btn-ig-float">
       <i class="fa-brands fa-instagram"></i>
     </a>
   </div>
 
   <nav>
-    <ul>
-    <a href="index.html">Inicio</a> 
+    <a href="index.html" class="active">Inicio</a> 
     <a href="contenido.html">Contenido</a>
-    <a href="contacto.html" class="active">Contacto</a>
-    </ul>
+    <a href="contacto.html">Contacto</a>
   </nav>
 
   <hr/>
   <img src="diseño3.jpg" alt="Banner Principal" class="img-cabecera">
 
-  <div style="max-width: 1200px; margin: 40px auto; font-family: 'Segoe UI', Arial, sans-serif; display: flex; flex-direction: column; gap: 40px; padding: 0 20px;">
+  <div style="max-width: 1200px; margin: 40px auto; display: flex; flex-direction: column; gap: 40px; padding: 0 20px;">
 
     <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center; background: #ffffff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
       <div style="flex: 1; min-width: 300px; text-align: center;">
@@ -210,7 +236,7 @@
           "Tener una vida sin dolor es posible, y yo puedo ayudarte a lograrlo. Mi objetivo es brindarte un cuidado personalizado, basado en la confianza y el respeto, para mejorar tu calidad de vida."
         </p>
         
-        <div style="margin-top: 20px;">
+        <div>
           <span class="cedula-badge"><i class="fa-solid fa-id-card"></i> Cédula Profesional: 11491350</span>
           <span class="cedula-badge"><i class="fa-solid fa-graduation-cap"></i> Especialidad: 15249434</span>
         </div>
@@ -240,10 +266,10 @@
             Av. Universidad 102, Zacatecas Centro<br>
             98000 Zacatecas, Zac.
           </p>
-          <a href="https://maps.app.goo.gl/uXmHn1M4Xp7YqG7N8" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
+          <a href="#" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
         </div>
         <div style="flex: 1.5; min-width: 280px; height: 350px;">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3678.966556557879!2d-102.570138!3d22.7666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86824e867f13955d%3A0xc6a8264582f3d649!2sHospital%20San%20Agust%C3%ADn!5e0!3m2!1ses-419!2smx!4v1710000000000!5m2!1ses-419!2smx" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3679.1672620703814!2d-102.5714415!3d22.7684942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86824e933454316d%3A0x6d8b981f9640428e!2sHospital%20San%20Agust%C3%ADn!5e0!3m2!1ses-419!2smx!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
       </div>
 
@@ -251,15 +277,12 @@
         <div style="flex: 1; min-width: 280px; padding: 30px; display: flex; flex-direction: column; justify-content: center;">
           <h4 style="color: #4b9ea2; margin: 0 0 10px 0; font-size: 22px;">📍 Sucursal San Luis Potosí</h4>
           <p style="color: #ffffff; font-size: 15px; margin: 5px 0; line-height: 1.5;">
-            <strong>Dirección:</strong><br>
-            Barrio de Tequisquiapan,<br>
-            78250 San Luis Potosí, S.L.P.
+            <strong>Dirección:</strong> Tequisquiapan, 78250 San Luis Potosí, S.L.P.
           </p>
-          <p style="color: #ffffff; font-size: 15px; margin: 15px 0 5px 0;"><strong>Horario:</strong> Lun-Vie 9:00 - 18:00</p>
-          <a href="https://maps.app.goo.gl/3A3qNfF9L9y7m7z7A" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
+          <a href="#" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
         </div>
         <div style="flex: 1.5; min-width: 280px; height: 350px;">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3695.5562767078335!2d-100.993078!3d22.1481!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842aa20302778737%3A0x6b0a7082269e8b9!2sTequisquiapan%2C%20San%20Luis%20Potos%C3%AD%2C%20S.L.P.!5e0!3m2!1ses-419!2smx!4v1710000000000!5m2!1ses-419!2smx" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3695.538561141315!2d-100.9904221!3d22.1492572!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842aa1f618844f19%3A0x867374d8174457e5!2sBarrio%20de%20Tequisquiapan%2C%20San%20Luis%20Potos%C3%AD%2C%20S.L.P.!5e0!3m2!1ses-419!2smx!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
       </div>
     </div>
