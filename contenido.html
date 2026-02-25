@@ -48,8 +48,6 @@
       color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; 
     }
     .admin-mode .btn-del { display: block; }
-
-    /* Estilo para el visor de Drive integrado que pediste mantener */
     .drive-explorer { width: 100%; height: 250px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 10px; }
   </style>
 </head>
@@ -80,31 +78,76 @@
   <div id="panel" class="admin-panel hidden">
     <h3>Panel de Control</h3>
     <iframe class="drive-explorer" src="https://drive.google.com/embeddedfolderview?id=1R-juMFlKunUJj1WWmE4xYlww4v8U8xZU#grid"></iframe>
-    
     <input type="text" id="url" placeholder="Pega el enlace de la foto aquí">
     <textarea id="desc" placeholder="Descripción del caso..."></textarea>
-    <button class="btn-pub" onclick="guardar()">Publicar Registro</button>
+    <button class="btn-pub" id="btnGuardar" onclick="guardar()">Publicar y Sincronizar</button>
     <button onclick="cerrar()" style="width:100%; background:none; border:none; color:gray; margin-top:10px; cursor:pointer;">Cerrar</button>
   </div>
 
   <script>
-    const CLINICA_ID = "dr_jaramillo_galeria_v1"; 
+    // CONFIGURACIÓN DE SINCRONIZACIÓN (Base de Datos)
+    const BIN_ID = "65db8d901f567741c6495b42"; 
+    const API_KEY = "$2a$10$7R4N5e0Gv/K6p6z.R/X/e.Pq1.Gz6z6z6z6z6z6z6z6z6z6z6"; 
     let db = [];
 
-    // Función de transformación corregida para que funcione en celulares
+    // 1. CARGAR DATOS DESDE LA NUBE AL INICIAR
+    async function cargarDesdeNube() {
+      const carrusel = document.getElementById('carrusel');
+      carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:180px;">Cargando contenido...</div>';
+      
+      try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+          headers: { "X-Master-Key": API_KEY }
+        });
+        const data = await res.json();
+        db = data.record.fotos || [];
+        render();
+      } catch (e) {
+        console.error("Error al cargar");
+        render();
+      }
+    }
+
+    // 2. GUARDAR DATOS EN LA NUBE
+    async function guardarEnNube() {
+      const btn = document.getElementById('btnGuardar');
+      btn.innerText = "Sincronizando...";
+      btn.disabled = true;
+
+      try {
+        await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+          method: 'PUT',
+          headers: {
+            "Content-Type": "application/json",
+            "X-Master-Key": API_KEY
+          },
+          body: JSON.stringify({ fotos: db })
+        });
+        btn.innerText = "Publicar y Sincronizar";
+        btn.disabled = false;
+        alert("¡Contenido sincronizado para todos los dispositivos!");
+      } catch (e) {
+        alert("Error de conexión. Intente de nuevo.");
+        btn.innerText = "Reintentar";
+        btn.disabled = false;
+      }
+    }
+
+    // 3. TRANSFORMAR URL DE DRIVE
     function transformarUrl(url) {
       if (url.includes('drive.google.com')) {
         const id = (url.match(/[-\w]{25,}/) || [])[0];
-        // Formato directo de servidor de imágenes de Google que no se bloquea
         return id ? `https://lh3.googleusercontent.com/d/${id}` : url;
       }
       return url;
     }
 
-    function guardar() {
+    // 4. LÓGICA DE PUBLICACIÓN
+    async function guardar() {
       const urlInput = document.getElementById('url').value.trim();
       const descInput = document.getElementById('desc').value;
-      if(!urlInput) return alert("Pega un enlace de Google Drive");
+      
+      if(!urlInput) return alert("Por favor, pegue un enlace de Drive.");
 
       const nuevaFoto = {
         id: Date.now(),
@@ -113,47 +156,44 @@
       };
 
       db.push(nuevaFoto);
-      localStorage.setItem(CLINICA_ID, JSON.stringify(db));
+      render(); // Mostrar inmediatamente
+      await guardarEnNube(); // Subir a la nube
       
-      alert("¡Publicado con éxito!");
       document.getElementById('url').value = "";
       document.getElementById('desc').value = "";
       cerrar();
-      render();
     }
 
+    // 5. RENDERIZAR EN PANTALLA
     function render() {
-      db = JSON.parse(localStorage.getItem(CLINICA_ID)) || [];
       const carrusel = document.getElementById('carrusel');
       const lista = document.getElementById('listaDetalles');
       
       if(db.length === 0) {
         carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:180px;">No hay imágenes cargadas.</div>';
-        lista.innerHTML = '<div style="text-align:center; width:100%; color:gray;">No hay registros médicos disponibles.</div>';
+        lista.innerHTML = '<div style="text-align:center; width:100%; color:gray;">No hay registros disponibles.</div>';
         return;
       }
 
-      // Render Carrusel
-      carrusel.innerHTML = db.map(i => `<img src="${i.url}" onerror="this.src='https://via.placeholder.com/800?text=Error+en+Drive+o+Permisos'">`).join('');
-      
-      // Render Fichas
+      carrusel.innerHTML = db.map(i => `<img src="${i.url}" onerror="this.src='https://via.placeholder.com/800?text=Error+Permisos+Drive'">`).join('');
       lista.innerHTML = db.map(i => `
         <div class="ficha">
           <button class="btn-del" onclick="eliminar(${i.id})">×</button>
-          <img src="${i.url}" onerror="this.src='https://via.placeholder.com/300x200?text=Error+de+Imagen'">
+          <img src="${i.url}" onerror="this.src='https://via.placeholder.com/300x200?text=Error+Carga'">
           <p>${i.desc || 'Sin descripción'}</p>
         </div>
       `).join('');
     }
 
-    function eliminar(id) {
-      if(confirm("¿Deseas eliminar este registro?")) {
+    async function eliminar(id) {
+      if(confirm("¿Eliminar este registro de todos los dispositivos?")) {
         db = db.filter(i => i.id !== id);
-        localStorage.setItem(CLINICA_ID, JSON.stringify(db));
         render();
+        await guardarEnNube();
       }
     }
 
+    // ATAJOS Y CONTROL
     document.addEventListener('keydown', (e) => {
       if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'u') {
         document.getElementById('panel').classList.toggle('hidden');
@@ -166,6 +206,7 @@
       document.getElementById('mainBody').classList.remove('admin-mode');
     }
 
+    // CARRUSEL
     let pos = 0;
     setInterval(() => {
       if(db.length < 2) return;
@@ -173,8 +214,8 @@
       document.getElementById('carrusel').style.transform = `translateX(-${pos * 100}%)`;
     }, 4000);
 
-    // Carga inicial
-    render();
+    // INICIO
+    cargarDesdeNube();
   </script>
 </body>
 </html>
