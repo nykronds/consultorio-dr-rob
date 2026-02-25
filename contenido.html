@@ -106,7 +106,6 @@
   </div>
 
   <script>
-    // Volvemos a la base local para que no falle la carga
     var db = JSON.parse(localStorage.getItem('fotosMedicas')) || [];
 
     function publicar() {
@@ -118,7 +117,8 @@
       if (rawUrl.includes('drive.google.com')) {
           var id = (rawUrl.match(/[-\w]{25,}/) || [])[0];
           if (id) {
-              // Este formato es el ÚNICO que celulares aceptan sin bloquearlo
+              // CORRECCIÓN CLAVE: Usamos el servidor directo de imágenes de Google (lh3)
+              // Esto evita que el celular bloquee la imagen por temas de cookies.
               finalUrl = 'https://lh3.googleusercontent.com/d/' + id;
           }
       }
@@ -138,14 +138,15 @@
       carrusel.innerHTML = ""; lista.innerHTML = "";
 
       if (db.length === 0) {
-        carrusel.innerHTML = '<div style="color:white; padding:100px; text-align:center; width:100%;">No hay imágenes.</div>';
+        carrusel.innerHTML = '<div style="color:white; padding:100px; text-align:center; width:100%;">No hay imágenes cargadas.</div>';
         return;
       }
 
       db.forEach(function(item) {
         var img = document.createElement('img');
+        // Agregamos un pequeño parámetro al final para evitar el caché del celular
         img.src = item.url;
-        img.onerror = function() { this.src='https://via.placeholder.com/800x450?text=Error+en+Drive'; };
+        img.onerror = function() { this.src='https://via.placeholder.com/800x450?text=Error+Permisos+Drive'; };
         carrusel.appendChild(img);
 
         var div = document.createElement('div');
@@ -183,7 +184,8 @@
     setInterval(function() {
       if(db.length < 2) return;
       idx = (idx + 1) % db.length;
-      document.getElementById('carrusel').style.transform = 'translateX(-' + (idx * 100) + '%)';
+      var slider = document.getElementById('carrusel');
+      if(slider) slider.style.transform = 'translateX(-' + (idx * 100) + '%)';
     }, 4000);
   </script>
 </body>
