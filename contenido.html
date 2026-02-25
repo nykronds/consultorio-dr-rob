@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consultorio Médico - Contenido Profesional</title>
+  <title>Contenido Profesional - Dr. Roberto Jaramillo</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root {
@@ -11,208 +11,113 @@
       --accent: #27ae60;
       --bg: #f4f7f6;
       --card: #ffffff;
-      --insta-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-      --doctoralia-blue: #3d86c6;
+      --danger: #e74c3c;
     }
 
     body {
       font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg);
-      color: var(--primary);
-      transition: all 0.3s ease;
-      line-height: 1.6;
-      padding-bottom: 80px;
+      margin: 0; padding: 0;
+      background-color: var(--bg); color: var(--primary);
+      line-height: 1.6; padding-bottom: 80px;
     }
 
     nav { 
-      padding: 20px; 
       background: white; 
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    
-    nav ul { 
-      list-style: none; 
-      padding: 0; 
-      margin: 0; 
+      padding: 15px 20px; 
       display: flex; 
       justify-content: center; 
       gap: 30px; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+      position: sticky; 
+      top: 0; 
+      z-index: 100; 
     }
-    
-    nav ul li a { 
+    nav a { 
       text-decoration: none; 
-      color: var(--accent); 
+      color: #067a9fc9; 
       font-weight: bold; 
-      font-size: 16px;
-      transition: color 0.3s;
+      text-transform: uppercase; 
+      font-size: 14px; 
+      transition: 0.3s;
+      padding: 5px 0;
+      border-bottom: 2px solid transparent;
     }
-    
-    nav ul li a:hover { 
-      color: var(--primary);
-      text-decoration: underline; 
+    nav a:hover { 
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent);
+    }
+    .active { 
+      border-bottom: 2px solid var(--accent) !important; 
+      color: var(--accent) !important; 
     }
 
-    hr { border: 0; border-top: 1px solid var(--accent); margin: 0; }
-
-    h1 { text-align: center; font-weight: 300; letter-spacing: 1px; margin: 30px 0; }
+    h1 { text-align: center; font-weight: 300; margin: 30px 0; color: var(--primary); }
     h2 { font-size: 1.2rem; color: var(--accent); text-transform: uppercase; margin-bottom: 15px; border-left: 4px solid var(--accent); padding-left: 10px; }
 
-    .container-vertical {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-      padding: 0 20px;
+    .container-vertical { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; padding: 0 20px; }
+    
+    .seccion { 
+      background: var(--card); 
+      border-radius: 15px; 
+      padding: 25px; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+      border: 1px solid rgba(0,0,0,0.03);
     }
 
-    .seccion {
-      background: var(--card);
-      border-radius: 15px;
-      padding: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    }
+    .slider-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 12px; background: #000; }
+    .slider { display: flex; height: 100%; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); }
+    .slider img { width: 100%; height: 100%; object-fit: contain; flex-shrink: 0; }
 
-    .slider-wrapper {
+    .scroll-info { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+    
+    .ficha-medica { 
+      background: #fff; 
+      border-radius: 12px; 
+      padding: 15px; 
+      border: 1px solid #eee; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+      text-align: center;
       position: relative;
-      width: 100%;
-      height: 400px;
-      overflow: hidden;
-      border-radius: 12px;
-      background: #000;
     }
+    .ficha-medica img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
 
-    @media (max-width: 600px) {
-      .slider-wrapper { height: 250px; }
-      nav ul { gap: 15px; }
-      nav ul li a { font-size: 14px; }
+    .btn-del {
+      display: none;
+      position: absolute; top: 10px; right: 10px;
+      background: var(--danger); color: white; border: none;
+      width: 35px; height: 35px; border-radius: 50%; cursor: pointer;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
-
-    .slider {
-      display: flex;
-      height: 100%;
-      transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .slider img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      flex-shrink: 0;
-    }
-
-    .scroll-info {
-      max-height: 700px;
-      overflow-y: auto;
-      padding-top: 10px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 25px;
-      justify-items: center;
-    }
-
-    .ficha-medica {
-      display: flex;
-      flex-direction: column;
-      width: 280px;
-      background: #fff;
-      border-radius: 12px;
-      padding: 15px;
-      border: 1px solid #eee;
-      box-sizing: border-box;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    }
-
-    .ficha-medica img {
-      width: 250px;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      margin: 0 auto 15px auto;
-    }
-
-    .ficha-medica .texto-detalle p {
-      margin: 0;
-      font-size: 0.95rem;
-      color: #555;
-      background: #f9f9f9;
-      padding: 12px;
-      border-radius: 8px;
-      border-left: 3px solid #eee;
-      min-height: 60px;
-    }
-
-    .contenedor-flotante {
-      position: fixed;
-      bottom: 25px;
-      left: 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 9999;
-    }
-
-    .float-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      text-decoration: none;
-      font-size: 22px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .float-btn:hover {
-      transform: scale(1.15) rotate(5deg);
-    }
-
-    .btn-ig-float { background: var(--insta-gradient); }
-    .btn-dr-float { background: var(--doctoralia-blue); }
+    .admin-mode .btn-del { display: block; }
 
     .admin-panel {
       position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      background: white; border-radius: 20px; padding: 30px;
+      background: white; border-radius: 20px; padding: 20px;
       z-index: 1000; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      width: 90%; max-width: 400px;
-      box-sizing: border-box;
-      border-top: 5px solid var(--accent);
+      width: 95%; max-width: 600px; border-top: 5px solid var(--accent);
+      max-height: 90vh; overflow-y: auto;
     }
     .hidden { display: none !important; }
-    .admin-panel textarea { width: 100%; height: 100px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; padding: 10px; font-family: inherit; box-sizing: border-box; }
+    .btn-main { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
     
-    .btn-main { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    input[type="text"], textarea { 
+      width: 100%; margin: 5px 0; padding: 10px; box-sizing: border-box; 
+      border: 1px solid #ddd; border-radius: 8px; font-family: inherit; 
+    }
 
-    #colorContainer { position: fixed; bottom: 20px; right: 20px; display: none; background: #fff; padding: 15px; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); z-index: 1001; }
+    .drive-explorer {
+      width: 100%; height: 250px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 15px;
+    }
   </style>
 </head>
-<body>
+<body id="mainBody">
 
   <nav>
-    <ul>
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="contenido.html">Contenido</a></li>
-      <li><a href="contacto.html">Contacto</a></li>
-    </ul>
+    <a href="#">Inicio</a>
+    <a href="#" class="active">Contenido</a>
+    <a href="#">Contacto</a>
   </nav>
-  <hr/>
-
-  <div class="contenedor-flotante">
-    <a href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi?utm_source=app&utm_medium=copy_link&utm_campaign=doctor_share_profile" target="_blank" class="float-btn btn-dr-float" title="Ver perfil en Doctoralia">
-      <i class="fa-solid fa-stethoscope"></i>
-    </a>
-    <a href="https://www.instagram.com/drrobertojaramillo?igsh=MTZpazJ0Y3k0djlhbA%3D%3D" target="_blank" class="float-btn btn-ig-float" title="Sígueme en Instagram">
-      <i class="fa-brands fa-instagram"></i>
-    </a>
-  </div>
 
   <h1>Centro de Visualización Médica</h1>
 
@@ -231,119 +136,132 @@
   </div>
 
   <div id="adminPanel" class="admin-panel hidden">
-    <h3 style="margin-top:0">Panel de Control</h3>
-    <input type="file" id="inputImg" accept="image/*" style="width: 100%;">
-    <textarea id="inputDesc" placeholder="Describa el hallazgo..."></textarea>
-    <button class="btn-main" onclick="subir()">Publicar Contenido</button>
-    <div id="miniGestion" style="margin-top:20px; max-height:100px; overflow-y:auto; border-top:1px solid #eee; padding-top:10px;"></div>
-    <button onclick="document.getElementById('adminPanel').classList.add('hidden')" style="background:none; border:none; color:#888; width:100%; margin-top:10px; cursor:pointer">Cerrar</button>
-  </div>
+    <h3>Panel Administrativo</h3>
+    <p style="font-size: 12px; color: #666;">Copia el enlace de Drive y pégalo abajo:</p>
+    
+    <iframe class="drive-explorer" src="https://drive.google.com/embeddedfolderview?id=1R-juMFlKunUJj1WWmE4xYlww4v8U8xZU#grid"></iframe>
 
-  <div id="colorContainer">
-    🎨 <input type="color" id="fnd" title="Fondo"> 
-    Texto: <input type="color" id="txt" title="Texto">
+    <input type="text" id="inputUrl" placeholder="Enlace de la imagen (Google Drive)...">
+    <textarea id="inputDesc" placeholder="Descripción médica..."></textarea>
+    
+    <button class="btn-main" onclick="publicar()">Publicar en la Web</button>
+    <button onclick="cerrarAdmin()" style="border:none; background:none; color:gray; cursor:pointer; width:100%; margin-top: 5px;">Cerrar Panel</button>
   </div>
 
   <script>
-    let db = JSON.parse(localStorage.getItem('fotosMedicas')) || [];
-    let curIdx = 0;
+    // --- CONFIGURACIÓN DE NUBE ---
+    const SHEET_ID = '1pYWoSZzz2cJuTE2Yad73Y1mK9uAS3zrmkwvyd0AH9jE';
+    const SHEET_NAME = 'Hoja1';
+    const READ_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}`;
 
-    function actualizarVista() {
-      const carrusel = document.getElementById('carrusel');
-      const listaDetalles = document.getElementById('listaDetalles');
-      const miniGestion = document.getElementById('miniGestion');
+    var db = [];
 
-      carrusel.innerHTML = '';
-      listaDetalles.innerHTML = '';
-      miniGestion.innerHTML = '';
+    // Cargar datos desde Google Sheets al iniciar
+    async function cargarDesdeNube() {
+      try {
+        const response = await fetch(READ_URL);
+        const data = await response.text();
+        const filas = data.split('\n').slice(1);
+        
+        db = filas.map(f => {
+          const col = f.split('","').map(c => c.replace(/"/g, ''));
+          return { id: col[0], url: col[1], desc: col[2] };
+        }).filter(item => item.url && item.url.includes('http'));
+        
+        render();
+      } catch (e) {
+        console.error("Error cargando nube, usando local:", e);
+        db = JSON.parse(localStorage.getItem('fotosMedicas')) || [];
+        render();
+      }
+    }
 
-      if(db.length === 0) {
-        carrusel.innerHTML = '<div style="color:white; margin:auto">No hay contenido</div>';
-        listaDetalles.innerHTML = '<p style="text-align:center; color:#999; grid-column: 1 / -1;">Esperando datos...</p>';
+    function publicar() {
+      var rawUrl = document.getElementById('inputUrl').value.trim();
+      var desc = document.getElementById('inputDesc').value;
+
+      if(!rawUrl) return alert("Pega un enlace.");
+
+      var finalUrl = rawUrl;
+      if (rawUrl.includes('drive.google.com')) {
+          var id = "";
+          if (rawUrl.includes('id=')) id = rawUrl.split('id=')[1].split('&')[0];
+          else if (rawUrl.includes('/file/d/')) id = rawUrl.split('/file/d/')[1].split('/')[0];
+          if (id) finalUrl = 'https://lh3.googleusercontent.com/d/' + id;
       }
 
-      db.forEach((item, i) => {
-        const img = document.createElement('img');
+      const nuevoItem = { id: Date.now(), url: finalUrl, desc: desc };
+      db.push(nuevoItem);
+      
+      // Guardamos en local para respaldo
+      localStorage.setItem('fotosMedicas', JSON.stringify(db));
+      
+      alert("Para que se vea en otros dispositivos, recuerda añadir la URL y Descripción a tu Google Sheet manualmente por ahora.");
+      
+      document.getElementById('inputUrl').value = "";
+      document.getElementById('inputDesc').value = "";
+      cerrarAdmin();
+      render();
+    }
+
+    function eliminarFoto(id) {
+      if(confirm("¿Desea eliminar este registro?")) {
+        db = db.filter(item => item.id != id);
+        localStorage.setItem('fotosMedicas', JSON.stringify(db));
+        render();
+      }
+    }
+
+    function render() {
+      var carrusel = document.getElementById('carrusel');
+      var lista = document.getElementById('listaDetalles');
+      if(!carrusel || !lista) return;
+
+      carrusel.innerHTML = "";
+      lista.innerHTML = "";
+
+      if (db.length === 0) {
+        carrusel.innerHTML = '<div style="color:white; padding:100px; text-align:center; width:100%;">No hay imágenes. Presione CTRL+SHIFT+U.</div>';
+        return;
+      }
+
+      db.forEach(item => {
+        var img = document.createElement('img');
         img.src = item.url;
+        img.onerror = function() { this.src='https://via.placeholder.com/800x450?text=Error+de+Imagen'; };
         carrusel.appendChild(img);
 
-        const ficha = document.createElement('div');
-        ficha.className = 'ficha-medica';
-        ficha.innerHTML = `
-          <img src="${item.url}">
-          <div class="texto-detalle">
-            <p>${item.desc || 'Sin descripción.'}</p>
-          </div>
-        `;
-        listaDetalles.appendChild(ficha);
-
-        const gRow = document.createElement('div');
-        gRow.style = "display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:5px";
-        gRow.innerHTML = `<span>Foto ${i+1}</span> <span style="color:red; cursor:pointer" onclick="borrar(${i})">Eliminar</span>`;
-        miniGestion.appendChild(gRow);
+        var div = document.createElement('div');
+        div.className = 'ficha-medica';
+        div.innerHTML = `<button class="btn-del" onclick="eliminarFoto(${item.id})"><i class="fa-solid fa-trash"></i></button>
+                        <img src="${item.url}" onerror="this.src='https://via.placeholder.com/300x200?text=Error'">
+                        <p>${item.desc || 'Sin descripción'}</p>`;
+        lista.appendChild(div);
       });
     }
 
-    function subir() {
-      const file = document.getElementById('inputImg').files[0];
-      const desc = document.getElementById('inputDesc').value;
-      if(!file) return alert("Seleccione una imagen");
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const img = new Image();
-        img.onload = () => {
-          // COMPRESIÓN DE IMAGEN
-          const canvas = document.createElement('canvas');
-          const maxW = 800; // Ancho máximo para optimizar espacio
-          const scale = maxW / img.width;
-          canvas.width = maxW;
-          canvas.height = img.height * scale;
-          
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          
-          // Convertimos a JPEG con calidad 0.7 para que quepan muchas fotos
-          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
-
-          db.push({ url: compressedBase64, desc: desc });
-          localStorage.setItem('fotosMedicas', JSON.stringify(db));
-          document.getElementById('inputDesc').value = '';
-          document.getElementById('inputImg').value = '';
-          actualizarVista();
-        };
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
+    function cerrarAdmin() {
+      document.getElementById('adminPanel').classList.add('hidden');
+      document.getElementById('mainBody').classList.remove('admin-mode');
     }
 
-    window.borrar = (i) => {
-      if(confirm('¿Eliminar?')) {
-        db.splice(i, 1);
-        localStorage.setItem('fotosMedicas', JSON.stringify(db));
-        actualizarVista();
-      }
-    }
-
-    setInterval(() => {
-      if(db.length <= 1) return;
-      curIdx = (curIdx + 1) % db.length;
-      const slider = document.getElementById('carrusel');
-      if(slider) slider.style.transform = `translateX(${-curIdx * 100}%)`;
-    }, 4000);
-
-    document.addEventListener('keydown', (e) => {
-      if(e.ctrlKey && e.shiftKey && e.code === 'KeyU') document.getElementById('adminPanel').classList.toggle('hidden');
-      if(e.ctrlKey && e.shiftKey && e.code === 'KeyC') {
-        const p = document.getElementById('colorContainer');
-        p.style.display = p.style.display === 'flex' ? 'none' : 'flex';
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'U' || e.key === 'u')) {
+        document.getElementById('adminPanel').classList.toggle('hidden');
+        document.getElementById('mainBody').classList.toggle('admin-mode');
       }
     });
 
-    document.getElementById('fnd').addEventListener('input', () => document.body.style.backgroundColor = document.getElementById('fnd').value);
-    document.getElementById('txt').addEventListener('input', () => document.body.style.color = document.getElementById('txt').value);
+    // Iniciar carga
+    cargarDesdeNube();
 
-    actualizarVista();
+    var idx = 0;
+    setInterval(() => {
+      if(db.length < 2) return;
+      idx = (idx + 1) % db.length;
+      var slider = document.getElementById('carrusel');
+      if(slider) slider.style.transform = `translateX(-${idx * 100}%)`;
+    }, 4000);
   </script>
 </body>
 </html>
