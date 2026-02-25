@@ -14,7 +14,7 @@
       --danger: #e74c3c;
     }
 
-    /* Suaviza el movimiento al hacer clic en el menú */
+    /* Permite el deslizamiento suave */
     html { scroll-behavior: smooth; }
 
     body {
@@ -24,6 +24,7 @@
       line-height: 1.6; padding-bottom: 80px;
     }
 
+    /* Estilos del Menú */
     nav { 
       background: white; 
       padding: 15px 20px; 
@@ -44,67 +45,67 @@
       transition: 0.3s;
       padding: 5px 0;
       border-bottom: 2px solid transparent;
+      cursor: pointer;
     }
     nav a:hover { 
       color: var(--accent);
       border-bottom: 2px solid var(--accent);
     }
-    
-    h1 { text-align: center; font-weight: 300; margin: 30px 0; color: var(--primary); }
-    h2 { font-size: 1.2rem; color: var(--accent); text-transform: uppercase; margin-bottom: 15px; border-left: 4px solid var(--accent); padding-left: 10px; }
 
+    /* Contenedores y Secciones */
     .container-vertical { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; padding: 0 20px; }
     
+    h1 { text-align: center; font-weight: 300; margin: 40px 0; color: var(--primary); }
+    h2 { font-size: 1.2rem; color: var(--accent); text-transform: uppercase; margin-bottom: 15px; border-left: 4px solid var(--accent); padding-left: 10px; }
+
     .seccion { 
       background: var(--card); 
       border-radius: 15px; 
       padding: 25px; 
       box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
       border: 1px solid rgba(0,0,0,0.03);
-      scroll-margin-top: 80px; /* Evita que el menú tape el título al bajar */
+      /* Esto hace que al saltar a la sección, no quede pegada al borde superior */
+      scroll-margin-top: 100px; 
     }
 
+    /* Galería y Fichas */
     .slider-wrapper { position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 12px; background: #000; }
     .slider { display: flex; height: 100%; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1); }
     .slider img { width: 100%; height: 100%; object-fit: contain; flex-shrink: 0; }
 
     .scroll-info { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-    
     .ficha-medica { 
       background: #fff; border-radius: 12px; padding: 15px; border: 1px solid #eee; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03); text-align: center; position: relative;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03); text-align: center;
     }
     .ficha-medica img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; }
 
+    /* Panel Admin */
     .admin-panel {
       position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
       background: white; border-radius: 20px; padding: 20px;
       z-index: 1000; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      width: 95%; max-width: 600px; border-top: 5px solid var(--accent);
-      max-height: 90vh; overflow-y: auto;
+      width: 90%; max-width: 500px; border-top: 5px solid var(--accent);
     }
     .hidden { display: none !important; }
     .btn-main { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-    
-    input[type="text"], textarea { 
-      width: 100%; margin: 10px 0; padding: 12px; box-sizing: border-box; 
-      border: 1px solid #ddd; border-radius: 8px; font-family: inherit; 
-    }
-    
-    #loadingStatus { font-size: 12px; color: var(--accent); text-align: center; margin-top: 5px; display: none; }
+    input, textarea { width: 100%; margin: 10px 0; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
   </style>
 </head>
-<body id="mainBody">
+<body>
 
   <nav>
-    <a href="#inicio">Inicio</a>
-    <a href="#contenido">Contenido</a>
-    <a href="#contacto">Contacto</a>
+    <a href="index.html">Inicio</a> 
+    <a href="contenido.html">Contenido</a>
+    <a href="contacto.html" class="active">Contacto</a>
   </nav>
 
-  <h1 id="inicio">Centro de Visualización Médica</h1>
+  <header id="inicio">
+    <h1>Centro de Visualización Médica <br><small style="font-size: 0.5em; color: gray;">Dr. Roberto Jaramillo</small></h1>
+  </header>
 
   <div class="container-vertical">
+    
     <section class="seccion" id="contenido">
       <h2>Galería de Exploración</h2>
       <div class="slider-wrapper">
@@ -119,20 +120,22 @@
 
     <section class="seccion" id="contacto">
       <h2>Contacto Profesional</h2>
-      <p><i class="fa-solid fa-user-doctor"></i> Dr. Roberto Jaramillo</p>
-      <p><i class="fa-solid fa-location-dot"></i> Consultorio Médico Especializado</p>
-      <p><i class="fa-solid fa-envelope"></i> contacto@drjaramillo.com</p>
+      <div style="padding: 10px;">
+        <p><i class="fa-solid fa-user-doctor" style="color:var(--accent)"></i> <strong>Dr. Roberto Jaramillo</strong></p>
+        <p><i class="fa-solid fa-location-dot" style="color:var(--accent)"></i> Consultorio Médico Especializado</p>
+        <p><i class="fa-solid fa-envelope" style="color:var(--accent)"></i> dr.jaramillo@ejemplo.com</p>
+        <p><i class="fa-solid fa-phone" style="color:var(--accent)"></i> Citas: (Su número aquí)</p>
+      </div>
     </section>
+
   </div>
 
   <div id="adminPanel" class="admin-panel hidden">
-    <h3>Panel Administrativo</h3>
-    <p style="font-size: 12px; color: #666;">Pega el enlace de Drive para sincronizar en la nube:</p>
-    <input type="text" id="inputUrl" placeholder="Enlace de la imagen...">
-    <textarea id="inputDesc" placeholder="Descripción médica..."></textarea>
-    <button class="btn-main" id="btnPublicar" onclick="publicar()">Publicar en todos los dispositivos</button>
-    <div id="loadingStatus">Conectando con Google Sheets...</div>
-    <button onclick="cerrarAdmin()" style="border:none; background:none; color:gray; cursor:pointer; width:100%; margin-top: 10px;">Cerrar Panel</button>
+    <h3>Sincronizar con la Nube</h3>
+    <input type="text" id="inputUrl" placeholder="Enlace de Drive...">
+    <textarea id="inputDesc" placeholder="Descripción..."></textarea>
+    <button class="btn-main" id="btnPublicar" onclick="publicar()">Subir Datos</button>
+    <button onclick="document.getElementById('adminPanel').classList.add('hidden')" style="width:100%; background:none; border:none; color:gray; margin-top:10px; cursor:pointer;">Cerrar</button>
   </div>
 
   <script>
@@ -142,6 +145,7 @@
 
     var db = [];
 
+    // Carga desde Google Sheets
     async function cargarDesdeNube() {
       try {
         const response = await fetch(READ_URL);
@@ -152,25 +156,22 @@
           return { id: col[0], url: col[1], desc: col[2] };
         }).filter(item => item.url && item.url.includes('http'));
         render();
-      } catch (e) { console.error("Error cargando nube", e); }
+      } catch (e) { console.error("Error cargando datos."); }
     }
 
+    // Publicar en la nube
     async function publicar() {
-      var rawUrl = document.getElementById('inputUrl').value.trim();
-      var desc = document.getElementById('inputDesc').value;
-      var btn = document.getElementById('btnPublicar');
-      var loader = document.getElementById('loadingStatus');
+      const url = document.getElementById('inputUrl').value.trim();
+      const desc = document.getElementById('inputDesc').value;
+      if(!url) return alert("Pega un enlace");
 
-      if(!rawUrl) return alert("Pega un enlace.");
-
-      var finalUrl = rawUrl;
-      if (rawUrl.includes('drive.google.com')) {
-          var id = rawUrl.match(/[-\w]{25,}/);
-          if (id) finalUrl = 'https://lh3.googleusercontent.com/d/' + id;
+      let finalUrl = url;
+      if (url.includes('drive.google.com')) {
+        let id = url.match(/[-\w]{25,}/);
+        if (id) finalUrl = 'https://lh3.googleusercontent.com/d/' + id;
       }
 
-      btn.disabled = true;
-      loader.style.display = 'block';
+      document.getElementById('btnPublicar').disabled = true;
 
       try {
         await fetch(WEB_APP_URL, {
@@ -178,48 +179,13 @@
           mode: 'no-cors',
           body: JSON.stringify({ id: Date.now(), url: finalUrl, desc: desc })
         });
-        alert("¡Sincronizado! Ahora se verá en tu celular y PC.");
+        alert("Publicado con éxito");
         location.reload();
-      } catch (e) { alert("Error de conexión."); }
+      } catch (e) { alert("Error al subir"); }
     }
 
     function render() {
-      var carrusel = document.getElementById('carrusel');
-      var lista = document.getElementById('listaDetalles');
+      const carrusel = document.getElementById('carrusel');
+      const lista = document.getElementById('listaDetalles');
       carrusel.innerHTML = ""; lista.innerHTML = "";
-      if (db.length === 0) return;
-
-      db.forEach(item => {
-        var img = document.createElement('img');
-        img.src = item.url;
-        img.onerror = function() { this.src='https://via.placeholder.com/800x450?text=Error+Drive'; };
-        carrusel.appendChild(img);
-
-        lista.innerHTML += `
-          <div class="ficha-medica">
-            <img src="${item.url}" onerror="this.src='https://via.placeholder.com/300x200?text=Error'">
-            <p>${item.desc || 'Sin descripción'}</p>
-          </div>`;
-      });
-    }
-
-    function cerrarAdmin() { document.getElementById('adminPanel').classList.add('hidden'); }
-
-    document.addEventListener('keydown', function(e) {
-      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'u') {
-        document.getElementById('adminPanel').classList.toggle('hidden');
-      }
-    });
-
-    cargarDesdeNube();
-
-    var idx = 0;
-    setInterval(() => {
-      if(db.length < 2) return;
-      idx = (idx + 1) % db.length;
-      var slider = document.getElementById('carrusel');
-      if(slider) slider.style.transform = `translateX(-${idx * 100}%)`;
-    }, 4000);
-  </script>
-</body>
-</html>
+      if (
