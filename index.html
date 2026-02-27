@@ -1,26 +1,282 @@
-<div class="calendario-seccion">
-    <h2 class="titulo-especialista" style="font-size: 24px; margin-bottom: 20px;">Agenda tu Cita en Línea</h2>
-    
-    <a class="zl-url" 
-       href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi" 
-       rel="nofollow" 
-       data-zlw-doctor="roberto-jaramillo-gonzalez" 
-       data-zlw-type="big" 
-       data-zlw-opinion="false" 
-       data-zlw-hide-header="true" 
-       data-zlw-saas="true">
-       Cargando agenda de horarios...
-    </a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dr. Roberto Jaramillo - Inicio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    :root {
+      --insta-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      --doctoralia-blue: #3d86c6;
+      --menu-color: #067a9fc9; 
+      --accent: #27ae60;
+    }
 
-    <script>
-        (function($_x,_s,id){
-            var js,fjs=$_x.getElementsByTagName(_s)[0];
-            if(!$_x.getElementById(id)){
-                js=$_x.createElement(_s);
-                js.id=id;
-                js.src="//platform.docplanner.com/js/widget.js";
-                fjs.parentNode.insertBefore(js,fjs);
-            }
-        }(document,"script","zl-widget-s"));
-    </script>
-</div>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #2c3e50;
+      transition: background-color 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+    
+    nav { 
+      background: white; 
+      padding: 15px 20px; 
+      display: flex; 
+      justify-content: center; 
+      gap: 30px; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+      position: sticky; 
+      top: 0; 
+      z-index: 100;
+    }
+
+    nav a { 
+      text-decoration: none; 
+      color: var(--menu-color); 
+      font-weight: bold; 
+      text-transform: uppercase; 
+      font-size: 14px; 
+      transition: 0.3s;
+      padding: 5px 0;
+      border-bottom: 2px solid transparent;
+    }
+
+    nav a:hover { 
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .active { 
+      border-bottom: 2px solid var(--accent) !important; 
+      color: var(--accent) !important; 
+    }
+
+    hr { border: 0; border-top: 1px solid #eee; margin: 0; }
+
+    .img-cabecera { 
+      width: 100%; 
+      height: 400px; 
+      object-fit: cover; 
+      object-position: center; 
+      display: block; 
+    }
+
+    @keyframes entradaTitulo {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes brilloReflejo {
+      0% { background-position: -200%; }
+      100% { background-position: 200%; }
+    }
+
+    .titulo-especialista {
+      font-size: 32px;
+      margin-top: 0;
+      color: #00495b;
+      display: inline-block;
+      background: linear-gradient(110deg, #00495b 45%, #4b9ea2 50%, #00495b 55%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: brilloReflejo 5s linear infinite, entradaTitulo 1.2s ease-out forwards;
+    }
+
+    .contenedor-flotante {
+      position: fixed;
+      bottom: 25px;
+      left: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 9999;
+    }
+
+    .float-btn {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      font-size: 24px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+    }
+
+    .float-btn:hover {
+      transform: scale(1.15) rotate(5deg);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    .btn-ig-float { background: var(--insta-gradient); }
+    .btn-dr-float { background: var(--doctoralia-blue); }
+
+    .cedula-badge {
+      display: inline-block;
+      background: #e8f5e9;
+      color: #27ae60;
+      padding: 5px 12px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 10px;
+      border: 1px solid #27ae60;
+    }
+
+    .aval-consejo {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f7ff;
+      border-left: 4px solid #3d86c6;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #2c3e50;
+    }
+
+    .contenedor-ubicacion {
+      display: flex; 
+      flex-wrap: wrap; 
+      background: #00495b; 
+      border-radius: 20px; 
+      overflow: hidden; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      margin-bottom: 30px;
+    }
+
+    .calendario-seccion {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      text-align: center;
+      min-height: 600px; /* Espacio para que cargue el calendario */
+    }
+
+    @media (max-width: 768px) {
+      .img-cabecera { height: auto; max-height: 200px; } 
+      .titulo-especialista { font-size: 26px; }
+      .float-btn { width: 48px; height: 48px; font-size: 20px; }
+      nav { gap: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="contenedor-flotante">
+    <a href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi" target="_blank" class="float-btn btn-dr-float">
+      <i class="fa-solid fa-stethoscope"></i>
+    </a>
+    <a href="https://www.instagram.com/drrobertojaramillo" target="_blank" class="float-btn btn-ig-float">
+      <i class="fa-brands fa-instagram"></i>
+    </a>
+  </div>
+
+  <nav>
+    <a href="index.html" class="active">Inicio</a> 
+    <a href="contenido.html">Contenido</a>
+    <a href="contacto.html">Contacto</a>
+  </nav>
+
+  <hr/>
+  <img src="diseño3.jpg" alt="Banner Principal" class="img-cabecera">
+
+  <div style="max-width: 1200px; margin: 40px auto; display: flex; flex-direction: column; gap: 40px; padding: 0 20px;">
+
+    <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center; background: #ffffff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+      <div style="flex: 1; min-width: 300px; text-align: center;">
+        <img src="drrob.png" alt="Dr. Rob" style="width: 100%; max-width: 350px; height: auto; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 5px solid #fff;">
+      </div>
+      
+      <div style="flex: 1.5; min-width: 300px;">
+        <h2 class="titulo-especialista">Especialista en Traumatología</h2>
+        <p style="line-height: 1.8; color: #555; font-size: 18px;">
+          Hola, soy médico traumatólogo y ortopedista egresado de la <strong>Universidad Autónoma de Zacatecas</strong>, especializado en cirugía articular de tobillos, rodillas y caderas, así como en el tratamiento de traumatología en general.
+        </p>
+        <p style="line-height: 1.8; color: #555; font-size: 18px; font-style: italic; border-left: 4px solid #27ae60; padding-left: 20px; margin: 25px 0;">
+          "Tener una vida sin dolor es posible, y yo puedo ayudarte a lograrlo. Mi objetivo es brindarte un cuidado personalizado, basado en la confianza y el respeto, para mejorar tu calidad de vida."
+        </p>
+        
+        <div>
+          <span class="cedula-badge"><i class="fa-solid fa-id-card"></i> Cédula Profesional: 11491350</span>
+          <span class="cedula-badge"><i class="fa-solid fa-graduation-cap"></i> Especialidad: 15249434</span>
+        </div>
+
+        <div class="aval-consejo">
+          <i class="fa-solid fa-shield-halved" style="color: #3d86c6; font-size: 18px; margin-right: 5px;"></i>
+          <strong>Certificación Vigente:</strong><br>
+          Avalado por el <strong>Consejo Mexicano de Ortopedia y Traumatología</strong><br>
+          Registro: <span style="font-family: monospace;">32/8523/25</span> | Vigencia: <strong>18/06/2030</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="calendario-seccion">
+        <h2 class="titulo-especialista" style="font-size: 24px; margin-bottom: 20px;">Agenda tu Cita en Línea</h2>
+        
+        <a class="zl-url" 
+           href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi" 
+           rel="nofollow" 
+           data-zlw-doctor="roberto-jaramillo-gonzalez" 
+           data-zlw-type="big" 
+           data-zlw-opinion="false" 
+           data-zlw-hide-header="true" 
+           data-zlw-saas="true">
+           Cargando agenda de horarios...
+        </a>
+
+        <script>
+            !function($_x,_s,id){
+                var js,fjs=$_x.getElementsByTagName(_s)[0];
+                if(!$_x.getElementById(id)){
+                    js=$_x.createElement(_s);
+                    js.id=id;
+                    js.src="//platform.docplanner.com/js/widget.js";
+                    fjs.parentNode.insertBefore(js,fjs);
+                }
+            }(document,"script","zl-widget-s");
+        </script>
+    </div>
+
+    <div>
+      <div class="contenedor-ubicacion">
+        <div style="flex: 1; min-width: 280px; padding: 30px; display: flex; flex-direction: column; justify-content: center;">
+          <h4 style="color: #4b9ea2; margin: 0 0 10px 0; font-size: 22px;">📍 Sucursal Zacatecas</h4>
+          <p style="color: #ffffff; font-size: 15px; margin: 5px 0; line-height: 1.5;">
+            <strong>Hospital San Agustín</strong><br>
+            Av. Universidad 102, Zacatecas Centro<br>
+            98000 Zacatecas, Zac.
+          </p>
+          <a href="https://maps.app.goo.gl/3u6Yp" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
+        </div>
+        <div style="flex: 1.5; min-width: 280px; height: 350px;">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3679.16782255858!2d-102.5700!3d22.77!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDQ2JzEyLjAiTiAxMDLCsDM0JzEyLjAiVw!5e0!3m2!1ses!2smx!4v1620000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <div class="contenedor-ubicacion">
+        <div style="flex: 1; min-width: 280px; padding: 30px; display: flex; flex-direction: column; justify-content: center;">
+          <h4 style="color: #4b9ea2; margin: 0 0 10px 0; font-size: 22px;">📍 Sucursal San Luis Potosí</h4>
+          <p style="color: #ffffff; font-size: 15px; margin: 5px 0; line-height: 1.5;">
+            <strong>Dirección:</strong> Tequisquiapan, 78250 San Luis Potosí, S.L.P.
+          </p>
+          <a href="https://maps.app.goo.gl/3u6Yp" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
+        </div>
+        <div style="flex: 1.5; min-width: 280px; height: 350px;">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3694.000!2d-100.97!3d22.15!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDA5JzAwLjAiTiAxMDDCsDU4JzEyLjAiVw!5e0!3m2!1ses!2smx!4v1620000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
