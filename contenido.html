@@ -21,12 +21,15 @@
     nav a { text-decoration: none; color: #067a9fc9; font-weight: bold; font-size: 14px; text-transform: uppercase; }
     .active { color: var(--accent); border-bottom: 2px solid var(--accent); }
     
-    h1 { text-align: center; font-weight: 300; margin: 20px 0; }
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    h1 { text-align: center; font-weight: 300; margin: 20px 0; font-size: 1.5rem; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
     .seccion { background: white; border-radius: 15px; padding: 20px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
     h2 { color: var(--accent); font-size: 1.1rem; border-left: 4px solid var(--accent); padding-left: 10px; }
 
-    .slider-wrapper { width: 100%; height: 400px; overflow: hidden; border-radius: 12px; background: #000; position: relative; }
+    /* Slider adaptable */
+    .slider-wrapper { width: 100%; height: 300px; overflow: hidden; border-radius: 12px; background: #000; position: relative; }
+    @media (min-width: 768px) { .slider-wrapper { height: 450px; } }
+    
     .slider { display: flex; height: 100%; transition: 0.8s ease-in-out; }
     .slider img { width: 100%; height: 100%; object-fit: contain; flex-shrink: 0; }
 
@@ -34,33 +37,35 @@
     .ficha { background: white; border-radius: 12px; padding: 10px; border: 1px solid #eee; text-align: center; position: relative; }
     .ficha img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; }
 
-    /* PANEL DE CONTROL */
+    /* PANEL DE CONTROL ADAPTABLE */
     .admin-panel {
       position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      background: white; padding: 25px; border-radius: 20px; z-index: 1001;
-      width: 90%; max-width: 450px; box-shadow: 0 0 50px rgba(0,0,0,0.4);
+      background: white; padding: 20px; border-radius: 20px; z-index: 1001;
+      width: 85%; max-width: 400px; box-shadow: 0 0 50px rgba(0,0,0,0.4);
+      max-height: 90vh; overflow-y: auto;
     }
     .hidden { display: none !important; }
     
     .btn-ml {
-      width: 100%; background: #34495e; color: white; border: none; padding: 15px;
-      border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 15px;
-      display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px;
+      width: 100%; background: #34495e; color: white; border: none; padding: 12px;
+      border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 12px;
+      display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 15px;
     }
 
+    /* MINIATURA OPTIMIZADA */
     #previewImg { 
-      width: 100%; height: 120px; object-fit: cover; border-radius: 8px; 
-      margin-bottom: 10px; display: none; border: 2px solid var(--accent);
+      width: 140px; height: 90px; object-fit: cover; border-radius: 8px; 
+      margin: 0 auto 10px auto; display: none; border: 2px solid var(--accent);
     }
 
     input, textarea { 
-      width: 100%; margin: 8px 0; padding: 12px; 
-      box-sizing: border-box; border: 1px solid #ddd; border-radius: 8px; 
+      width: 100%; margin: 6px 0; padding: 10px; 
+      box-sizing: border-box; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;
     }
     
     .btn-pub { 
       width: 100%; background: var(--accent); color: white; border: none; 
-      padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer;
+      padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px;
     }
     
     .btn-del { 
@@ -70,8 +75,8 @@
     .admin-mode .btn-del { display: block; }
     
     .btn-admin-float {
-      position: fixed; bottom: 20px; right: 20px; width: 40px; height: 40px;
-      background: rgba(0,0,0,0.05); color: transparent; border-radius: 50%;
+      position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px;
+      background: rgba(0,0,0,0.08); color: transparent; border-radius: 50%;
       z-index: 999; border: none; cursor: pointer;
     }
   </style>
@@ -81,7 +86,6 @@
   <nav>
     <a href="index.html">Inicio</a>
     <a href="#" class="active">Contenido</a>
-  
   </nav>
 
   <div class="container">
@@ -101,19 +105,21 @@
   <button class="btn-admin-float" onclick="abrirPanel()"></button>
 
   <div id="panel" class="admin-panel hidden">
-    <h3 style="margin-top: 0;">Panel de Control</h3>
+    <h3 style="margin-top: 0; text-align: center; font-size: 1.1rem;">Panel de Control</h3>
     
     <button id="open-btn" class="btn-ml">
       <i class="fas fa-images"></i> 1. Seleccionar de Cloudinary
     </button>
     
-    <img id="previewImg" src="">
+    <div style="text-align: center;">
+        <img id="previewImg" src="">
+    </div>
     
-    <input type="text" id="urlInput" placeholder="Pega aquí el URL de la imagen si no aparece">
-    <textarea id="descInput" placeholder="2. Escribe la descripción médica..."></textarea>
+    <input type="text" id="urlInput" placeholder="URL de la imagen (se llena solo)">
+    <textarea id="descInput" rows="3" placeholder="2. Escribe la descripción médica..."></textarea>
     
     <button class="btn-pub" id="btnGuardar" onclick="guardar()">3. Publicar y Sincronizar</button>
-    <button onclick="cerrar()" style="width:100%; background:none; border:none; color:gray; margin-top:10px; cursor:pointer;">Cancelar</button>
+    <button onclick="cerrar()" style="width:100%; background:none; border:none; color:gray; margin-top:10px; cursor:pointer; font-size: 13px;">Cancelar</button>
   </div>
 
   <script src="https://media-library.cloudinary.com/global/all.js" type="text/javascript"></script>
@@ -126,18 +132,20 @@
     
     let db = [];
 
-    // Detector para vista previa al PEGAR manual
+    function actualizarPreview(url) {
+        const preview = document.getElementById('previewImg');
+        if(url && url.startsWith('http')) {
+            preview.src = url;
+            preview.style.display = 'block';
+        } else {
+            preview.style.display = 'none';
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         const urlInput = document.getElementById('urlInput');
         urlInput.addEventListener('input', () => {
-            const preview = document.getElementById('previewImg');
-            const url = urlInput.value.trim();
-            if(url.startsWith('http')) {
-                preview.src = url;
-                preview.style.display = 'block';
-            } else {
-                preview.style.display = 'none';
-            }
+            actualizarPreview(urlInput.value.trim());
         });
     });
 
@@ -145,22 +153,20 @@
         cloud_name: MI_CLOUD_NAME,
         api_key: MI_API_KEY, 
         button_class: 'myBtn',
-        insert_caption: 'Insertar'
+        insert_caption: 'Insertar',
+        remote: true 
     }, {
         insertHandler: function (data) {
             data.assets.forEach(asset => {
                 const url = asset.secure_url;
                 document.getElementById('urlInput').value = url;
-                const preview = document.getElementById('previewImg');
-                preview.src = url;
-                preview.style.display = 'block';
+                actualizarPreview(url);
             });
         }
     }, document.getElementById("open-btn"));
 
     async function cargarDesdeNube() {
       try {
-        // nocache evita que el celular cargue datos viejos
         const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?nocache=${Date.now()}`, {
           headers: { "X-Master-Key": API_KEY_BIN, "X-Bin-Meta": "false" }
         });
@@ -210,7 +216,7 @@
       const carrusel = document.getElementById('carrusel');
       const lista = document.getElementById('listaDetalles');
       if(db.length === 0) {
-        carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:180px;">Sin imágenes</div>';
+        carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:150px;">Sin imágenes</div>';
         lista.innerHTML = '<p style="text-align:center; color:gray;">No hay registros</p>';
         return;
       }
@@ -258,4 +264,3 @@
   </script>
 </body>
 </html>
-
