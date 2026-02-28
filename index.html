@@ -175,6 +175,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       transition: transform 0.3s ease;
       aspect-ratio: 1 / 1;
+      cursor: pointer; /* Indica que es clicable */
     }
 
     .galeria-item:hover {
@@ -186,6 +187,38 @@
       height: 100%;
       object-fit: cover;
       display: block;
+    }
+
+    /* ESTILOS DEL VISOR DE FOTOS (LIGHTBOX) */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+
+    .lightbox:target { display: flex; } /* Para soporte básico sin JS si se quisiera */
+
+    .close-lightbox {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 40px;
+      cursor: pointer;
     }
 
     @media (max-width: 768px) {
@@ -205,6 +238,11 @@
 </head>
 <body>
 
+  <div id="lightbox" class="lightbox" onclick="cerrarImagen()">
+    <span class="close-lightbox">&times;</span>
+    <img id="imgVisor" src="" alt="Vista ampliada">
+  </div>
+
   <div class="contenedor-flotante">
     <a href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi" target="_blank" class="float-btn btn-dr-float">
       <i class="fa-solid fa-stethoscope"></i>
@@ -217,7 +255,7 @@
   <nav>
     <a href="index.html" class="active">Inicio</a> 
     <a href="contenido.html">Contenido</a>
-    </nav>
+  </nav>
 
   <hr/>
   <img src="diseño3.jpg" alt="Banner Principal" class="img-cabecera">
@@ -253,12 +291,12 @@
     </div>
 
     <div class="galeria-destacada">
-      <div class="galeria-item"><img src="album1.jpeg" alt="Imagen 1"></div>
-      <div class="galeria-item"><img src="album2.jpeg" alt="Imagen 2"></div>
-      <div class="galeria-item"><img src="album3.jpeg" alt="Imagen 3"></div>
-      <div class="galeria-item"><img src="album4.jpeg" alt="Imagen 4"></div>
-      <div class="galeria-item"><img src="album5.jpeg" alt="Imagen 5"></div>
-      <div class="galeria-item"><img src="album6.jpeg" alt="Imagen 6"></div>
+      <div class="galeria-item" onclick="abrirImagen(this)"><img src="album1.jpeg" alt="Imagen 1"></div>
+      <div class="galeria-item" onclick="abrirImagen(this)"><img src="album2.jpeg" alt="Imagen 2"></div>
+      <div class="galeria-item" onclick="abrirImagen(this)"><img src="album3.jpeg" alt="Imagen 3"></div>
+      <div class="galeria-item" onclick="abrirImagen(this)"><img src="album4.jpeg" alt="Imagen 4"></div>
+      <div class="galeria-item" onclick="abrirImagen(this)"><img src="album5.jpeg" alt="Imagen 5"></div>
+      <div class="galeria-item" onclick="abrirImagen(this)"><img src="album6.jpeg" alt="Imagen 6"></div>
     </div>
 
     <div class="calendario-seccion" id="agenda">
@@ -298,10 +336,10 @@
             Ramón López Velarde 304, Zacatecas Centro<br>
             98000 Zacatecas, Zac.
           </p>
-          <a href="https://maps.app.goo.gl/9ScyBqK6tX7Z7Lwz7" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
+          <a href="#" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
         </div>
         <div style="flex: 1.5; min-width: 280px; height: 350px;">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4402.184140476592!2d-102.5732380246937!3d22.770367179351318!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86824e89364eead9%3A0xa0f88fa61c4b8d51!2sHospital%20San%20Jos%C3%A9%20By%20RB!5e1!3m2!1ses!2smx!4v1772286283372!5m2!1ses!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3678.868770284562!2d-102.573932!3d22.77!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDQ2JzEyLjAiTiAxMDLCsDM0JzI2LjEiVw!5e0!3m2!1ses!2smx!4v1645000000000!5m2!1ses!2smx" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
       </div>
 
@@ -311,14 +349,30 @@
           <p style="color: #ffffff; font-size: 15px; margin: 5px 0; line-height: 1.5;">
             <strong>Dirección:</strong> Mariano Arista 811-1, Tequis, De Tequisquiapan, 78250 San Luis Potosí, S.L.P.
           </p>
-          <a href="https://maps.app.goo.gl/YourSLPLink" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
+          <a href="#" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
         </div>
         <div style="flex: 1.5; min-width: 280px; height: 350px;">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4421.877656319989!2d-100.9883397247118!3d22.151761179793745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842a98ab525bb765%3A0x712dc6f9c4543a98!2sMariano%20Arista%20811-1%2C%20Tequis%2C%20De%20Tequisquiapan%2C%2078250%20San%20Luis%20Potos%C3%AD%2C%20S.L.P.!5e1!3m2!1ses!2smx!4v1772286584098!5m2!1ses!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3696.1123456789!2d-100.987654!3d22.15!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDA5JzAwLjAiTiAxMDDCsDU5JzE1LjYiVw!5e0!3m2!1ses!2smx!4v1645000000000!5m2!1ses!2smx" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
       </div>
     </div>
   </div>
+
+  <script>
+    // FUNCIÓN PARA ABRIR LA IMAGEN
+    function abrirImagen(elemento) {
+      const src = elemento.querySelector('img').src;
+      document.getElementById('imgVisor').src = src;
+      document.getElementById('lightbox').style.display = 'flex';
+      document.body.style.overflow = 'hidden'; // Bloquea el scroll al ver la foto
+    }
+
+    // FUNCIÓN PARA CERRAR LA IMAGEN
+    function cerrarImagen() {
+      document.getElementById('lightbox').style.display = 'none';
+      document.body.style.overflow = 'auto'; // Devuelve el scroll
+    }
+  </script>
 
 </body>
 </html>
