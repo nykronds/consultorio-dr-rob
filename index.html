@@ -153,24 +153,15 @@
       margin-bottom: 30px;
     }
 
-    /* Mejora de la sección del calendario */
     .calendario-seccion {
       background: white;
       padding: 40px 20px;
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.05);
       text-align: center;
-      min-height: 800px; /* Asegura espacio suficiente para el calendario completo */
+      min-height: 800px; 
     }
 
-    @media (max-width: 768px) {
-      .img-cabecera { height: auto; max-height: 200px; } 
-      .titulo-especialista { font-size: 26px; }
-      .float-btn { width: 48px; height: 48px; font-size: 20px; }
-      nav { gap: 15px; }
-      .calendario-seccion { padding: 20px 10px; }
-    }
-    /* Estilos para la galería de 6 imágenes */
     .galeria-destacada {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -183,7 +174,7 @@
       overflow: hidden;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       transition: transform 0.3s ease;
-      aspect-ratio: 1 / 1; /* Hace que sean cuadradas */
+      aspect-ratio: 1 / 1;
     }
 
     .galeria-item:hover {
@@ -197,9 +188,17 @@
       display: block;
     }
 
+    @media (max-width: 768px) {
+      .img-cabecera { height: auto; max-height: 200px; } 
+      .titulo-especialista { font-size: 26px; }
+      .float-btn { width: 48px; height: 48px; font-size: 20px; }
+      nav { gap: 15px; }
+      .calendario-seccion { padding: 20px 10px; }
+    }
+
     @media (max-width: 600px) {
       .galeria-destacada {
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas en celulares */
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -218,8 +217,7 @@
   <nav>
     <a href="index.html" class="active">Inicio</a> 
     <a href="contenido.html">Contenido</a>
-    <a href="contacto.html">Contacto</a>
-  </nav>
+    </nav>
 
   <hr/>
   <img src="diseño3.jpg" alt="Banner Principal" class="img-cabecera">
@@ -253,6 +251,7 @@
         </div>
       </div>
     </div>
+
     <div class="galeria-destacada">
       <div class="galeria-item"><img src="album1.jpeg" alt="Imagen 1"></div>
       <div class="galeria-item"><img src="album2.jpeg" alt="Imagen 2"></div>
@@ -266,15 +265,15 @@
         <h2 class="titulo-especialista" style="font-size: 24px; margin-bottom: 30px;">Agenda tu Cita en Línea</h2>
         
         <a id="zl-url" class="zl-url" 
-           href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi" 
-           rel="nofollow" 
-           data-zlw-doctor="roberto-jaramillo-gonzalez" 
-           data-zlw-type="big_with_calendar" 
-           data-zlw-opinion="false" 
-           data-zlw-hide-branding="true" 
-           data-zlw-saas-only="true" 
-           data-zlw-a11y-title="Widget de reserva de citas médicas">
-           Cargando agenda de horarios...
+            href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi" 
+            rel="nofollow" 
+            data-zlw-doctor="roberto-jaramillo-gonzalez" 
+            data-zlw-type="big_with_calendar" 
+            data-zlw-opinion="false" 
+            data-zlw-hide-branding="true" 
+            data-zlw-saas-only="true" 
+            data-zlw-a11y-title="Widget de reserva de citas médicas">
+            Cargando agenda de horarios...
         </a>
 
         <script>
