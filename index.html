@@ -153,13 +153,14 @@
       margin-bottom: 30px;
     }
 
+    /* Mejora de la sección del calendario */
     .calendario-seccion {
       background: white;
-      padding: 30px;
+      padding: 40px 20px;
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.05);
       text-align: center;
-      min-height: 700px; /* Ajustado para que el calendario no se corte */
+      min-height: 800px; /* Asegura espacio suficiente para el calendario completo */
     }
 
     @media (max-width: 768px) {
@@ -167,6 +168,7 @@
       .titulo-especialista { font-size: 26px; }
       .float-btn { width: 48px; height: 48px; font-size: 20px; }
       nav { gap: 15px; }
+      .calendario-seccion { padding: 20px 10px; }
     }
   </style>
 </head>
@@ -184,7 +186,7 @@
   <nav>
     <a href="index.html" class="active">Inicio</a> 
     <a href="contenido.html">Contenido</a>
-  
+    <a href="contacto.html">Contacto</a>
   </nav>
 
   <hr/>
@@ -198,7 +200,7 @@
       </div>
       
       <div style="flex: 1.5; min-width: 300px;">
-        <h2 class="titulo-especialista">Especialista en Traumatología</h2>
+        <h2 class="titulo-especialista">Médico Especialista en Traumatología</h2>
         <p style="line-height: 1.8; color: #555; font-size: 18px;">
           Hola, soy médico traumatólogo y ortopedista egresado de la <strong>Universidad Autónoma de Zacatecas</strong>, especializado en cirugía articular de tobillos, rodillas y caderas, así como en el tratamiento de traumatología en general.
         </p>
@@ -220,8 +222,8 @@
       </div>
     </div>
 
-    <div class="calendario-seccion">
-        <h2 class="titulo-especialista" style="font-size: 24px; margin-bottom: 20px;">Agenda tu Cita en Línea</h2>
+    <div class="calendario-seccion" id="agenda">
+        <h2 class="titulo-especialista" style="font-size: 24px; margin-bottom: 30px;">Agenda tu Cita en Línea</h2>
         
         <a id="zl-url" class="zl-url" 
            href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi" 
@@ -253,14 +255,14 @@
         <div style="flex: 1; min-width: 280px; padding: 30px; display: flex; flex-direction: column; justify-content: center;">
           <h4 style="color: #4b9ea2; margin: 0 0 10px 0; font-size: 22px;">📍 Sucursal Zacatecas</h4>
           <p style="color: #ffffff; font-size: 15px; margin: 5px 0; line-height: 1.5;">
-            <strong>Hospital San Agustín</strong><br>
-            Av. Universidad 102, Zacatecas Centro<br>
+            <strong>Hospital San José</strong><br>
+            Ramón López Velarde 304, Zacatecas Centro<br>
             98000 Zacatecas, Zac.
           </p>
           <a href="https://maps.app.goo.gl/9ScyBqK6tX7Z7Lwz7" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
         </div>
         <div style="flex: 1.5; min-width: 280px; height: 350px;">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3679.123456789!2d-102.571!3d22.77!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjrCsDQ2JzEyLjAiTiAxMDLCsDM0JzE1LjYiVw!5e0!3m2!1ses!2smx!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4402.184140476592!2d-102.5732380246937!3d22.770367179351318!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86824e89364eead9%3A0xa0f88fa61c4b8d51!2sHospital%20San%20Jos%C3%A9%20By%20RB!5e1!3m2!1ses!2smx!4v1772286283372!5m2!1ses!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
 
@@ -268,12 +270,12 @@
         <div style="flex: 1; min-width: 280px; padding: 30px; display: flex; flex-direction: column; justify-content: center;">
           <h4 style="color: #4b9ea2; margin: 0 0 10px 0; font-size: 22px;">📍 Sucursal San Luis Potosí</h4>
           <p style="color: #ffffff; font-size: 15px; margin: 5px 0; line-height: 1.5;">
-            <strong>Dirección:</strong> Tequisquiapan, 78250 San Luis Potosí, S.L.P.
+            <strong>Dirección:</strong> Mariano Arista 811-1, Tequis, De Tequisquiapan, 78250 San Luis Potosí, S.L.P.
           </p>
-          <a href="https://maps.app.goo.gl/zW8v4L9J9k3Xy" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
+          <a href="https://maps.app.goo.gl/YourSLPLink" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
         </div>
         <div style="flex: 1.5; min-width: 280px; height: 350px;">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3704.23456789!2d-100.99!3d22.15!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjrCsDA5JzAwLjAiTiAxMDDCsDU5JzI0LjAiVw!5e0!3m2!1ses!2smx!4v1700000000000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4421.877656319989!2d-100.9883397247118!3d22.151761179793745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842a98ab525bb765%3A0x712dc6f9c4543a98!2sMariano%20Arista%20811-1%2C%20Tequis%2C%20De%20Tequisquiapan%2C%2078250%20San%20Luis%20Potos%C3%AD%2C%20S.L.P.!5e1!3m2!1ses!2smx!4v1772286584098!5m2!1ses!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </div>
@@ -281,4 +283,3 @@
 
 </body>
 </html>
-
