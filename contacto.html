@@ -3,280 +3,377 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contacto y Citas - Dr. Roberto Jaramillo</title>
+  <meta name="description" content="Galería de casos clínicos y registros médicos del Dr. Roberto Jaramillo - Especialista en Traumatología">
+  <meta name="keywords" content="casos clínicos, registros médicos, traumatología, ortopedia, Dr. Jaramillo">
+  <title>Contenido Profesional - Dr. Roberto Jaramillo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    /* Estilos Generales */
+    :root {
+      --primary: #2c3e50; --accent: #27ae60; --bg: #f4f7f6;
+      --card: #ffffff; --danger: #e74c3c;
+    }
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f8f9fa;
-      color: #2c3e50;
+      font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg);
+      color: var(--primary); padding-bottom: 80px;
+    }
+    nav { 
+      background: white; padding: 15px; display: flex; justify-content: center; 
+      gap: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; 
+    }
+    nav a { text-decoration: none; color: #067a9fc9; font-weight: bold; font-size: 14px; text-transform: uppercase; }
+    .active { color: var(--accent); border-bottom: 2px solid var(--accent); }
+    
+    h1 { text-align: center; font-weight: 300; margin: 20px 0; font-size: 1.5rem; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+    .seccion { background: white; border-radius: 15px; padding: 20px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+    h2 { color: var(--accent); font-size: 1.1rem; border-left: 4px solid var(--accent); padding-left: 10px; }
+
+    /* Slider adaptable */
+    .slider-wrapper { width: 100%; height: 300px; overflow: hidden; border-radius: 12px; background: #000; position: relative; }
+    @media (min-width: 768px) { .slider-wrapper { height: 450px; } }
+    
+    .slider { display: flex; height: 100%; transition: 0.8s ease-in-out; }
+    .slider img { width: 100%; height: 100%; object-fit: contain; flex-shrink: 0; }
+    
+    .slider-controls {
+      position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 8px; z-index: 10;
+    }
+    .slider-dot {
+      width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.5);
+      cursor: pointer; transition: 0.3s;
+    }
+    .slider-dot.active { background: white; }
+
+    .scroll-info { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+    .ficha { background: white; border-radius: 12px; padding: 10px; border: 1px solid #eee; text-align: center; position: relative; }
+    .ficha img { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; }
+
+    /* PANEL DE CONTROL ADAPTABLE */
+    .admin-panel {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: white; padding: 20px; border-radius: 20px; z-index: 1001;
+      width: 85%; max-width: 400px; box-shadow: 0 0 50px rgba(0,0,0,0.4);
+      max-height: 90vh; overflow-y: auto;
+    }
+    .hidden { display: none !important; }
+    
+    .btn-ml {
+      width: 100%; background: #34495e; color: white; border: none; padding: 12px;
+      border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 12px;
+      display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 15px;
     }
 
-    /* Barra de Navegación */
-    nav {
-      background-color: #ffffff;
-      padding: 15px 20px;
+    /* MINIATURA OPTIMIZADA */
+    #previewImg { 
+      width: 140px; height: 90px; object-fit: cover; border-radius: 8px; 
+      margin: 0 auto 10px auto; display: none; border: 2px solid var(--accent);
+    }
+
+    input, textarea { 
+      width: 100%; margin: 6px 0; padding: 10px; 
+      box-sizing: border-box; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;
+    }
+    
+    .btn-pub { 
+      width: 100%; background: var(--accent); color: white; border: none; 
+      padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px;
+    }
+    
+    .btn-del { 
+      display: none; position: absolute; top: 5px; right: 5px; background: var(--danger); 
+      color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; 
+    }
+    .admin-mode .btn-del { display: block; }
+    
+    .btn-admin-float {
+      position: fixed; bottom: 20px; right: 20px; width: 55px; height: 55px;
+      background: #27ae60; color: white; border-radius: 50%;
+      z-index: 999; border: none; cursor: pointer; font-size: 24px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .btn-admin-float:hover { background: #229954; transform: scale(1.1); }
+    
+    /* Botones flotantes de redes sociales */
+    .contenedor-flotante {
+      position: fixed;
+      bottom: 25px;
+      left: 25px;
       display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 9999;
+    }
+
+    .float-btn {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
       justify-content: center;
-      gap: 30px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    
-    nav a {
-      text-decoration: none;
-      color: #067a9fc9;
-      font-weight: bold;
-      text-transform: uppercase;
-      font-size: 14px;
-      transition: all 0.3s ease;
-      padding: 5px 10px;
-      border-radius: 4px;
-    }
-
-    nav a:hover {
-      color: #00495b;
-      background-color: #e0f2f1;
-    }
-
-    /* Clase para resaltar la página actual */
-    .active {
-      color: #00495b;
-      border-bottom: 2px solid #29bdb1;
-    }
-
-    h1 { 
-      font-size: 28px; 
-      color: #29bdb1; 
-      text-align: center; 
-      margin: 30px 0; 
-    }
-    
-    .main-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 25px;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px 40px 20px;
-    }
-
-    /* Secciones Principales */
-    .calendario-seccion {
-      flex: 1.5;
-      min-width: 320px;
-      background: white;
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
-
-    form {
-      flex: 1;
-      min-width: 320px;
-      background-color: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      border-top: 5px solid #00495b; 
-    }
-
-    form h2 { font-size: 20px; margin-top: 0; color: #00495b; text-align: center; }
-    
-    .grid-form {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    label { font-size: 12px; font-weight: bold; margin-bottom: 5px; display: block; color: #34495e; }
-    
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 6px;
-      border: 1px solid #dcdde1;
-      font-size: 14px;
-      box-sizing: border-box;
-      transition: border 0.3s;
-    }
-
-    input:focus, textarea:focus { 
-      border-color: #29bdb1; 
-      outline: none; 
-      box-shadow: 0 0 5px rgba(41, 189, 177, 0.2);
-    }
-
-    .highlight-field {
-      background-color: #f0fdfa;
-      border: 1px solid #29bdb1;
-    }
-
-    input[type="submit"] {
-      grid-column: span 2;
-      background-color: #f5565fd9; 
       color: white;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      padding: 18px;
-      border-radius: 8px;
-      margin-top: 15px;
-      font-size: 16px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 10px rgba(245, 86, 95, 0.2);
+      text-decoration: none;
+      font-size: 24px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
     }
 
-    input[type="submit"]:hover {
-        background-color: #d43f48; 
-        transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(245, 86, 95, 0.4);
+    .float-btn:hover {
+      transform: scale(1.15) rotate(5deg);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
 
-    input[type="submit"]:disabled {
-      background-color: #bdc3c7;
-      cursor: not-allowed;
+    .btn-ig-float { 
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
     }
-
-    #mensaje-enviado {
-      grid-column: span 2;
-      font-size: 14px;
-      display: none;
-      padding: 12px;
-      text-align: center;
-      border-radius: 6px;
-      margin-top: 15px;
-    }
-
-    @media (max-width: 768px) {
-      .grid-form { grid-template-columns: 1fr; }
-      input[type="submit"] { grid-column: span 1; }
-      nav { gap: 15px; font-size: 12px; }
+    
+    .btn-dr-float { 
+      background: #3d86c6;
     }
   </style>
 </head>
-<body>
+<body id="mainBody">
 
-  <nav>
-    <a href="index.html">Inicio</a> 
-    <a href="contenido.html">Contenido</a>
-    <a href="contacto.html" class="active">Contacto</a>
-  </nav>
-
-  <h1>Agendar Cita Médica</h1>
-
-  <div class="main-container">
-    
-    <div class="calendario-seccion">
-      <h3 style="color: #00495b; margin-top: 0;">1. Revisa disponibilidad</h3>
-      <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Busca un espacio libre en el calendario y confírmalo en el formulario.</p>
-      
-      <iframe id="googleCalendar" 
-              src="https://calendar.google.com/calendar/embed?src=lainfoharley@gmail.com&ctz=America%2FMexico_City&mode=WEEK&hl=es&showNav=1&showPrint=0&showTabs=0&showCalendars=0" 
-              style="border: 0; border-radius: 8px;" width="100%" height="500" frameborder="0" scrolling="no"></iframe>
-    </div>
-
-    <form id="miFormulario">
-      <h2>2. Confirma tu Horario</h2>
-      
-      <div class="grid-form">
-        <p style="grid-column: span 2; margin: 0;">
-          <label>Nombre del Paciente:</label>
-          <input type="text" name="nombre" placeholder="Nombre completo" required>
-        </p>
-
-        <p style="margin: 0;">
-          <label>Fecha de la Cita:</label>
-          <input type="date" id="fechaCita" name="fecha" required class="highlight-field">
-        </p>
-
-        <p style="margin: 0;">
-          <label>Hora:</label>
-          <input type="time" id="horaCita" name="hora" required class="highlight-field">
-        </p>
-
-        <p style="margin: 0;">
-          <label>Teléfono:</label>
-          <input type="tel" name="telefono" placeholder="10 dígitos" required pattern="[0-9]{10}">
-        </p>
-
-        <p style="margin: 0;">
-          <label>Edad:</label>
-          <input type="number" name="edad" min="1" max="110" required>
-        </p>
-
-        <p style="grid-column: span 2; margin: 0;">
-          <label>Correo Electrónico:</label>
-          <input type="email" name="email" placeholder="ejemplo@correo.com" required>
-        </p>
-
-        <p style="grid-column: span 2; margin: 0;">
-          <label>Motivo de consulta:</label>
-          <textarea name="comentario" rows="4" placeholder="Breve descripción del malestar" required></textarea>
-        </p>
-        
-        <input type="submit" id="btnEnviar" value="Agendar Cita Ahora">
-        
-        <div id="mensaje-enviado"></div>
-      </div>
-    </form>
-
+  <!-- Botones flotantes -->
+  <div class="contenedor-flotante">
+    <a href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi" target="_blank" class="float-btn btn-dr-float" aria-label="Reservar cita médica en Doctoralia">
+      <i class="fas fa-stethoscope"></i>
+    </a>
+    <a href="https://www.instagram.com/drrobertojaramillo" target="_blank" class="float-btn btn-ig-float" aria-label="Seguir al Dr. Roberto Jaramillo en Instagram">
+      <i class="fas fa-brands fa-instagram"></i>
+    </a>
   </div>
 
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="#" class="active">Contenido</a>
+  </nav>
+
+  <div class="container">
+    <h1>Visualización Médica</h1>
+    <section class="seccion">
+      <h2>GALERÍA DE EXPLORACIÓN</h2>
+      <div class="slider-wrapper">
+        <div class="slider" id="carrusel"></div>
+        <div class="slider-controls" id="sliderControls"></div>
+      </div>
+    </section>
+    <section class="seccion">
+      <h2>REGISTROS MÉDICOS</h2>
+      <div class="scroll-info" id="listaDetalles"></div>
+    </section>
+  </div>
+
+  <div id="panel" class="admin-panel hidden">
+    <h3 style="margin-top: 0; text-align: center; font-size: 1.1rem;">Panel de Control</h3>
+    
+    <button id="open-btn" class="btn-ml">
+      <i class="fas fa-images"></i> 1. Seleccionar de Cloudinary
+    </button>
+    
+    <div style="text-align: center;">
+        <img id="previewImg" src="">
+    </div>
+    
+    <input type="text" id="urlInput" placeholder="URL de la imagen (se llena solo)">
+    <textarea id="descInput" rows="3" placeholder="2. Escribe la descripción médica..."></textarea>
+    
+    <button class="btn-pub" id="btnGuardar" onclick="guardar()">3. Publicar y Sincronizar</button>
+    <button onclick="cerrar()" style="width:100%; background:none; border:none; color:gray; margin-top:10px; cursor:pointer; font-size: 13px;">Cancelar</button>
+  </div>
+
+  <script src="https://media-library.cloudinary.com/global/all.js" type="text/javascript"></script>
+
   <script>
-    const form = document.getElementById('miFormulario');
-    const inputFecha = document.getElementById('fechaCita');
-    const mensajeStatus = document.getElementById('mensaje-enviado');
+    const MI_CLOUD_NAME = 'ddzd7wj2t'; 
+    const MI_API_KEY = '153355426484315'; 
+    const BIN_ID = "65db8d901f567741c6495b42"; 
+    const API_KEY_BIN = "$2a$10$7R4N5e0Gv/K6p6z.R/X/e.Pq1.Gz6z6z6z6z6z6z6z6z6z6z6"; 
+    
+    let db = [];
 
-    // Evitar que seleccionen fechas pasadas
-    const hoy = new Date().toISOString().split('T')[0];
-    inputFecha.setAttribute('min', hoy);
-    inputFecha.value = hoy;
+    function actualizarPreview(url) {
+        const preview = document.getElementById('previewImg');
+        if(url && url.startsWith('http')) {
+            preview.src = url;
+            preview.style.display = 'block';
+        } else {
+            preview.style.display = 'none';
+        }
+    }
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlInput = document.getElementById('urlInput');
+        urlInput.addEventListener('input', () => {
+            actualizarPreview(urlInput.value.trim());
+        });
+    });
+
+    const windowML = cloudinary.createMediaLibrary({
+        cloud_name: MI_CLOUD_NAME,
+        api_key: MI_API_KEY, 
+        button_class: 'myBtn',
+        insert_caption: 'Insertar',
+        remote: true 
+    }, {
+        insertHandler: function (data) {
+            data.assets.forEach(asset => {
+                const url = asset.secure_url;
+                document.getElementById('urlInput').value = url;
+                actualizarPreview(url);
+            });
+        }
+    }, document.getElementById("open-btn"));
+
+    async function cargarDesdeNube() {
+      try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest?nocache=${Date.now()}`, {
+          headers: { "X-Master-Key": API_KEY_BIN, "X-Bin-Meta": "false" }
+        });
+        const data = await res.json();
+        db = data.fotos || [];
+        render();
+      } catch (e) {
+        db = JSON.parse(localStorage.getItem('backup_fotos')) || [];
+        render();
+      }
+    }
+
+    async function guardarEnNube() {
+      const btn = document.getElementById('btnGuardar');
+      btn.innerText = "Sincronizando...";
+      btn.disabled = true;
+      try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+          method: 'PUT',
+          headers: { "Content-Type": "application/json", "X-Master-Key": API_KEY_BIN },
+          body: JSON.stringify({ fotos: db })
+        });
+        if(res.ok) {
+           localStorage.setItem('backup_fotos', JSON.stringify(db));
+        }
+      } catch (e) { alert("Error al sincronizar"); }
+      btn.innerText = "3. Publicar y Sincronizar";
+      btn.disabled = false;
+    }
+
+    async function guardar() {
+      const url = document.getElementById('urlInput').value.trim();
+      const desc = document.getElementById('descInput').value.trim();
+      if(!url) return alert("Falta el URL de la imagen");
+
+      db.push({ id: Date.now(), url: url, desc: desc });
+      render();
+      await guardarEnNube();
       
-      mensajeStatus.style.display = 'block';
-      mensajeStatus.innerText = "⌛ Agendando su cita, por favor espere...";
-      mensajeStatus.style.backgroundColor = "#fff3cd";
-      mensajeStatus.style.color = "#856404";
-      document.getElementById('btnEnviar').disabled = true;
+      document.getElementById('urlInput').value = "";
+      document.getElementById('descInput').value = "";
+      document.getElementById('previewImg').style.display = 'none';
+      cerrar();
+    }
 
-      const urlScript = "https://script.google.com/macros/s/AKfycbzRPpMXdR1JIpAsNy9qhCHbXz_SqpIAlUsRz7bhmTTUrX3qfhizxNsw81v-sL1L5ELN/exec"; 
-      
-      const formData = new FormData(form);
-      const params = new URLSearchParams(formData).toString();
-      const finalUrl = urlScript + "?" + params;
+    function render() {
+      const carrusel = document.getElementById('carrusel');
+      const lista = document.getElementById('listaDetalles');
+      if(db.length === 0) {
+        carrusel.innerHTML = '<div style="color:white; width:100%; text-align:center; padding-top:150px;">Sin imágenes</div>';
+        lista.innerHTML = '<p style="text-align:center; color:gray;">No hay registros</p>';
+        return;
+      }
+      carrusel.innerHTML = db.map(i => `<img src="${i.url}">`).join('');
+      lista.innerHTML = db.map(i => `
+        <div class="ficha">
+          <button class="btn-del" onclick="eliminar(${i.id})">×</button>
+          <img src="${i.url}">
+          <p>${i.desc || 'Sin descripción'}</p>
+        </div>
+      `).join('');
+    }
 
-      fetch(finalUrl, { 
-        method: 'GET',
-        mode: 'no-cors' 
-      })
-      .then(() => {
-        mensajeStatus.style.backgroundColor = "#d4edda";
-        mensajeStatus.style.color = "#155724";
-        mensajeStatus.innerText = "✅ ¡Cita procesada con éxito! Revise su correo.";
-        form.reset();
-        document.getElementById('btnEnviar').disabled = false;
-        
-        // Refrescar el calendario para mostrar el nuevo evento
-        setTimeout(() => {
-          document.getElementById('googleCalendar').src += '';
-        }, 3000);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        mensajeStatus.style.backgroundColor = "#f8d7da";
-        mensajeStatus.style.color = "#721c24";
-        mensajeStatus.innerText = "❌ Error al enviar. Revise su conexión.";
-        document.getElementById('btnEnviar').disabled = false;
+    async function eliminar(id) {
+      if(confirm("¿Eliminar registro?")) {
+        db = db.filter(i => i.id !== id);
+        render();
+        await guardarEnNube();
+      }
+    }
+
+    function abrirPanel() {
+      document.getElementById('panel').classList.remove('hidden');
+      document.getElementById('mainBody').classList.add('admin-mode');
+    }
+
+    function cerrar() { 
+      document.getElementById('panel').classList.add('hidden'); 
+      document.getElementById('mainBody').classList.remove('admin-mode');
+    }
+    
+    // Permitir cerrar con ESC
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') cerrar();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'r') abrirPanel();
+    });
+
+    // Cargar imágenes locales de la carpeta
+    function cargarImagenesLocales() {
+      const imagenes = [
+        { url: 'album1.jpeg', desc: 'Registro clínico 1' },
+        { url: 'album2.jpeg', desc: 'Registro clínico 2' },
+        { url: 'album3.jpeg', desc: 'Registro clínico 3' },
+        { url: 'album4.jpeg', desc: 'Registro clínico 4' },
+        { url: 'album5.jpeg', desc: 'Registro clínico 5' },
+        { url: 'album6.PNG', desc: 'Registro clínico 6' },
+        { url: 'album7.jpeg', desc: 'Registro clínico 7' },
+        { url: 'album8.jpg', desc: 'Registro clínico 8' }
+      ];
+      db = imagenes.map((img, i) => ({ id: i, ...img }));
+      render();
+    }
+
+    let pos = 0;
+    
+    function actualizarSlider() {
+      if(db.length < 2) return;
+      const s = document.getElementById('carrusel');
+      if(s) s.style.transform = `translateX(-${pos * 100}%)`;
+      actualizarDots();
+    }
+    
+    function actualizarDots() {
+      const dots = document.querySelectorAll('.slider-dot');
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === pos);
       });
+    }
+    
+    setInterval(() => {
+      if(db.length < 2) return;
+      pos = (pos + 1) % db.length;
+      actualizarSlider();
+    }, 4000);
+
+    // Crear puntos del slider
+    function renderDots() {
+      const container = document.getElementById('sliderControls');
+      container.innerHTML = db.map((_, i) => 
+        `<div class="slider-dot ${i === 0 ? 'active' : ''}" onclick="irASlide(${i})" aria-label="Imagen ${i + 1}"></div>`
+      ).join('');
+    }
+    
+    function irASlide(index) {
+      pos = index;
+      actualizarSlider();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarImagenesLocales();
+      renderDots();
     });
   </script>
-
 </body>
 </html>
