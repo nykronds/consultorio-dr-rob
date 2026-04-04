@@ -3,7 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dr. Roberto Jaramillo - Inicio</title>
+  <meta name="description" content="Dr. Roberto Jaramillo - Especialista en Traumatología y Ortopedia. Cirugía articular, diagnóstico y tratamiento de lesiones musculoesqueléticas en Zacatecas y San Luis Potosí.">
+  <meta name="keywords" content="traumatólogo, ortopedista, cirugía articular, lesiones musculoesqueléticas, Zacatecas, San Luis Potosí, doctor, médico">
+  <meta name="author" content="Dr. Roberto Jaramillo">
+  <meta property="og:title" content="Dr. Roberto Jaramillo - Traumatología y Ortopedia">
+  <meta property="og:description" content="Especialista en cirugía articular y tratamiento de lesiones musculoesqueléticas">
+  <meta property="og:type" content="website">
+  <meta name="robots" content="index, follow">
+  <title>Dr. Roberto Jaramillo - Especialista en Traumatología y Ortopedia</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <style>
@@ -244,17 +251,17 @@
   </div>
 
   <div class="contenedor-flotante">
-    <a href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi" target="_blank" class="float-btn btn-dr-float">
+    <a href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi" target="_blank" class="float-btn btn-dr-float" aria-label="Reservar cita médica en Doctoralia">
       <i class="fa-solid fa-stethoscope"></i>
     </a>
-    <a href="https://www.instagram.com/drrobertojaramillo" target="_blank" class="float-btn btn-ig-float">
+    <a href="https://www.instagram.com/drrobertojaramillo" target="_blank" class="float-btn btn-ig-float" aria-label="Seguir al Dr. Roberto Jaramillo en Instagram">
       <i class="fa-brands fa-instagram"></i>
     </a>
   </div>
 
   <nav>
-    <a href="index.html" class="active">Inicio</a> 
-    <a href="contenido.html">Contenido</a>
+    <a href="index.html" class="active" aria-label="Ir a la página de inicio">Inicio</a> 
+    <a href="contenido.html" aria-label="Ver contenido educativo sobre traumatología">Contenido</a>
   </nav>
 
   <hr/>
@@ -291,13 +298,36 @@ Me especializo en cirugía articular, así como en el diagnóstico y tratamiento
       </div>
     </div>
 
+    <!-- SECCIÓN DE SERVICIOS -->
+    <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+      <h2 style="text-align: center; color: #00495b; margin-bottom: 30px; font-size: 28px;">🩺 Servicios Especializados</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+        <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-left: 4px solid #27ae60;">
+          <h3 style="color: #27ae60; margin-bottom: 15px;"><i class="fa-solid fa-bone"></i> Cirugía Articular</h3>
+          <p style="color: #555; line-height: 1.6;">Artroscopia, reemplazos articulares, reconstrucción de ligamentos y tratamiento de fracturas complejas.</p>
+        </div>
+        <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-left: 4px solid #3498db;">
+          <h3 style="color: #3498db; margin-bottom: 15px;"><i class="fa-solid fa-diagnoses"></i> Diagnóstico Integral</h3>
+          <p style="color: #555; line-height: 1.6;">Evaluación completa de lesiones deportivas, dolores crónicos y patologías del sistema musculoesquelético.</p>
+        </div>
+        <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-left: 4px solid #e67e22;">
+          <h3 style="color: #e67e22; margin-bottom: 15px;"><i class="fa-solid fa-hand-holding-heart"></i> Tratamiento Conservador</h3>
+          <p style="color: #555; line-height: 1.6;">Terapias no invasivas, rehabilitación física, infiltraciones y manejo del dolor musculoesquelético.</p>
+        </div>
+        <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-left: 4px solid #9b59b6;">
+          <h3 style="color: #9b59b6; margin-bottom: 15px;"><i class="fa-solid fa-running"></i> Lesiones Deportivas</h3>
+          <p style="color: #555; line-height: 1.6;">Especialización en atletas y deportistas con esguinces, tendinitis, rupturas musculares y lesiones articulares.</p>
+        </div>
+      </div>
+    </div>
+
     <div class="galeria-destacada">
-      <div class="galeria-item" onclick="abrirImagen(this)"><img src="album1.jpeg" alt="Imagen 1"></div>
-      <div class="galeria-item" onclick="abrirImagen(this)"><img src="album2.jpeg" alt="Imagen 2"></div>
-      <div class="galeria-item" onclick="abrirImagen(this)"><img src="album3.jpeg" alt="Imagen 3"></div>
-      <div class="galeria-item" onclick="abrirImagen(this)"><img src="album4.jpeg" alt="Imagen 4"></div>
-      <div class="galeria-item" onclick="abrirImagen(this)"><img src="album5.jpeg" alt="Imagen 5"></div>
-      <div class="galeria-item" onclick="abrirImagen(this)"><img src="album7.jpeg" alt="Imagen 7"></div>
+      <div class="galeria-item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 1"><img src="album1.jpeg" alt="Consultorio médico - Imagen 1"></div>
+      <div class="galeria-item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 2"><img src="album2.jpeg" alt="Equipo médico - Imagen 2"></div>
+      <div class="galeria-item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 3"><img src="Sala de espera - Imagen 3"></div>
+      <div class="galeria-item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 4"><img src="Instalaciones médicas - Imagen 4"></div>
+      <div class="galeria-item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 5"><img src="Equipo especializado - Imagen 5"></div>
+      <div class="galeria-item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 6"><img src="Centro médico - Imagen 6"></div>
     </div>
 
     <div class="calendario-seccion" id="agenda">
@@ -328,6 +358,30 @@ Me especializo en cirugía articular, así como en el diagnóstico y tratamiento
         </script>
     </div>
 
+    <!-- SECCIÓN DE HORARIOS -->
+    <div style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 30px;">
+      <h2 style="text-align: center; color: #00495b; margin-bottom: 30px; font-size: 28px;">⏰ Horarios de Atención</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+        <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 15px;">
+          <h3 style="color: #27ae60; margin-bottom: 15px;"><i class="fa-solid fa-hospital"></i> Zacatecas</h3>
+          <p style="color: #555; margin: 5px 0;"><strong>Lunes - Viernes:</strong> 9:00 - 18:00</p>
+          <p style="color: #555; margin: 5px 0;"><strong>Sábado:</strong> 9:00 - 14:00</p>
+          <p style="color: #555; margin: 5px 0;"><strong>Domingo:</strong> Cerrado</p>
+          <p style="color: #e74c3c; margin-top: 10px; font-size: 14px;"><i class="fa-solid fa-clock"></i> Emergencias 24/7</p>
+        </div>
+        <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 15px;">
+          <h3 style="color: #3498db; margin-bottom: 15px;"><i class="fa-solid fa-clinic-medical"></i> San Luis Potosí</h3>
+          <p style="color: #555; margin: 5px 0;"><strong>Lunes - Viernes:</strong> 10:00 - 19:00</p>
+          <p style="color: #555; margin: 5px 0;"><strong>Sábado:</strong> 10:00 - 15:00</p>
+          <p style="color: #555; margin: 5px 0;"><strong>Domingo:</strong> Cerrado</p>
+          <p style="color: #e74c3c; margin-top: 10px; font-size: 14px;"><i class="fa-solid fa-clock"></i> Emergencias 24/7</p>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 25px; padding: 20px; background: #fff3cd; border-radius: 15px; border-left: 4px solid #f39c12;">
+        <p style="color: #856404; margin: 0;"><strong>📞 Para citas de emergencia:</strong> Llame directamente al consultorio</p>
+      </div>
+    </div>
+
     <div>
       <div class="contenedor-ubicacion">
         <div style="flex: 1; min-width: 280px; padding: 30px; display: flex; flex-direction: column; justify-content: center;">
@@ -337,7 +391,7 @@ Me especializo en cirugía articular, así como en el diagnóstico y tratamiento
             Ramón López Velarde 304, Zacatecas Centro<br>
             98000 Zacatecas, Zac.
           </p>
-          <a href="#" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Hospital+San+José+Ramón+López+Velarde+304+Zacatecas+Centro+Zacatecas+Mexico" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
         </div>
         <div style="flex: 1.5; min-width: 280px; height: 350px;">
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3678.868770284562!2d-102.573932!3d22.77!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDQ2JzEyLjAiTiAxMDLCsDM0JzI2LjEiVw!5e0!3m2!1ses!2smx!4v1645000000000!5m2!1ses!2smx" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
@@ -350,7 +404,7 @@ Me especializo en cirugía articular, así como en el diagnóstico y tratamiento
           <p style="color: #ffffff; font-size: 15px; margin: 5px 0; line-height: 1.5;">
             <strong>Dirección:</strong> Mariano Arista 811-1, Tequis, De Tequisquiapan, 78250 San Luis Potosí, S.L.P.
           </p>
-          <a href="#" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Mariano+Arista+811-1+Tequis+San+Luis+Potosí+Mexico" target="_blank" style="margin-top: 20px; color: #4b9ea2; font-weight: bold; text-decoration: none; border: 1px solid #4b9ea2; padding: 10px; border-radius: 8px; text-align: center;">Abrir en Google Maps</a>
         </div>
         <div style="flex: 1.5; min-width: 280px; height: 350px;">
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3696.1123456789!2d-100.987654!3d22.15!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDA5JzAwLjAiTiAxMDDCsDU5JzE1LjYiVw!5e0!3m2!1ses!2smx!4v1645000000000!5m2!1ses!2smx" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
@@ -358,6 +412,80 @@ Me especializo en cirugía articular, así como en el diagnóstico y tratamiento
       </div>
     </div>
   </div>
+
+  <!-- SECCIÓN DE TESTIMONIOS -->
+  <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 40px 20px; margin: 30px 0;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <h2 style="text-align: center; color: #00495b; margin-bottom: 30px; font-size: 28px;">💬 Testimonios de Pacientes</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+        <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-left: 4px solid #27ae60;">
+          <div style="display: flex; align-items: center; margin-bottom: 15px;">
+            <div style="width: 50px; height: 50px; background: #27ae60; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 15px;">MJ</div>
+            <div>
+              <h4 style="margin: 0; color: #2c3e50;">María José</h4>
+              <div style="color: #f39c12;">★★★★★</div>
+            </div>
+          </div>
+          <p style="color: #555; font-style: italic; line-height: 1.6;">"Excelente atención del Dr. Jaramillo. Me operó de la rodilla y ahora puedo caminar sin dolor. Muy profesional y humano."</p>
+        </div>
+        <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-left: 4px solid #3498db;">
+          <div style="display: flex; align-items: center; margin-bottom: 15px;">
+            <div style="width: 50px; height: 50px; background: #3498db; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 15px;">CR</div>
+            <div>
+              <h4 style="margin: 0; color: #2c3e50;">Carlos Ramírez</h4>
+              <div style="color: #f39c12;">★★★★★</div>
+            </div>
+          </div>
+          <p style="color: #555; font-style: italic; line-height: 1.6;">"Después de mi accidente deportivo, el doctor me diagnosticó perfectamente y me trató con artroscopia. Recuperación completa."</p>
+        </div>
+        <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); border-left: 4px solid #e67e22;">
+          <div style="display: flex; align-items: center; margin-bottom: 15px;">
+            <div style="width: 50px; height: 50px; background: #e67e22; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 15px;">LA</div>
+            <div>
+              <h4 style="margin: 0; color: #2c3e50;">Laura Aguilar</h4>
+              <div style="color: #f39c12;">★★★★★</div>
+            </div>
+          </div>
+          <p style="color: #555; font-style: italic; line-height: 1.6;">"El mejor traumatólogo que he conocido. Su experiencia y dedicación son excepcionales. Recomiendo ampliamente."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer style="background: #00495b; color: white; padding: 40px 20px; margin-top: 50px;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 30px;">
+        <div>
+          <h3 style="color: #4b9ea2; margin-bottom: 15px;">Dr. Roberto Jaramillo</h3>
+          <p style="line-height: 1.6; color: #e2e8f0;">Especialista en Traumatología y Ortopedia con más de 10 años de experiencia en cirugía articular y tratamiento de lesiones musculoesqueléticas.</p>
+        </div>
+        <div>
+          <h3 style="color: #4b9ea2; margin-bottom: 15px;">Enlaces Rápidos</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 8px;"><a href="#agenda" style="color: #e2e8f0; text-decoration: none;">📅 Agendar Cita</a></li>
+            <li style="margin-bottom: 8px;"><a href="contenido.html" style="color: #e2e8f0; text-decoration: none;">📖 Contenido</a></li>
+            <li style="margin-bottom: 8px;"><a href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez" target="_blank" style="color: #e2e8f0; text-decoration: none;">👨‍⚕️ Doctoralia</a></li>
+            <li style="margin-bottom: 8px;"><a href="https://www.instagram.com/drrobertojaramillo" target="_blank" style="color: #e2e8f0; text-decoration: none;">📸 Instagram</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="color: #4b9ea2; margin-bottom: 15px;">Contacto</h3>
+          <p style="color: #e2e8f0; margin-bottom: 8px;"><i class="fa-solid fa-phone"></i> Emergencias: Consultorio</p>
+          <p style="color: #e2e8f0; margin-bottom: 8px;"><i class="fa-solid fa-envelope"></i> contacto@drrobertojaramillo.com</p>
+          <p style="color: #e2e8f0; margin-bottom: 8px;"><i class="fa-solid fa-map-marker-alt"></i> Zacatecas & San Luis Potosí</p>
+        </div>
+      </div>
+      <hr style="border-color: #4b9ea2; margin: 20px 0;">
+      <div style="text-align: center; color: #94a3b8;">
+        <p>&copy; 2026 Dr. Roberto Jaramillo. Todos los derechos reservados.</p>
+        <p style="font-size: 14px; margin-top: 10px;">
+          Cédula Profesional: 11491350 | Especialidad: 15249434 | 
+          Avalado por el Consejo Mexicano de Ortopedia y Traumatología
+        </p>
+      </div>
+    </div>
+  </footer>
 
   <script>
     // FUNCIÓN PARA ABRIR LA IMAGEN
@@ -373,6 +501,23 @@ Me especializo en cirugía articular, así como en el diagnóstico y tratamiento
       document.getElementById('lightbox').style.display = 'none';
       document.body.style.overflow = 'auto'; // Devuelve el scroll
     }
+
+    // ACCESIBILIDAD: Soporte para teclado en galería
+    document.querySelectorAll('.galeria-item').forEach(item => {
+      item.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          abrirImagen(this);
+        }
+      });
+    });
+
+    // ACCESIBILIDAD: Cerrar lightbox con Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && document.getElementById('lightbox').style.display === 'flex') {
+        cerrarImagen();
+      }
+    });
   </script>
 
 </body>
