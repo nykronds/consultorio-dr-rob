@@ -94,9 +94,57 @@
       display: flex; align-items: center; justify-content: center;
     }
     .btn-admin-float:hover { background: #229954; transform: scale(1.1); }
+    
+    /* Botones flotantes de redes sociales */
+    .contenedor-flotante {
+      position: fixed;
+      bottom: 25px;
+      left: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 9999;
+    }
+
+    .float-btn {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      font-size: 24px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+    }
+
+    .float-btn:hover {
+      transform: scale(1.15) rotate(5deg);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    .btn-ig-float { 
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    }
+    
+    .btn-dr-float { 
+      background: #3d86c6;
+    }
   </style>
 </head>
 <body id="mainBody">
+
+  <!-- Botones flotantes -->
+  <div class="contenedor-flotante">
+    <a href="https://www.doctoralia.com.mx/roberto-jaramillo-gonzalez/ortopedista-traumatologo/san-luis-potosi" target="_blank" class="float-btn btn-dr-float" aria-label="Reservar cita médica en Doctoralia">
+      <i class="fas fa-stethoscope"></i>
+    </a>
+    <a href="https://www.instagram.com/drrobertojaramillo" target="_blank" class="float-btn btn-ig-float" aria-label="Seguir al Dr. Roberto Jaramillo en Instagram">
+      <i class="fas fa-brands fa-instagram"></i>
+    </a>
+  </div>
 
   <nav>
     <a href="index.html">Inicio</a>
@@ -117,8 +165,6 @@
       <div class="scroll-info" id="listaDetalles"></div>
     </section>
   </div>
-
-  <button class="btn-admin-float" onclick="abrirPanel()" aria-label="Abrir panel administrativo"><i class="fas fa-images"></i></button>
 
   <div id="panel" class="admin-panel hidden">
     <h3 style="margin-top: 0; text-align: center; font-size: 1.1rem;">Panel de Control</h3>
@@ -270,7 +316,7 @@
     });
 
     document.addEventListener('keydown', (e) => {
-      if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'u') abrirPanel();
+      if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'r') abrirPanel();
     });
 
     // Cargar imágenes locales de la carpeta
@@ -281,8 +327,8 @@
         { url: 'album3.jpeg', desc: 'Registro clínico 3' },
         { url: 'album4.jpeg', desc: 'Registro clínico 4' },
         { url: 'album5.jpeg', desc: 'Registro clínico 5' },
-        { url: 'album6.PNG', desc: 'Registro clínico 6' },
-        { url: 'album7.jpeg', desc: 'Registro clínico 7' },
+        { url: 'album6.jpg', desc: 'Registro clínico 6' },
+        { url: 'album7.jpg', desc: 'Registro clínico 7' },
         { url: 'album8.jpg', desc: 'Registro clínico 8' }
       ];
       db = imagenes.map((img, i) => ({ id: i, ...img }));
