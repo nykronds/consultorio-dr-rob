@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Galería de casos clínicos y registros médicos del Dr. Roberto Jaramillo - Especialista en Traumatología">
+  <meta name="keywords" content="casos clínicos, registros médicos, traumatología, ortopedia, Dr. Jaramillo">
   <title>Contenido Profesional - Dr. Roberto Jaramillo</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
@@ -32,6 +34,16 @@
     
     .slider { display: flex; height: 100%; transition: 0.8s ease-in-out; }
     .slider img { width: 100%; height: 100%; object-fit: contain; flex-shrink: 0; }
+    
+    .slider-controls {
+      position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 8px; z-index: 10;
+    }
+    .slider-dot {
+      width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.5);
+      cursor: pointer; transition: 0.3s;
+    }
+    .slider-dot.active { background: white; }
 
     .scroll-info { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
     .ficha { background: white; border-radius: 12px; padding: 10px; border: 1px solid #eee; text-align: center; position: relative; }
@@ -75,10 +87,13 @@
     .admin-mode .btn-del { display: block; }
     
     .btn-admin-float {
-      position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px;
-      background: rgba(0,0,0,0.08); color: transparent; border-radius: 50%;
-      z-index: 999; border: none; cursor: pointer;
+      position: fixed; bottom: 20px; right: 20px; width: 55px; height: 55px;
+      background: #27ae60; color: white; border-radius: 50%;
+      z-index: 999; border: none; cursor: pointer; font-size: 24px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center;
     }
+    .btn-admin-float:hover { background: #229954; transform: scale(1.1); }
   </style>
 </head>
 <body id="mainBody">
@@ -94,6 +109,7 @@
       <h2>GALERÍA DE EXPLORACIÓN</h2>
       <div class="slider-wrapper">
         <div class="slider" id="carrusel"></div>
+        <div class="slider-controls" id="sliderControls"></div>
       </div>
     </section>
     <section class="seccion">
@@ -102,7 +118,7 @@
     </section>
   </div>
 
-  <button class="btn-admin-float" onclick="abrirPanel()"></button>
+  <button class="btn-admin-float" onclick="abrirPanel()" aria-label="Abrir panel administrativo"><i class="fas fa-images"></i></button>
 
   <div id="panel" class="admin-panel hidden">
     <h3 style="margin-top: 0; text-align: center; font-size: 1.1rem;">Panel de Control</h3>
@@ -247,20 +263,71 @@
       document.getElementById('panel').classList.add('hidden'); 
       document.getElementById('mainBody').classList.remove('admin-mode');
     }
+    
+    // Permitir cerrar con ESC
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') cerrar();
+    });
 
     document.addEventListener('keydown', (e) => {
       if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'u') abrirPanel();
     });
 
+    // Cargar imágenes locales de la carpeta
+    function cargarImagenesLocales() {
+      const imagenes = [
+        { url: 'album1.jpeg', desc: 'Registro clínico 1' },
+        { url: 'album2.jpeg', desc: 'Registro clínico 2' },
+        { url: 'album3.jpeg', desc: 'Registro clínico 3' },
+        { url: 'album4.jpeg', desc: 'Registro clínico 4' },
+        { url: 'album5.jpeg', desc: 'Registro clínico 5' },
+        { url: 'album6.PNG', desc: 'Registro clínico 6' },
+        { url: 'album7.jpeg', desc: 'Registro clínico 7' },
+        { url: 'album8.jpg', desc: 'Registro clínico 8' }
+      ];
+      db = imagenes.map((img, i) => ({ id: i, ...img }));
+      render();
+    }
+
     let pos = 0;
+    
+    function actualizarSlider() {
+      if(db.length < 2) return;
+      const s = document.getElementById('carrusel');
+      if(s) s.style.transform = `translateX(-${pos * 100}%)`;
+      actualizarDots();
+    }
+    
+    function actualizarDots() {
+      const dots = document.querySelectorAll('.slider-dot');
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === pos);
+      });
+    }
+    
     setInterval(() => {
       if(db.length < 2) return;
       pos = (pos + 1) % db.length;
-      const s = document.getElementById('carrusel');
-      if(s) s.style.transform = `translateX(-${pos * 100}%)`;
+      actualizarSlider();
     }, 4000);
 
-    cargarDesdeNube();
+    // Crear puntos del slider
+    function renderDots() {
+      const container = document.getElementById('sliderControls');
+      container.innerHTML = db.map((_, i) => 
+        `<div class="slider-dot ${i === 0 ? 'active' : ''}" onclick="irASlide(${i})" aria-label="Imagen ${i + 1}"></div>`
+      ).join('');
+    }
+    
+    function irASlide(index) {
+      pos = index;
+      actualizarSlider();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarImagenesLocales();
+      renderDots();
+    });
   </script>
 </body>
 </html>
