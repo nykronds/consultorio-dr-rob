@@ -302,7 +302,8 @@
 
     .gallery-track-wrap {
       position: relative;
-      aspect-ratio: 16 / 7;
+      aspect-ratio: 16 / 9;
+      max-height: 480px;
       overflow: hidden;
     }
 
@@ -330,12 +331,12 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transform: scale(1.04);
+      transform: scale(1.0);
       transition: transform 7s linear, opacity 0.3s ease;
     }
 
-    /* Ken Burns: once active, slowly zoom in further */
-    .gallery__slide.is-active img { transform: scale(1.14); }
+    /* Ken Burns: zoom muy sutil para no perder nitidez */
+    .gallery__slide.is-active img { transform: scale(1.06); }
 
     .gallery__slide img.error { opacity: 0.3; filter: grayscale(100%); }
 
