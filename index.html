@@ -292,43 +292,109 @@
 
     .service-card__desc { font-size: 14px; }
 
-    /* ===== GALLERY ===== */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 14px;
-    }
-
-    .gallery__item {
-      border-radius: var(--radius-md);
+    /* ===== GALLERY CAROUSEL ===== */
+    .gallery-section {
+      border-radius: var(--radius-lg);
       overflow: hidden;
-      box-shadow: var(--shadow-xs);
-      aspect-ratio: 1 / 1;
-      cursor: pointer;
-      position: relative;
+      box-shadow: var(--shadow-lg);
+      background: var(--color-ink);
     }
 
-    .gallery__item::after {
-      content: '';
+    .gallery-track-wrap {
+      position: relative;
+      aspect-ratio: 16 / 7;
+      overflow: hidden;
+    }
+
+    /* Slides stack on top of each other; crossfade between them */
+    .gallery-track { display: contents; }
+
+    .gallery__slide {
       position: absolute;
       inset: 0;
-      background: rgba(14,102,85,0);
-      transition: background var(--transition);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.2s ease;
+      cursor: pointer;
+      overflow: hidden;
     }
 
-    .gallery__item:hover::after { background: rgba(14,102,85,0.15); }
+    .gallery__slide.is-active {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 2;
+    }
 
-    .gallery__item:hover { box-shadow: var(--shadow-md); }
-
-    .gallery__item img {
+    .gallery__slide img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.4s ease, opacity 0.3s ease;
+      display: block;
+      transform: scale(1.04);
+      transition: transform 7s linear, opacity 0.3s ease;
     }
 
-    .gallery__item:hover img { transform: scale(1.04); }
-    .gallery__item img.error { opacity: 0.3; filter: grayscale(100%); }
+    /* Ken Burns: once active, slowly zoom in further */
+    .gallery__slide.is-active img { transform: scale(1.14); }
+
+    .gallery__slide img.error { opacity: 0.3; filter: grayscale(100%); }
+
+    .gallery__slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,20,40,0.42) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Subtle progress bar showing time until next slide */
+    .gallery-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      width: 0%;
+      background: var(--color-gold);
+      opacity: 0.85;
+      z-index: 5;
+      transition: width linear;
+    }
+
+    .gallery-thumbs {
+      display: flex;
+      gap: 8px;
+      padding: 14px 16px;
+      background: rgba(10,20,40,0.92);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .gallery-thumbs::-webkit-scrollbar { display: none; }
+
+    .gallery-thumb {
+      flex: 0 0 76px;
+      height: 54px;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      opacity: 0.4;
+      transition: border-color var(--transition), opacity var(--transition), transform var(--transition);
+    }
+
+    .gallery-thumb:hover { opacity: 0.75; }
+
+    .gallery-thumb.active {
+      border-color: var(--color-gold);
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+
+    .gallery-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
     /* ===== LIGHTBOX ===== */
     .lightbox {
@@ -762,16 +828,47 @@
       </div>
     </section>
 
-    <!-- GALLERY -->
-    <section class="gallery" aria-label="Galería del consultorio">
-      <div class="gallery__item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 1"><img src="album1.jpeg" alt="Consultorio médico"></div>
-      <div class="gallery__item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 2"><img src="album2.jpeg" alt="Equipo médico"></div>
-      <div class="gallery__item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 3"><img src="album3.jpeg" alt="Sala de espera"></div>
-      <div class="gallery__item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 4"><img src="album4.jpeg" alt="Instalaciones médicas"></div>
-      <div class="gallery__item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 5"><img src="album5.jpeg" alt="Equipo especializado"></div>
-      <div class="gallery__item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 6"><img src="album6.jpg" alt="Centro médico"></div>
-      <div class="gallery__item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 7"><img src="album7.jpg" alt="Instalaciones adicionales"></div>
-      <div class="gallery__item" onclick="abrirImagen(this)" role="button" tabindex="0" aria-label="Ver imagen ampliada 8"><img src="album8.jpg" alt="Foto del doctor"></div>
+    <!-- GALLERY CAROUSEL -->
+    <section class="gallery-section" aria-label="Galería del consultorio">
+      <div class="gallery-track-wrap" id="galleryWrap">
+        <div class="gallery-track" id="galleryTrack">
+          <div class="gallery__slide is-active" onclick="abrirImagenSlide(0)">
+            <img src="album1.jpeg" alt="Consultorio médico">
+            <div class="gallery__slide-overlay"></div>
+          </div>
+          <div class="gallery__slide" onclick="abrirImagenSlide(1)">
+            <img src="album2.jpeg" alt="Equipo médico">
+            <div class="gallery__slide-overlay"></div>
+          </div>
+          <div class="gallery__slide" onclick="abrirImagenSlide(2)">
+            <img src="album3.jpeg" alt="Sala de espera">
+            <div class="gallery__slide-overlay"></div>
+          </div>
+          <div class="gallery__slide" onclick="abrirImagenSlide(3)">
+            <img src="album4.jpeg" alt="Instalaciones médicas">
+            <div class="gallery__slide-overlay"></div>
+          </div>
+          <div class="gallery__slide" onclick="abrirImagenSlide(4)">
+            <img src="album5.jpeg" alt="Equipo especializado">
+            <div class="gallery__slide-overlay"></div>
+          </div>
+          <div class="gallery__slide" onclick="abrirImagenSlide(5)">
+            <img src="album6.jpg" alt="Centro médico">
+            <div class="gallery__slide-overlay"></div>
+          </div>
+          <div class="gallery__slide" onclick="abrirImagenSlide(6)">
+            <img src="album7.jpg" alt="Instalaciones adicionales">
+            <div class="gallery__slide-overlay"></div>
+          </div>
+          <div class="gallery__slide" onclick="abrirImagenSlide(7)">
+            <img src="album8.jpg" alt="Foto del doctor">
+            <div class="gallery__slide-overlay"></div>
+          </div>
+        </div>
+        <div class="gallery-progress" id="galleryProgress"></div>
+      </div>
+      <!-- Thumbnail strip -->
+      <div class="gallery-thumbs" id="galleryThumbs"></div>
     </section>
 
     <!-- BOOKING -->
@@ -870,12 +967,11 @@
   </footer>
 
   <script>
-    // FUNCIÓN PARA ABRIR LA IMAGEN
+    /* ===== LIGHTBOX (original, intacto) ===== */
     function abrirImagen(elemento) {
       const img = elemento.querySelector('img');
       if (img && !img.classList.contains('error')) {
-        const src = img.src;
-        document.getElementById('imgVisor').src = src;
+        document.getElementById('imgVisor').src = img.src;
         document.getElementById('lightbox').style.display = 'flex';
         document.body.style.overflow = 'hidden';
       } else {
@@ -883,30 +979,17 @@
       }
     }
 
-    // FUNCIÓN PARA CERRAR LA IMAGEN
     function cerrarImagen() {
       document.getElementById('lightbox').style.display = 'none';
       document.body.style.overflow = 'auto';
     }
 
-    // ACCESIBILIDAD: Soporte para teclado en galería
-    document.querySelectorAll('.gallery__item').forEach(item => {
-      item.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          abrirImagen(this);
-        }
-      });
-    });
-
-    // ACCESIBILIDAD: Cerrar lightbox con Escape
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && document.getElementById('lightbox').style.display === 'flex') {
         cerrarImagen();
       }
     });
 
-    // DETECTAR IMÁGENES QUE NO CARGAN
     document.addEventListener('DOMContentLoaded', function() {
       const images = document.querySelectorAll('img');
       images.forEach(img => {
@@ -915,12 +998,98 @@
           this.classList.add('error');
           this.alt = 'Imagen no disponible';
         });
-
         img.addEventListener('load', function() {
           this.classList.remove('error');
         });
       });
     });
+
+    /* ===== CAROUSEL (crossfade + Ken Burns, sin botones visibles) ===== */
+    (function () {
+      const slides     = document.querySelectorAll('.gallery__slide');
+      const thumbsWrap = document.getElementById('galleryThumbs');
+      const progress   = document.getElementById('galleryProgress');
+      const wrap       = document.getElementById('galleryWrap');
+      const DURATION   = 5500; // ms entre slides
+      let current = 0;
+      let autoTimer, progressTimer;
+
+      // Build thumbnail strip
+      slides.forEach((slide, i) => {
+        const img = slide.querySelector('img');
+        const thumb = document.createElement('div');
+        thumb.className = 'gallery-thumb' + (i === 0 ? ' active' : '');
+        const tImg = document.createElement('img');
+        tImg.src = img ? img.src : '';
+        tImg.alt = img ? img.alt : '';
+        thumb.appendChild(tImg);
+        thumb.addEventListener('click', () => goTo(i));
+        thumbsWrap.appendChild(thumb);
+      });
+
+      function goTo(index) {
+        slides[current].classList.remove('is-active');
+        document.querySelectorAll('.gallery-thumb')[current].classList.remove('active');
+
+        current = (index + slides.length) % slides.length;
+
+        slides[current].classList.add('is-active');
+        const activeThumb = document.querySelectorAll('.gallery-thumb')[current];
+        activeThumb.classList.add('active');
+        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+        restartCycle();
+      }
+
+      function restartCycle() {
+        clearInterval(autoTimer);
+        clearTimeout(progressTimer);
+
+        // Reset and animate progress bar across the slide duration
+        progress.style.transition = 'none';
+        progress.style.width = '0%';
+        requestAnimationFrame(() => {
+          progress.style.transition = `width ${DURATION}ms linear`;
+          progress.style.width = '100%';
+        });
+
+        autoTimer = setInterval(() => goTo(current + 1), DURATION);
+      }
+
+      // Pause on hover for a more refined feel, resume on leave
+      wrap.addEventListener('mouseenter', () => {
+        clearInterval(autoTimer);
+        progress.style.transition = 'none';
+      });
+      wrap.addEventListener('mouseleave', restartCycle);
+
+      // Lightbox from carousel slide
+      window.abrirImagenSlide = function (index) {
+        const img = slides[index].querySelector('img');
+        if (img && !img.classList.contains('error')) {
+          document.getElementById('imgVisor').src = img.src;
+          document.getElementById('lightbox').style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+        }
+      };
+
+      // Touch/swipe support (sin botones visibles, navegación táctil)
+      let touchStartX = 0;
+      wrap.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      wrap.addEventListener('touchend', e => {
+        const delta = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(delta) > 40) goTo(current + (delta > 0 ? 1 : -1));
+      }, { passive: true });
+
+      // Keyboard navigation (accesibilidad, sin requerir botones visibles)
+      wrap.setAttribute('tabindex', '0');
+      wrap.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight') goTo(current + 1);
+        if (e.key === 'ArrowLeft')  goTo(current - 1);
+      });
+
+      restartCycle();
+    })();
   </script>
 </body>
 </html>
