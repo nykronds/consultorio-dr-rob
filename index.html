@@ -294,6 +294,8 @@
 
     /* ===== GALLERY CAROUSEL ===== */
     .gallery-section {
+      max-width: 720px;
+      margin: 0 auto;
       border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: var(--shadow-lg);
@@ -302,8 +304,8 @@
 
     .gallery-track-wrap {
       position: relative;
-      aspect-ratio: 16 / 9;
-      max-height: 480px;
+      aspect-ratio: 4 / 3;
+      max-height: 420px;
       overflow: hidden;
     }
 
@@ -318,6 +320,11 @@
       transition: opacity 1.2s ease;
       cursor: pointer;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-size: cover;
+      background-position: center;
     }
 
     .gallery__slide.is-active {
@@ -326,26 +333,35 @@
       z-index: 2;
     }
 
+    /* Blurred backdrop (same photo) fills any leftover space behind the centered image */
+    .gallery__slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: var(--slide-bg);
+      background-size: cover;
+      background-position: center;
+      filter: blur(34px) brightness(0.5);
+      transform: scale(1.25);
+      z-index: 0;
+    }
+
     .gallery__slide img {
+      position: relative;
+      z-index: 1;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       display: block;
+      margin: 0 auto;
       transform: scale(1.0);
       transition: transform 7s linear, opacity 0.3s ease;
     }
 
     /* Ken Burns: zoom muy sutil para no perder nitidez */
-    .gallery__slide.is-active img { transform: scale(1.06); }
+    .gallery__slide.is-active img { transform: scale(1.04); }
 
     .gallery__slide img.error { opacity: 0.3; filter: grayscale(100%); }
-
-    .gallery__slide-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(10,20,40,0.42) 0%, transparent 50%);
-      pointer-events: none;
-    }
 
     /* Subtle progress bar showing time until next slide */
     .gallery-progress {
@@ -724,10 +740,11 @@
       .nav { gap: 20px; padding: 0 16px; }
       .float-btn { width: 46px; height: 46px; font-size: 19px; }
       .main { padding: 48px 16px; gap: 56px; }
+      .gallery-section { max-width: 100%; }
+      .gallery-track-wrap { aspect-ratio: 1 / 1; max-height: 360px; }
     }
 
     @media (max-width: 600px) {
-      .gallery { grid-template-columns: repeat(2, 1fr); }
       .testimonials-section { padding: 56px 16px; }
     }
   </style>
@@ -833,37 +850,29 @@
     <section class="gallery-section" aria-label="Galería del consultorio">
       <div class="gallery-track-wrap" id="galleryWrap">
         <div class="gallery-track" id="galleryTrack">
-          <div class="gallery__slide is-active" onclick="abrirImagenSlide(0)">
+          <div class="gallery__slide is-active" style="--slide-bg:url('album1.jpeg')" onclick="abrirImagenSlide(0)">
             <img src="album1.jpeg" alt="Consultorio médico">
-            <div class="gallery__slide-overlay"></div>
           </div>
-          <div class="gallery__slide" onclick="abrirImagenSlide(1)">
+          <div class="gallery__slide" style="--slide-bg:url('album2.jpeg')" onclick="abrirImagenSlide(1)">
             <img src="album2.jpeg" alt="Equipo médico">
-            <div class="gallery__slide-overlay"></div>
           </div>
-          <div class="gallery__slide" onclick="abrirImagenSlide(2)">
+          <div class="gallery__slide" style="--slide-bg:url('album3.jpeg')" onclick="abrirImagenSlide(2)">
             <img src="album3.jpeg" alt="Sala de espera">
-            <div class="gallery__slide-overlay"></div>
           </div>
-          <div class="gallery__slide" onclick="abrirImagenSlide(3)">
+          <div class="gallery__slide" style="--slide-bg:url('album4.jpeg')" onclick="abrirImagenSlide(3)">
             <img src="album4.jpeg" alt="Instalaciones médicas">
-            <div class="gallery__slide-overlay"></div>
           </div>
-          <div class="gallery__slide" onclick="abrirImagenSlide(4)">
+          <div class="gallery__slide" style="--slide-bg:url('album5.jpeg')" onclick="abrirImagenSlide(4)">
             <img src="album5.jpeg" alt="Equipo especializado">
-            <div class="gallery__slide-overlay"></div>
           </div>
-          <div class="gallery__slide" onclick="abrirImagenSlide(5)">
+          <div class="gallery__slide" style="--slide-bg:url('album6.jpg')" onclick="abrirImagenSlide(5)">
             <img src="album6.jpg" alt="Centro médico">
-            <div class="gallery__slide-overlay"></div>
           </div>
-          <div class="gallery__slide" onclick="abrirImagenSlide(6)">
+          <div class="gallery__slide" style="--slide-bg:url('album7.jpg')" onclick="abrirImagenSlide(6)">
             <img src="album7.jpg" alt="Instalaciones adicionales">
-            <div class="gallery__slide-overlay"></div>
           </div>
-          <div class="gallery__slide" onclick="abrirImagenSlide(7)">
+          <div class="gallery__slide" style="--slide-bg:url('album8.jpg')" onclick="abrirImagenSlide(7)">
             <img src="album8.jpg" alt="Foto del doctor">
-            <div class="gallery__slide-overlay"></div>
           </div>
         </div>
         <div class="gallery-progress" id="galleryProgress"></div>
